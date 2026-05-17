@@ -1,0 +1,1194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Biology Semester 2 Final Review</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0d1117;
+    --surface: #161b22;
+    --surface2: #1c2330;
+    --border: #30363d;
+    --accent: #3fb950;
+    --accent2: #58a6ff;
+    --accent3: #f78166;
+    --accent4: #d2a8ff;
+    --text: #e6edf3;
+    --text-muted: #7d8590;
+    --text-dim: #484f58;
+    --correct: #1a4d2e;
+    --correct-border: #3fb950;
+    --wrong: #4d1a1a;
+    --wrong-border: #f78166;
+    --radius: 10px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    padding: 0 0 60px;
+  }
+
+  /* ── HEADER ── */
+  .header {
+    background: linear-gradient(135deg, #0d1117 0%, #161b22 100%);
+    border-bottom: 1px solid var(--border);
+    padding: 40px 20px 30px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .header::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse 70% 80% at 50% -20%, rgba(63,185,80,.13) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .header-label {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: .18em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 10px;
+  }
+  .header h1 {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(26px, 5vw, 44px);
+    font-weight: 800;
+    line-height: 1.1;
+    color: var(--text);
+  }
+  .header h1 span { color: var(--accent); }
+  .header-sub {
+    margin-top: 10px;
+    font-size: 14px;
+    color: var(--text-muted);
+    font-weight: 300;
+  }
+  .pill-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    justify-content: center;
+    margin-top: 18px;
+  }
+  .pill {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 4px 12px;
+    font-size: 12px;
+    color: var(--text-muted);
+  }
+
+  /* ── PROGRESS BAR ── */
+  .progress-wrap {
+    max-width: 760px;
+    margin: 24px auto 0;
+    padding: 0 20px;
+  }
+  .progress-meta {
+    display: flex;
+    justify-content: space-between;
+    font-size: 12px;
+    color: var(--text-muted);
+    margin-bottom: 6px;
+  }
+  .progress-track {
+    height: 4px;
+    background: var(--border);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  .progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--accent), var(--accent2));
+    border-radius: 4px;
+    transition: width .4s ease;
+    width: 0%;
+  }
+
+  /* ── SCORE CARD ── */
+  .score-card {
+    max-width: 760px;
+    margin: 16px auto 0;
+    padding: 0 20px;
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+  .score-item {
+    flex: 1;
+    min-width: 100px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 12px 16px;
+    text-align: center;
+  }
+  .score-item .num {
+    font-family: 'Syne', sans-serif;
+    font-size: 24px;
+    font-weight: 700;
+  }
+  .score-item .lbl { font-size: 11px; color: var(--text-muted); margin-top: 2px; }
+  .score-item.correct .num { color: var(--accent); }
+  .score-item.wrong .num { color: var(--accent3); }
+  .score-item.pct .num { color: var(--accent2); }
+
+  /* ── SECTION TABS ── */
+  .tabs {
+    max-width: 760px;
+    margin: 24px auto 0;
+    padding: 0 20px;
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+  }
+  .tab-btn {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 6px 16px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    color: var(--text-muted);
+    cursor: pointer;
+    transition: all .2s;
+  }
+  .tab-btn:hover { border-color: var(--accent2); color: var(--text); }
+  .tab-btn.active {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: #0d1117;
+    font-weight: 600;
+  }
+
+  /* ── QUIZ AREA ── */
+  .quiz-area {
+    max-width: 760px;
+    margin: 20px auto 0;
+    padding: 0 20px;
+  }
+
+  /* ── QUESTION CARD ── */
+  .q-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 24px;
+    margin-bottom: 14px;
+    transition: border-color .3s;
+    animation: fadeSlide .35s ease both;
+  }
+  @keyframes fadeSlide {
+    from { opacity:0; transform: translateY(12px); }
+    to   { opacity:1; transform: translateY(0); }
+  }
+  .q-card.answered { border-color: var(--border); }
+
+  .q-header {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    margin-bottom: 16px;
+  }
+  .q-num {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 4px 8px;
+    font-family: 'Syne', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--text-muted);
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+  .q-text {
+    font-size: 15px;
+    font-weight: 500;
+    line-height: 1.5;
+    color: var(--text);
+  }
+  .q-chapter {
+    font-size: 10px;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    margin-bottom: 4px;
+  }
+
+  /* ── ANSWER OPTIONS ── */
+  .options { display: flex; flex-direction: column; gap: 8px; }
+
+  .opt {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 12px 14px;
+    cursor: pointer;
+    transition: all .18s;
+    font-size: 14px;
+    line-height: 1.45;
+    color: var(--text);
+    text-align: left;
+    width: 100%;
+    font-family: 'DM Sans', sans-serif;
+  }
+  .opt:hover:not(:disabled) {
+    border-color: var(--accent2);
+    background: #1c2d3f;
+    transform: translateX(2px);
+  }
+  .opt:disabled { cursor: default; transform: none; }
+  .opt-letter {
+    flex-shrink: 0;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Syne', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--text-muted);
+    transition: all .18s;
+    margin-top: 1px;
+  }
+  .opt:hover:not(:disabled) .opt-letter {
+    background: var(--accent2);
+    color: #fff;
+  }
+
+  /* Correct / Wrong states */
+  .opt.correct-pick {
+    background: var(--correct);
+    border-color: var(--correct-border);
+    color: #aff5b4;
+  }
+  .opt.correct-pick .opt-letter { background: var(--accent); color: #0d1117; }
+
+  .opt.wrong-pick {
+    background: var(--wrong);
+    border-color: var(--wrong-border);
+    color: #ffa198;
+  }
+  .opt.wrong-pick .opt-letter { background: var(--accent3); color: #fff; }
+
+  .opt.reveal-correct {
+    background: rgba(63,185,80,.08);
+    border-color: rgba(63,185,80,.4);
+    color: #aff5b4;
+  }
+  .opt.reveal-correct .opt-letter { background: rgba(63,185,80,.3); color: var(--accent); }
+
+  /* ── EXPLANATION ── */
+  .explanation {
+    display: none;
+    margin-top: 12px;
+    padding: 12px 14px;
+    background: rgba(88,166,255,.07);
+    border: 1px solid rgba(88,166,255,.2);
+    border-radius: var(--radius);
+    font-size: 13px;
+    color: #a5c8ff;
+    line-height: 1.55;
+  }
+  .explanation.show { display: block; }
+  .explanation strong { color: var(--accent2); }
+
+  /* ── SECTION HEADER ── */
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 28px 0 14px;
+    font-family: 'Syne', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: .1em;
+    color: var(--text-muted);
+  }
+  .section-header::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+  .section-dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  /* ── CONTROLS ── */
+  .controls {
+    max-width: 760px;
+    margin: 28px auto 0;
+    padding: 0 20px;
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+  .btn {
+    padding: 10px 22px;
+    border-radius: var(--radius);
+    border: none;
+    font-family: 'Syne', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: .04em;
+    cursor: pointer;
+    transition: all .2s;
+  }
+  .btn-primary {
+    background: var(--accent);
+    color: #0d1117;
+  }
+  .btn-primary:hover { background: #56d364; transform: translateY(-1px); }
+  .btn-secondary {
+    background: var(--surface2);
+    color: var(--text);
+    border: 1px solid var(--border);
+  }
+  .btn-secondary:hover { border-color: var(--accent2); transform: translateY(-1px); }
+
+  /* ── FINAL RESULTS ── */
+  #results-screen {
+    display: none;
+    max-width: 760px;
+    margin: 30px auto;
+    padding: 0 20px;
+    text-align: center;
+  }
+  .results-box {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 40px 30px;
+  }
+  .results-grade {
+    font-family: 'Syne', sans-serif;
+    font-size: 72px;
+    font-weight: 800;
+    line-height: 1;
+    margin-bottom: 8px;
+  }
+  .results-label {
+    font-size: 14px;
+    color: var(--text-muted);
+    margin-bottom: 28px;
+  }
+  .results-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    margin-bottom: 28px;
+  }
+  .results-stat {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 16px;
+  }
+  .results-stat .n {
+    font-family: 'Syne', sans-serif;
+    font-size: 28px;
+    font-weight: 700;
+  }
+  .results-stat .l { font-size: 11px; color: var(--text-muted); margin-top: 3px; }
+
+  .missed-list {
+    text-align: left;
+    margin-top: 20px;
+  }
+  .missed-list h3 {
+    font-family: 'Syne', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--accent3);
+    margin-bottom: 10px;
+    text-transform: uppercase;
+    letter-spacing: .08em;
+  }
+  .missed-item {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 10px 14px;
+    font-size: 13px;
+    color: var(--text-muted);
+    margin-bottom: 6px;
+    line-height: 1.4;
+  }
+  .missed-item span { color: var(--text); }
+
+  /* mobile tweaks */
+  @media(max-width:520px){
+    .score-item { min-width: 80px; padding: 10px; }
+    .score-item .num { font-size: 20px; }
+    .q-card { padding: 18px; }
+    .opt { font-size: 13px; padding: 10px 12px; }
+    .results-grade { font-size: 56px; }
+    .results-grid { grid-template-columns: repeat(3, 1fr); gap: 8px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="header">
+  <div class="header-label">Semester 2 Final Review</div>
+  <h1>Biology <span>Quiz</span></h1>
+  <div class="header-sub">Chapters 2 · 10 · 15 — Ecology, Genetics, Evolution</div>
+  <div class="pill-row">
+    <span class="pill">45 Questions</span>
+    <span class="pill">Multiple Choice</span>
+    <span class="pill">Instant Feedback</span>
+  </div>
+</div>
+
+<!-- PROGRESS -->
+<div class="progress-wrap">
+  <div class="progress-meta">
+    <span id="prog-label">0 of 45 answered</span>
+    <span id="prog-pct">0%</span>
+  </div>
+  <div class="progress-track"><div class="progress-fill" id="prog-fill"></div></div>
+</div>
+
+<!-- SCORE CARD -->
+<div class="score-card">
+  <div class="score-item correct"><div class="num" id="sc-correct">0</div><div class="lbl">Correct</div></div>
+  <div class="score-item wrong"><div class="num" id="sc-wrong">0</div><div class="lbl">Incorrect</div></div>
+  <div class="score-item pct"><div class="num" id="sc-pct">—</div><div class="lbl">Score</div></div>
+</div>
+
+<!-- SECTION TABS -->
+<div class="tabs">
+  <button class="tab-btn active" onclick="filterSection('all',this)">All Questions</button>
+  <button class="tab-btn" onclick="filterSection('ecology',this)">Ch.2 Ecology</button>
+  <button class="tab-btn" onclick="filterSection('evolution',this)">Ch.15 Evolution</button>
+  <button class="tab-btn" onclick="filterSection('genetics',this)">Ch.10 Genetics</button>
+</div>
+
+<!-- QUIZ AREA -->
+<div class="quiz-area" id="quiz-area"></div>
+
+<!-- CONTROLS -->
+<div class="controls">
+  <button class="btn btn-primary" onclick="showResults()">See Final Score</button>
+  <button class="btn btn-secondary" onclick="resetQuiz()">Reset Quiz</button>
+</div>
+
+<!-- RESULTS SCREEN -->
+<div id="results-screen">
+  <div class="results-box">
+    <div class="results-grade" id="r-grade">—</div>
+    <div class="results-label" id="r-label">calculating…</div>
+    <div class="results-grid">
+      <div class="results-stat"><div class="n" id="r-correct" style="color:var(--accent)">0</div><div class="l">Correct</div></div>
+      <div class="results-stat"><div class="n" id="r-wrong" style="color:var(--accent3)">0</div><div class="l">Incorrect</div></div>
+      <div class="results-stat"><div class="n" id="r-skip" style="color:var(--text-muted)">0</div><div class="l">Skipped</div></div>
+    </div>
+    <div class="missed-list" id="missed-list"></div>
+    <button class="btn btn-primary" style="margin-top:24px;width:100%" onclick="resetQuiz()">Retake Quiz</button>
+  </div>
+</div>
+
+<script>
+// ──────────────────────────────────────────────
+// QUESTION BANK
+// Each question: { section, q, opts:[{t,correct}], explain }
+// opts are pre-shuffled below with varied correct position
+// ──────────────────────────────────────────────
+const ALL_QUESTIONS = [
+
+/* ══════════════ CH.2 ECOLOGY ══════════════ */
+{section:'ecology', q:"Which of the following is an ABIOTIC factor in an ecosystem?",
+ opts:[
+  {t:"A wolf hunting prey", correct:false},
+  {t:"Temperature", correct:true},
+  {t:"A population of oak trees", correct:false},
+  {t:"Bacteria in the soil", correct:false}
+ ],
+ explain:"Abiotic factors are nonliving parts of the environment — temperature, sunlight, water, nutrients, and climate."},
+
+{section:'ecology', q:"A group of organisms of the same species living in the same area is called a:",
+ opts:[
+  {t:"Ecosystem", correct:false},
+  {t:"Biosphere", correct:false},
+  {t:"Population", correct:true},
+  {t:"Biological community", correct:false}
+ ],
+ explain:"A population = same species + same area. A community includes different species; an ecosystem adds the nonliving environment."},
+
+{section:'ecology', q:"What is a niche?",
+ opts:[
+  {t:"A physical location in a habitat", correct:false},
+  {t:"The role an organism plays in its environment", correct:true},
+  {t:"A type of symbiotic relationship", correct:false},
+  {t:"The size of a population", correct:false}
+ ],
+ explain:"A niche includes how an organism gets food, where it lives, and how it interacts with other organisms."},
+
+{section:'ecology', q:"In commensalism, which of the following is true?",
+ opts:[
+  {t:"Both species benefit", correct:false},
+  {t:"One benefits; the other is harmed", correct:false},
+  {t:"One benefits; the other is unaffected", correct:true},
+  {t:"Both species are harmed", correct:false}
+ ],
+ explain:"Commensalism: one organism benefits, the other is neither helped nor harmed. Mutualism = both benefit; parasitism = one benefits, host is harmed."},
+
+{section:'ecology', q:"Heartworms living inside a dog is an example of:",
+ opts:[
+  {t:"Mutualism", correct:false},
+  {t:"Parasitism", correct:true},
+  {t:"Commensalism", correct:false},
+  {t:"Predation", correct:false}
+ ],
+ explain:"Parasitism — the heartworm benefits while the dog (host) is harmed."},
+
+{section:'ecology', q:"Organisms that produce their own food through photosynthesis are called:",
+ opts:[
+  {t:"Decomposers", correct:false},
+  {t:"Heterotrophs", correct:false},
+  {t:"Autotrophs", correct:true},
+  {t:"Detritivores", correct:false}
+ ],
+ explain:"Autotrophs (producers) make their own food. Heterotrophs must consume other organisms for energy."},
+
+{section:'ecology', q:"Which consumer type eats ONLY plants?",
+ opts:[
+  {t:"Carnivore", correct:false},
+  {t:"Omnivore", correct:false},
+  {t:"Detritivore", correct:false},
+  {t:"Herbivore", correct:true}
+ ],
+ explain:"Herbivores eat plants only. Carnivores eat animals; omnivores eat both; detritivores feed on dead organic matter."},
+
+{section:'ecology', q:"The first trophic level in any food chain is occupied by:",
+ opts:[
+  {t:"Primary consumers", correct:false},
+  {t:"Producers / autotrophs", correct:true},
+  {t:"Decomposers", correct:false},
+  {t:"Apex predators", correct:false}
+ ],
+ explain:"Producers (autotrophs) are always the base — trophic level 1. They capture energy from the sun."},
+
+{section:'ecology', q:"Which process converts nitrogen gas in the atmosphere into usable nitrogen compounds?",
+ opts:[
+  {t:"Photosynthesis", correct:false},
+  {t:"Denitrification", correct:false},
+  {t:"Decomposition", correct:false},
+  {t:"Nitrogen fixation", correct:true}
+ ],
+ explain:"Nitrogen fixation converts N₂ gas into ammonia or other compounds plants can use. Denitrification is the reverse."},
+
+{section:'ecology', q:"What is the largest reservoir of nitrogen on Earth?",
+ opts:[
+  {t:"Ocean water", correct:false},
+  {t:"The atmosphere", correct:true},
+  {t:"Fossil fuels", correct:false},
+  {t:"Plant tissue", correct:false}
+ ],
+ explain:"About 78% of Earth's atmosphere is nitrogen gas (N₂), making it the largest nitrogen reservoir."},
+
+{section:'ecology', q:"Which lake zone is the shallow near-shore area where sunlight reaches the bottom?",
+ opts:[
+  {t:"Profundal zone", correct:false},
+  {t:"Limnetic zone", correct:false},
+  {t:"Pelagic zone", correct:false},
+  {t:"Littoral zone", correct:true}
+ ],
+ explain:"Littoral zone = shallow, sunlit, plant-filled near-shore. Limnetic = open water dominated by plankton. Profundal = deep, little sunlight."},
+
+{section:'ecology', q:"Estuaries are important ecosystems because they:",
+ opts:[
+  {t:"Have very low biodiversity", correct:false},
+  {t:"Are found only in tropical regions", correct:false},
+  {t:"Mix freshwater and saltwater and support high biodiversity", correct:true},
+  {t:"Contain only salt water", correct:false}
+ ],
+ explain:"Estuaries mix fresh and salt water, support very high biodiversity, and often serve as nurseries for aquatic organisms."},
+
+{section:'ecology', q:"Which biome has the GREATEST biodiversity?",
+ opts:[
+  {t:"Temperate deciduous forest", correct:false},
+  {t:"Tropical rainforest", correct:true},
+  {t:"Boreal forest (taiga)", correct:false},
+  {t:"Tropical savanna", correct:false}
+ ],
+ explain:"Tropical rainforests have the highest biodiversity of any biome, along with the most consistent temperatures year-round."},
+
+{section:'ecology', q:"Which TWO biomes have the LOWEST biodiversity?",
+ opts:[
+  {t:"Tropical rainforest and boreal forest", correct:false},
+  {t:"Tundra and desert", correct:true},
+  {t:"Temperate grassland and savanna", correct:false},
+  {t:"Boreal forest and temperate deciduous forest", correct:false}
+ ],
+ explain:"Both tundra (extreme cold, permafrost) and desert (extreme dryness) support far fewer species than other biomes."},
+
+{section:'ecology', q:"The tundra biome is characterized by:",
+ opts:[
+  {t:"Dense canopy and year-round rainfall", correct:false},
+  {t:"Permafrost and very few trees", correct:true},
+  {t:"Scattered trees and a wet/dry season", correct:false},
+  {t:"Dominated by evergreen conifers", correct:false}
+ ],
+ explain:"Tundra = cold, permafrost soil, very few or no trees. The boreal forest (taiga) has evergreen conifers."},
+
+{section:'ecology', q:"Primary succession differs from secondary succession because primary succession:",
+ opts:[
+  {t:"Happens after a fire", correct:false},
+  {t:"Always ends with a desert biome", correct:false},
+  {t:"Begins on bare rock with no soil present", correct:true},
+  {t:"Requires soil to be present first", correct:false}
+ ],
+ explain:"Primary succession starts where no soil exists (e.g., bare rock after a lava flow). Secondary succession starts after a disturbance where soil remains."},
+
+{section:'ecology', q:"Lichens and algae are classic examples of:",
+ opts:[
+  {t:"Climax community species", correct:false},
+  {t:"Pioneer species", correct:true},
+  {t:"Decomposers only", correct:false},
+  {t:"Secondary consumers", correct:false}
+ ],
+ explain:"Pioneer species are first to colonize bare or disturbed areas. Lichens break down rock into soil, allowing later species to establish."},
+
+{section:'ecology', q:"A stable, mature community that shows little long-term change is called a:",
+ opts:[
+  {t:"Pioneer community", correct:false},
+  {t:"Climax community", correct:true},
+  {t:"Transitional ecosystem", correct:false},
+  {t:"Biome", correct:false}
+ ],
+ explain:"Climax community = the final, stable stage of ecological succession."},
+
+{section:'ecology', q:"The two main factors that determine which biome exists in a region are:",
+ opts:[
+  {t:"Soil type and altitude", correct:false},
+  {t:"Temperature and precipitation", correct:true},
+  {t:"Biodiversity and trophic levels", correct:false},
+  {t:"Ocean currents and latitude only", correct:false}
+ ],
+ explain:"Temperature and precipitation (plus dominant vegetation) are the three main factors that define biomes."},
+
+{section:'ecology', q:"How does the tropical savanna differ from the tropical seasonal forest?",
+ opts:[
+  {t:"Only savannas have wet and dry seasons", correct:false},
+  {t:"Savannas are dominated by grasses with scattered trees; seasonal forests have denser vegetation", correct:true},
+  {t:"Seasonal forests have lower biodiversity", correct:false},
+  {t:"They are found in the same geographic regions", correct:false}
+ ],
+ explain:"Both have wet/dry seasons, but savanna = mostly grasses + scattered trees; seasonal forest = more trees and denser vegetation."},
+
+/* ══════════════ CH.15 EVOLUTION ══════════════ */
+{section:'evolution', q:"Darwin studied differences in finch beaks on the Galápagos Islands to understand:",
+ opts:[
+  {t:"Genetic mutation rates", correct:false},
+  {t:"Adaptation and natural selection", correct:true},
+  {t:"How plate tectonics affects species", correct:false},
+  {t:"The founder effect", correct:false}
+ ],
+ explain:"Darwin's finches showed how populations adapt through natural selection — each beak shape suited a different food source."},
+
+{section:'evolution', q:"Natural selection favors organisms that:",
+ opts:[
+  {t:"Live the longest regardless of reproduction", correct:false},
+  {t:"Avoid predators by camouflage alone", correct:false},
+  {t:"Have favorable traits and reproduce more successfully", correct:true},
+  {t:"Produce the fewest offspring", correct:false}
+ ],
+ explain:"Natural selection = individuals with favorable traits survive AND reproduce more, passing those traits to offspring."},
+
+{section:'evolution', q:"What is artificial selection?",
+ opts:[
+  {t:"Humans selectively breeding organisms for desired traits", correct:true},
+  {t:"Random mutation in a laboratory", correct:false},
+  {t:"Natural forces choosing which organisms survive", correct:false},
+  {t:"Genetic drift in a small population", correct:false}
+ ],
+ explain:"Artificial selection = humans choose which individuals breed based on desired traits (e.g., dog breeding, crop improvement)."},
+
+{section:'evolution', q:"A vestigial structure is best described as:",
+ opts:[
+  {t:"A structure shared with a common ancestor that still functions", correct:false},
+  {t:"A structure with a different origin that performs a similar function", correct:false},
+  {t:"A structure that once had a purpose but is no longer needed", correct:true},
+  {t:"A newly evolved trait not found in older ancestors", correct:false}
+ ],
+ explain:"Vestigial structures are evolutionary remnants — once functional, now reduced or unused (e.g., human tailbone, whale pelvic bones)."},
+
+{section:'evolution', q:"Homologous structures are:",
+ opts:[
+  {t:"Identical in function but from different ancestors", correct:false},
+  {t:"Similar structures inherited from a common ancestor, possibly with different functions", correct:true},
+  {t:"Structures that evolved independently in unrelated species", correct:false},
+  {t:"Structures found only in extinct species", correct:false}
+ ],
+ explain:"Homologous = shared ancestry. Example: human arm, whale flipper, bat wing — different functions, same underlying bone structure."},
+
+{section:'evolution', q:"Analogous structures have different origins but:",
+ opts:[
+  {t:"Are found only in vertebrates", correct:false},
+  {t:"Prove common ancestry", correct:false},
+  {t:"Perform similar functions", correct:true},
+  {t:"Are always vestigial", correct:false}
+ ],
+ explain:"Analogous structures (e.g., bird wing and insect wing) evolved independently (convergent evolution) to perform a similar function."},
+
+{section:'evolution', q:"The Hardy-Weinberg principle is a model used to:",
+ opts:[
+  {t:"Calculate mutation rates", correct:false},
+  {t:"Determine whether evolution is occurring in a population", correct:true},
+  {t:"Predict the outcome of artificial selection", correct:false},
+  {t:"Measure genetic drift speed", correct:false}
+ ],
+ explain:"Hardy-Weinberg describes a non-evolving population in equilibrium. Deviations from H-W indicate evolution is occurring."},
+
+{section:'evolution', q:"Genetic drift refers to:",
+ opts:[
+  {t:"Selection for extreme phenotypes", correct:false},
+  {t:"Random changes in allele frequencies in a population", correct:true},
+  {t:"The slow accumulation of mutations over time", correct:false},
+  {t:"Gene flow between populations", correct:false}
+ ],
+ explain:"Genetic drift = random (not selection-driven) changes in allele frequencies. It has the biggest impact on small populations."},
+
+{section:'evolution', q:"The founder effect occurs when:",
+ opts:[
+  {t:"A large population is nearly wiped out by a disaster", correct:false},
+  {t:"A small group establishes a new population with limited genetic diversity", correct:true},
+  {t:"Two species begin to coevolve", correct:false},
+  {t:"An organism develops a new adaptation", correct:false}
+ ],
+ explain:"Founder effect: a small subset colonizes a new area → reduced genetic diversity relative to the original population."},
+
+{section:'evolution', q:"A volcanic eruption kills 95% of a beetle population. The surviving 5% reproduce. This is an example of:",
+ opts:[
+  {t:"Founder effect", correct:false},
+  {t:"Directional selection", correct:false},
+  {t:"Bottleneck effect", correct:true},
+  {t:"Sexual selection", correct:false}
+ ],
+ explain:"Bottleneck effect: a sudden drastic reduction in population size reduces genetic diversity in survivors."},
+
+{section:'evolution', q:"When flowers evolved deeper nectar and hummingbirds evolved longer beaks in response to each other, this is called:",
+ opts:[
+  {t:"Convergent evolution", correct:false},
+  {t:"Artificial selection", correct:false},
+  {t:"Coevolution", correct:true},
+  {t:"Adaptive radiation", correct:false}
+ ],
+ explain:"Coevolution = two species exert selective pressure on each other and evolve together over time."},
+
+{section:'evolution', q:"Stabilizing selection favors:",
+ opts:[
+  {t:"Both extreme traits equally", correct:false},
+  {t:"One extreme trait over others", correct:false},
+  {t:"Average traits by eliminating extremes", correct:true},
+  {t:"Traits that improve mating success", correct:false}
+ ],
+ explain:"Stabilizing selection removes extreme variations and favors the average phenotype (e.g., human birth weight)."},
+
+{section:'evolution', q:"Which type of natural selection would most likely lead to the formation of two distinct subgroups within a species?",
+ opts:[
+  {t:"Stabilizing selection", correct:false},
+  {t:"Sexual selection", correct:false},
+  {t:"Directional selection", correct:false},
+  {t:"Disruptive selection", correct:true}
+ ],
+ explain:"Disruptive selection favors BOTH extremes and eliminates the middle — this can split a population into two distinct groups."},
+
+{section:'evolution', q:"Prezygotic isolation differs from postzygotic isolation in that prezygotic barriers:",
+ opts:[
+  {t:"Occur only after fertilization", correct:false},
+  {t:"Prevent fertilization from occurring at all", correct:true},
+  {t:"Cause hybrid infertility", correct:false},
+  {t:"Are only behavioral in nature", correct:false}
+ ],
+ explain:"Prezygotic barriers prevent mating or fertilization. Postzygotic barriers reduce the viability or fertility of hybrids after fertilization."},
+
+{section:'evolution', q:"Gradualism in evolution refers to the idea that:",
+ opts:[
+  {t:"Evolution happens in sudden bursts of rapid change", correct:false},
+  {t:"Evolution usually occurs slowly over millions of years", correct:true},
+  {t:"Only large populations can evolve", correct:false},
+  {t:"All mutations are beneficial", correct:false}
+ ],
+ explain:"Gradualism = evolution is a slow, steady process. (Contrast with punctuated equilibrium, which proposes rapid bursts of change.)"},
+
+/* ══════════════ CH.10 GENETICS ══════════════ */
+{section:'genetics', q:"Alleles are best defined as:",
+ opts:[
+  {t:"The physical location of a gene on a chromosome", correct:false},
+  {t:"Different forms of the same gene", correct:true},
+  {t:"Identical copies of DNA strands", correct:false},
+  {t:"Proteins produced by ribosomes", correct:false}
+ ],
+ explain:"Alleles are different versions of a gene (e.g., B for brown eyes vs. b for blue eyes)."},
+
+{section:'genetics', q:"A recessive allele is only expressed when:",
+ opts:[
+  {t:"One dominant and one recessive allele are present", correct:false},
+  {t:"The organism is heterozygous", correct:false},
+  {t:"Two recessive copies are present (homozygous recessive)", correct:true},
+  {t:"It is on the X chromosome", correct:false}
+ ],
+ explain:"Recessive alleles are masked by dominant alleles. They only show in the phenotype when the genotype is homozygous recessive (e.g., bb)."},
+
+{section:'genetics', q:"Which genotype represents HETEROZYGOUS?",
+ opts:[
+  {t:"AA", correct:false},
+  {t:"Ff", correct:true},
+  {t:"gg", correct:false},
+  {t:"TT", correct:false}
+ ],
+ explain:"Heterozygous = two DIFFERENT alleles (one dominant, one recessive). Ff has one F and one f."},
+
+{section:'genetics', q:"The observable traits of an organism (what you can see or measure) are its:",
+ opts:[
+  {t:"Genotype", correct:false},
+  {t:"Alleles", correct:false},
+  {t:"Phenotype", correct:true},
+  {t:"Karyotype", correct:false}
+ ],
+ explain:"Phenotype = observable characteristics (e.g., purple flowers, gray fur). Genotype = the underlying genetic makeup."},
+
+{section:'genetics', q:"In pea plants, round seeds are dominant (R) and wrinkled are recessive (r). What is the phenotype of an Rr plant?",
+ opts:[
+  {t:"Wrinkled seeds", correct:false},
+  {t:"Round seeds", correct:true},
+  {t:"A mix of round and wrinkled", correct:false},
+  {t:"Cannot be determined", correct:false}
+ ],
+ explain:"Rr is heterozygous. Since R (round) is dominant, the phenotype is round seeds."},
+
+{section:'genetics', q:"For purple flowers, which genotype produces WHITE flowers?",
+ opts:[
+  {t:"PP", correct:false},
+  {t:"Pp", correct:false},
+  {t:"pp", correct:true},
+  {t:"Both PP and Pp", correct:false}
+ ],
+ explain:"White flowers require homozygous recessive (pp). PP and Pp both produce purple flowers because P is dominant."},
+
+{section:'genetics', q:"A Punnett square is used to:",
+ opts:[
+  {t:"Show the sequence of DNA bases", correct:false},
+  {t:"Predict possible genotypes of offspring", correct:true},
+  {t:"Identify the trophic level of an organism", correct:false},
+  {t:"Measure mutation rates", correct:false}
+ ],
+ explain:"Punnett squares chart parent alleles to show all possible offspring genotype combinations and their probabilities."},
+
+{section:'genetics', q:"In the dog fur example, female Ff is crossed with male ff. What percentage of offspring will have gray fur (F = gray dominant)?",
+ opts:[
+  {t:"25%", correct:false},
+  {t:"75%", correct:false},
+  {t:"100%", correct:false},
+  {t:"50%", correct:true}
+ ],
+ explain:"Ff × ff → Ff (gray), Ff (gray), ff (black), ff (black) = 50% gray, 50% black."},
+
+{section:'genetics', q:"Which of the following genotypes is HOMOZYGOUS DOMINANT?",
+ opts:[
+  {t:"Tt", correct:false},
+  {t:"gg", correct:false},
+  {t:"AA", correct:true},
+  {t:"Ff", correct:false}
+ ],
+ explain:"AA has two identical DOMINANT alleles = homozygous dominant. gg = homozygous recessive; Tt/Ff = heterozygous."},
+
+{section:'genetics', q:"In bobtail cats, T = normal tail (dominant) and t = bobtail (recessive). A cat with genotype Tt will have:",
+ opts:[
+  {t:"A bobtail", correct:false},
+  {t:"A normal tail", correct:true},
+  {t:"A mix of both traits", correct:false},
+  {t:"An undetermined tail type", correct:false}
+ ],
+ explain:"Tt is heterozygous. Since T (normal tail) is dominant, the cat will have a normal tail despite carrying the bobtail allele."},
+
+/* ── MIXED/APPLICATION QUESTIONS ── */
+{section:'ecology', q:"Which of the following is an example of a BIOGEOCHEMICAL cycle?",
+ opts:[
+  {t:"Food web energy transfer", correct:false},
+  {t:"Primary succession stages", correct:false},
+  {t:"The water cycle", correct:true},
+  {t:"Trophic level organization", correct:false}
+ ],
+ explain:"Biogeochemical cycles move nutrients/chemicals through living organisms and the environment. The water, nitrogen, carbon/oxygen, and phosphorus cycles are the four major ones."},
+
+{section:'ecology', q:"Long-term carbon storage on Earth includes all of the following EXCEPT:",
+ opts:[
+  {t:"Fossil fuels", correct:false},
+  {t:"Oceans", correct:false},
+  {t:"Rocks", correct:false},
+  {t:"Living plant leaves", correct:true}
+ ],
+ explain:"Living plant leaves are SHORT-term carbon storage. Fossil fuels, oceans, and rocks are long-term carbon reservoirs."},
+
+{section:'ecology', q:"About what percentage of Earth's freshwater is actually available in rivers, streams, ponds, and wetlands?",
+ opts:[
+  {t:"About 30%", correct:false},
+  {t:"About 3%", correct:false},
+  {t:"About 0.3%", correct:true},
+  {t:"About 10%", correct:false}
+ ],
+ explain:"Only about 0.3% of Earth's freshwater is accessible in rivers, streams, ponds, and wetlands. Most is locked in ice or underground."},
+
+{section:'ecology', q:"A eutrophic lake is characterized by:",
+ opts:[
+  {t:"Crystal-clear water with no algae", correct:false},
+  {t:"High nutrient levels, high productivity, and algae growth", correct:true},
+  {t:"Very deep water with no sunlight", correct:false},
+  {t:"Low biodiversity and salt water", correct:false}
+ ],
+ explain:"Eutrophic lakes are nutrient-rich, leading to dense algae growth. This can reduce oxygen for fish and other organisms."},
+
+{section:'evolution', q:"Which of the following is NOT evidence used to support the theory of evolution?",
+ opts:[
+  {t:"Comparative biochemistry", correct:false},
+  {t:"Vestigial structures", correct:false},
+  {t:"The number of offspring an organism produces", correct:true},
+  {t:"Homologous structures", correct:false}
+ ],
+ explain:"Offspring number alone is not direct evidence for evolution. Comparative biochemistry, vestigial structures, homologous structures, and the fossil record are all key lines of evidence."},
+
+{section:'evolution', q:"A derived trait is one that:",
+ opts:[
+  {t:"Appears only in fossil species", correct:false},
+  {t:"Was inherited from a very distant ancestor", correct:false},
+  {t:"Is newly evolved and not found in older ancestors", correct:true},
+  {t:"Reduces an organism's fitness", correct:false}
+ ],
+ explain:"Derived traits are newly evolved features unique to a particular lineage. Ancestral traits are older, inherited from distant ancestors."},
+
+{section:'genetics', q:"In hairy knuckles genetics, HH and Hh are both hairy while hh is non-hairy. This is because:",
+ opts:[
+  {t:"H is recessive", correct:false},
+  {t:"H (hairy) is dominant and is expressed whenever present", correct:true},
+  {t:"Both alleles must be recessive for the trait to show", correct:false},
+  {t:"Hairy knuckles is a sex-linked trait", correct:false}
+ ],
+ explain:"H is dominant, so one copy (Hh) is enough to produce hairy knuckles. Only hh (homozygous recessive) results in non-hairy knuckles."},
+];
+
+// ──────────────────────────────────────────────
+// STATE
+// ──────────────────────────────────────────────
+let answers = {}; // qIndex → {chosen, correct}
+let currentSection = 'all';
+
+// ──────────────────────────────────────────────
+// BUILD QUIZ
+// ──────────────────────────────────────────────
+function buildQuiz() {
+  const area = document.getElementById('quiz-area');
+  area.innerHTML = '';
+
+  const sections = [
+    {key:'ecology', label:'Chapter 2 — Ecology', color:'#3fb950'},
+    {key:'evolution', label:'Chapter 15 — Evolution', color:'#d2a8ff'},
+    {key:'genetics', label:'Chapter 10 — Genetics', color:'#58a6ff'},
+  ];
+
+  let globalIdx = 0;
+
+  sections.forEach(sec => {
+    const qs = ALL_QUESTIONS.map((q,i)=>({...q,idx:i})).filter(q=>q.section===sec.key);
+    if(currentSection !== 'all' && currentSection !== sec.key) return;
+
+    // section header
+    const sh = document.createElement('div');
+    sh.className='section-header';
+    sh.innerHTML=`<span class="section-dot" style="background:${sec.color}"></span>${sec.label}`;
+    area.appendChild(sh);
+
+    qs.forEach(q => {
+      const card = document.createElement('div');
+      card.className = 'q-card';
+      card.id = `card-${q.idx}`;
+      if(answers[q.idx]) card.classList.add('answered');
+
+      // Shuffle options but track correct
+      const shuffled = shuffleOpts(q.opts);
+
+      let optsHTML = shuffled.map((opt, i) => {
+        let cls = 'opt';
+        const st = answers[q.idx];
+        if(st) {
+          if(i === st.chosen && st.correct) cls += ' correct-pick';
+          else if(i === st.chosen && !st.correct) cls += ' wrong-pick';
+          else if(opt.correct && !st.correct) cls += ' reveal-correct';
+        }
+        const letters = ['A','B','C','D'];
+        return `<button class="${cls}" onclick="pick(${q.idx},${i},this)" ${answers[q.idx]?'disabled':''}>
+          <span class="opt-letter">${letters[i]}</span>${opt.t}
+        </button>`;
+      }).join('');
+
+      const expShow = answers[q.idx] ? 'show' : '';
+      card.innerHTML = `
+        <div class="q-header">
+          <span class="q-num">Q${q.idx+1}</span>
+          <div><div class="q-chapter">${sec.label}</div><div class="q-text">${q.q}</div></div>
+        </div>
+        <div class="options" id="opts-${q.idx}">${optsHTML}</div>
+        <div class="explanation ${expShow}" id="exp-${q.idx}"><strong>Explanation:</strong> ${q.explain}</div>
+      `;
+
+      // store shuffled opts for click handler
+      card.dataset.shuffled = JSON.stringify(shuffled.map(o=>o.correct));
+      area.appendChild(card);
+    });
+  });
+  updateProgress();
+}
+
+function shuffleOpts(opts) {
+  // Fisher-Yates
+  const arr = [...opts];
+  for(let i=arr.length-1;i>0;i--){
+    const j=Math.floor(Math.random()*(i+1));
+    [arr[i],arr[j]]=[arr[j],arr[i]];
+  }
+  return arr;
+}
+
+// ──────────────────────────────────────────────
+// PICK ANSWER
+// ──────────────────────────────────────────────
+function pick(qIdx, chosenIdx, btn) {
+  if(answers[qIdx]) return;
+
+  const card = document.getElementById(`card-${qIdx}`);
+  const shuffledCorrects = JSON.parse(card.dataset.shuffled);
+  const isCorrect = shuffledCorrects[chosenIdx];
+
+  answers[qIdx] = {chosen: chosenIdx, correct: isCorrect};
+
+  const optBtns = card.querySelectorAll('.opt');
+  optBtns.forEach((b,i)=>{
+    b.disabled = true;
+    if(i===chosenIdx && isCorrect) b.classList.add('correct-pick');
+    else if(i===chosenIdx && !isCorrect) b.classList.add('wrong-pick');
+    else if(shuffledCorrects[i] && !isCorrect) b.classList.add('reveal-correct');
+  });
+
+  document.getElementById(`exp-${qIdx}`).classList.add('show');
+  card.classList.add('answered');
+  updateProgress();
+}
+
+// ──────────────────────────────────────────────
+// PROGRESS / SCORE
+// ──────────────────────────────────────────────
+function updateProgress() {
+  const total = ALL_QUESTIONS.length;
+  const answered = Object.keys(answers).length;
+  const correct = Object.values(answers).filter(a=>a.correct).length;
+  const wrong = answered - correct;
+
+  document.getElementById('prog-label').textContent = `${answered} of ${total} answered`;
+  const pct = Math.round((answered/total)*100);
+  document.getElementById('prog-pct').textContent = pct+'%';
+  document.getElementById('prog-fill').style.width = pct+'%';
+
+  document.getElementById('sc-correct').textContent = correct;
+  document.getElementById('sc-wrong').textContent = wrong;
+  if(answered>0){
+    const score = Math.round((correct/answered)*100);
+    document.getElementById('sc-pct').textContent = score+'%';
+  } else {
+    document.getElementById('sc-pct').textContent = '—';
+  }
+}
+
+// ──────────────────────────────────────────────
+// SECTION FILTER
+// ──────────────────────────────────────────────
+function filterSection(sec, btn) {
+  currentSection = sec;
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  buildQuiz();
+}
+
+// ──────────────────────────────────────────────
+// SHOW RESULTS
+// ──────────────────────────────────────────────
+function showResults() {
+  const total = ALL_QUESTIONS.length;
+  const answered = Object.keys(answers).length;
+  const correct = Object.values(answers).filter(a=>a.correct).length;
+  const wrong = Object.values(answers).filter(a=>!a.correct).length;
+  const skipped = total - answered;
+  const pct = Math.round((correct/total)*100);
+
+  let grade, color;
+  if(pct>=90){grade='A';color='var(--accent)';}
+  else if(pct>=80){grade='B';color='var(--accent2)';}
+  else if(pct>=70){grade='C';color='#e3b341';}
+  else if(pct>=60){grade='D';color='#f78166';}
+  else{grade='F';color='#f78166';}
+
+  document.getElementById('r-grade').textContent = pct+'%';
+  document.getElementById('r-grade').style.color = color;
+  document.getElementById('r-label').textContent = `Grade: ${grade} · ${correct} correct out of ${total} questions`;
+  document.getElementById('r-correct').textContent = correct;
+  document.getElementById('r-wrong').textContent = wrong;
+  document.getElementById('r-skip').textContent = skipped;
+
+  // Missed questions list
+  const missedEl = document.getElementById('missed-list');
+  const missed = ALL_QUESTIONS.map((q,i)=>({...q,idx:i}))
+    .filter(q=>answers[q.idx] && !answers[q.idx].correct);
+
+  if(missed.length){
+    missedEl.innerHTML = `<h3>Review These (${missed.length})</h3>` +
+      missed.map(q=>`<div class="missed-item">Q${q.idx+1}: <span>${q.q}</span></div>`).join('');
+  } else if(answered===total){
+    missedEl.innerHTML = `<div style="color:var(--accent);font-size:15px;text-align:center;margin-top:8px">🎉 Perfect score! All questions answered correctly!</div>`;
+  } else {
+    missedEl.innerHTML = '';
+  }
+
+  document.getElementById('results-screen').style.display = 'block';
+  document.getElementById('results-screen').scrollIntoView({behavior:'smooth'});
+}
+
+// ──────────────────────────────────────────────
+// RESET
+// ──────────────────────────────────────────────
+function resetQuiz() {
+  answers = {};
+  document.getElementById('results-screen').style.display = 'none';
+  buildQuiz();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+// ── INIT ──
+buildQuiz();
+</script>
+</body>
+</html>
