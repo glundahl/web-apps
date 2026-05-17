@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>English II Quiz – The Outsiders & M. Butterfly</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Source+Serif+4:ital,wght@0,300;0,400;1,300&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #fdf6ec;
+    --ink: #1a1208;
+    --muted: #6b5c42;
+    --accent: #c0392b;
+    --gold: #b8860b;
+    --card: #fff9f0;
+    --border: #d9c9a8;
+    --correct-bg: #eaf7ea;
+    --correct-border: #2e7d32;
+    --wrong-bg: #fdecea;
+    --wrong-border: #c0392b;
+    --correct-text: #1b5e20;
+    --wrong-text: #7f0000;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: 'Source Serif 4', Georgia, serif;
+    font-weight: 300;
+    min-height: 100vh;
+    padding: 0 0 60px;
+  }
+
+  /* ── HEADER ── */
+  header {
+    background: var(--ink);
+    color: var(--bg);
+    padding: 36px 24px 28px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  header::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: repeating-linear-gradient(
+      -45deg,
+      transparent,
+      transparent 18px,
+      rgba(255,255,255,.03) 18px,
+      rgba(255,255,255,.03) 36px
+    );
+  }
+  .header-eyebrow {
+    font-family: 'Source Serif 4', serif;
+    font-size: .7rem;
+    letter-spacing: .18em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 8px;
+    position: relative;
+  }
+  header h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1.6rem, 5vw, 2.6rem);
+    line-height: 1.15;
+    position: relative;
+  }
+  .header-sub {
+    font-size: .85rem;
+    color: rgba(255,249,240,.6);
+    margin-top: 8px;
+    position: relative;
+    font-style: italic;
+  }
+
+  /* ── PROGRESS ── */
+  .progress-wrap {
+    max-width: 720px;
+    margin: 24px auto 0;
+    padding: 0 20px;
+  }
+  .progress-label {
+    display: flex;
+    justify-content: space-between;
+    font-size: .75rem;
+    color: var(--muted);
+    margin-bottom: 6px;
+    letter-spacing: .05em;
+    text-transform: uppercase;
+  }
+  .progress-bar-bg {
+    height: 6px;
+    background: var(--border);
+    border-radius: 3px;
+    overflow: hidden;
+  }
+  .progress-bar-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--gold), var(--accent));
+    border-radius: 3px;
+    width: 0%;
+    transition: width .4s ease;
+  }
+
+  /* ── QUESTIONS ── */
+  .quiz-container {
+    max-width: 720px;
+    margin: 28px auto 0;
+    padding: 0 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  .q-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 24px 24px 20px;
+    box-shadow: 0 2px 8px rgba(0,0,0,.06);
+    transition: box-shadow .2s;
+  }
+  .q-card:hover { box-shadow: 0 4px 16px rgba(0,0,0,.10); }
+
+  .q-meta {
+    font-size: .68rem;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 10px;
+  }
+  .q-text {
+    font-size: 1rem;
+    line-height: 1.6;
+    font-weight: 400;
+    margin-bottom: 18px;
+  }
+
+  .options { display: flex; flex-direction: column; gap: 9px; }
+
+  .opt-btn {
+    display: flex;
+    align-items: flex-start;
+    gap: 11px;
+    background: transparent;
+    border: 1.5px solid var(--border);
+    border-radius: 3px;
+    padding: 10px 14px;
+    cursor: pointer;
+    text-align: left;
+    font-family: 'Source Serif 4', serif;
+    font-size: .9rem;
+    font-weight: 300;
+    color: var(--ink);
+    transition: border-color .15s, background .15s, color .15s;
+    line-height: 1.5;
+  }
+  .opt-btn:hover:not(:disabled) {
+    border-color: var(--gold);
+    background: rgba(184,134,11,.06);
+  }
+  .opt-letter {
+    flex-shrink: 0;
+    font-family: 'Playfair Display', serif;
+    font-size: .85rem;
+    color: var(--muted);
+    margin-top: 1px;
+    transition: color .15s;
+  }
+
+  /* answered states */
+  .opt-btn.correct {
+    background: var(--correct-bg);
+    border-color: var(--correct-border);
+    color: var(--correct-text);
+  }
+  .opt-btn.correct .opt-letter { color: var(--correct-border); }
+  .opt-btn.wrong {
+    background: var(--wrong-bg);
+    border-color: var(--wrong-border);
+    color: var(--wrong-text);
+  }
+  .opt-btn.wrong .opt-letter { color: var(--wrong-border); }
+  .opt-btn.reveal {
+    background: var(--correct-bg);
+    border-color: var(--correct-border);
+    color: var(--correct-text);
+    opacity: .75;
+  }
+  .opt-btn.reveal .opt-letter { color: var(--correct-border); }
+  .opt-btn:disabled { cursor: default; }
+
+  /* feedback line */
+  .feedback {
+    margin-top: 12px;
+    font-size: .82rem;
+    font-style: italic;
+    color: var(--muted);
+    min-height: 1.2em;
+    line-height: 1.5;
+    display: none;
+  }
+  .feedback.show { display: block; }
+  .feedback.correct-fb { color: var(--correct-text); }
+  .feedback.wrong-fb   { color: var(--wrong-text); }
+
+  /* ── SCORE PANEL ── */
+  #score-panel {
+    display: none;
+    max-width: 720px;
+    margin: 32px auto 0;
+    padding: 0 20px;
+  }
+  .score-card {
+    background: var(--ink);
+    color: var(--bg);
+    border-radius: 4px;
+    padding: 36px 32px;
+    text-align: center;
+  }
+  .score-eyebrow {
+    font-size: .7rem;
+    letter-spacing: .2em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 12px;
+  }
+  .score-big {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(3rem, 10vw, 5rem);
+    line-height: 1;
+    color: var(--bg);
+  }
+  .score-denom {
+    font-size: 1rem;
+    color: rgba(255,249,240,.5);
+    margin-bottom: 16px;
+  }
+  .score-grade {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.5rem;
+    color: var(--gold);
+    margin-bottom: 10px;
+  }
+  .score-msg {
+    font-size: .9rem;
+    color: rgba(255,249,240,.7);
+    font-style: italic;
+    max-width: 380px;
+    margin: 0 auto 24px;
+    line-height: 1.6;
+  }
+  .retry-btn {
+    background: var(--gold);
+    color: var(--ink);
+    border: none;
+    border-radius: 3px;
+    padding: 12px 32px;
+    font-family: 'Playfair Display', serif;
+    font-size: 1rem;
+    cursor: pointer;
+    letter-spacing: .05em;
+    transition: opacity .2s;
+  }
+  .retry-btn:hover { opacity: .85; }
+
+  /* ── SUBMIT ── */
+  #submit-wrap {
+    max-width: 720px;
+    margin: 8px auto 0;
+    padding: 0 20px;
+    text-align: right;
+  }
+  #submit-btn {
+    background: var(--accent);
+    color: #fff;
+    border: none;
+    border-radius: 3px;
+    padding: 13px 36px;
+    font-family: 'Playfair Display', serif;
+    font-size: 1rem;
+    cursor: pointer;
+    letter-spacing: .05em;
+    transition: opacity .2s, transform .1s;
+  }
+  #submit-btn:hover:not(:disabled) { opacity: .88; transform: translateY(-1px); }
+  #submit-btn:disabled { opacity: .45; cursor: default; }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-eyebrow">English II · 2026 Exam Prep</div>
+  <h1>The Outsiders &amp; M. Butterfly</h1>
+  <div class="header-sub">20 questions · Select the best answer for each</div>
+</header>
+
+<div class="progress-wrap">
+  <div class="progress-label">
+    <span id="prog-text">0 of 20 answered</span>
+    <span id="prog-pct">0%</span>
+  </div>
+  <div class="progress-bar-bg"><div class="progress-bar-fill" id="prog-bar"></div></div>
+</div>
+
+<div class="quiz-container" id="quiz"></div>
+
+<div id="submit-wrap">
+  <button id="submit-btn" disabled>Submit Quiz</button>
+</div>
+
+<div id="score-panel">
+  <div class="score-card">
+    <div class="score-eyebrow">Your Result</div>
+    <div class="score-big" id="score-num">0</div>
+    <div class="score-denom" id="score-denom">out of 20</div>
+    <div class="score-grade" id="score-grade"></div>
+    <div class="score-msg" id="score-msg"></div>
+    <button class="retry-btn" onclick="resetQuiz()">Try Again</button>
+  </div>
+</div>
+
+<script>
+const questions = [
+  {
+    text: "In what city and state is <em>The Outsiders</em> set?",
+    tag: "The Outsiders · Setting",
+    options: ["Chicago, Illinois", "Tulsa, Oklahoma", "Dallas, Texas", "Oklahoma City, Oklahoma"],
+    answer: 1,
+    feedback: "The novel is set in Tulsa, Oklahoma during the 1960s."
+  },
+  {
+    text: "Who narrates <em>The Outsiders</em>?",
+    tag: "The Outsiders · Narrator",
+    options: ["Johnny Cade", "Dally Winston", "Ponyboy Curtis", "Sodapop Curtis"],
+    answer: 2,
+    feedback: "Ponyboy Curtis narrates the entire novel in first person."
+  },
+  {
+    text: "What does the term 'Socs' refer to in <em>The Outsiders</em>?",
+    tag: "The Outsiders · Terms",
+    options: ["Poor East Side kids known for toughness", "A rival gang from a neighboring city", "Wealthy West Side kids representing privilege and status", "Teachers at the local high school"],
+    answer: 2,
+    feedback: "Socs (short for Socials) are the wealthy West Side kids who represent privilege and power."
+  },
+  {
+    text: "Why does Johnny kill Bob Sheldon?",
+    tag: "The Outsiders · Plot",
+    options: ["Bob had threatened Darry Curtis", "Bob was trying to steal the Greasers' car", "Bob was attacking Ponyboy and trying to drown him", "Johnny wanted to prove his toughness to the gang"],
+    answer: 2,
+    feedback: "Johnny killed Bob to defend Ponyboy, who was being attacked and drowned at the fountain."
+  },
+  {
+    text: "What do Ponyboy and Johnny do to disguise themselves while hiding at the church?",
+    tag: "The Outsiders · Plot",
+    options: ["They use fake names only", "They cut and/or dye their hair", "They wear Soc clothing", "They pretend to be farmhands"],
+    answer: 1,
+    feedback: "They cut and dye their hair to change their recognizable Greaser look."
+  },
+  {
+    text: "What does the Blue Mustang symbolize to the Greasers?",
+    tag: "The Outsiders · Symbols",
+    options: ["Freedom and travel", "A shared love of mechanics", "Wealth and impending danger", "The beauty of the West Side"],
+    answer: 2,
+    feedback: "The Blue Mustang represents Soc wealth, status, and the ever-present threat of danger."
+  },
+  {
+    text: "Which character serves as a bridge between the Socs and the Greasers?",
+    tag: "The Outsiders · Characters",
+    options: ["Cherry Valance", "Randy Adderson", "Sodapop Curtis", "Dally Winston"],
+    answer: 0,
+    feedback: "Cherry Valance is a Soc who genuinely understands and empathizes with both groups."
+  },
+  {
+    text: "What is the significance of the first and last lines of <em>The Outsiders</em> being identical?",
+    tag: "The Outsiders · Structure",
+    options: ["They are quotes borrowed from Robert Frost", "They emphasize Ponyboy's hatred for the Socs", "They are warnings against joining gangs", "They reveal the novel is Ponyboy's English essay"],
+    answer: 3,
+    feedback: "The repeated opening and closing lines show that the entire novel is the English assignment Ponyboy wrote about his experiences."
+  },
+  {
+    text: "What does Johnny's message 'Stay gold' mean?",
+    tag: "The Outsiders · Themes",
+    options: ["Stay loyal to the Greasers no matter what", "Never change your physical appearance", "Keep your money safe", "Maintain your innocence and idealism"],
+    answer: 3,
+    feedback: "'Stay gold' is a reference to Robert Frost's poem and urges Ponyboy to preserve his innocence and goodness."
+  },
+  {
+    text: "Why does Dally Winston commit 'suicide by cop'?",
+    tag: "The Outsiders · Characters",
+    options: ["He was facing a life sentence in prison", "He was overwhelmed by the loss of Johnny", "He wanted to become a martyr for the gang", "He was tired of being a Greaser"],
+    answer: 1,
+    feedback: "Johnny's death breaks Dally; without Johnny, he has nothing left to live for."
+  },
+  {
+    text: "What events mark the climax of <em>The Outsiders</em>?",
+    tag: "The Outsiders · Plot",
+    options: ["The court hearing", "The deaths of Johnny and Dally", "The church fire rescue", "The rumble between Greasers and Socs"],
+    answer: 1,
+    feedback: "The deaths of Johnny and Dally are the emotional climax that transforms Ponyboy."
+  },
+  {
+    text: "Which literary work inspired <em>M. Butterfly</em>?",
+    tag: "M. Butterfly · Background",
+    options: ["A Chinese folk tale about identity", "The opera Madame Butterfly", "A secret military code from the Cold War", "A specific species of butterfly discovered in Asia"],
+    answer: 1,
+    feedback: "David Henry Hwang's play is directly inspired by the opera Madame Butterfly by Puccini."
+  },
+  {
+    text: "What is Gallimard's central tragic flaw in <em>M. Butterfly</em>?",
+    tag: "M. Butterfly · Characters",
+    options: ["His inability to separate fantasy from reality", "His lack of intelligence and political skill", "His hatred for his home country", "His physical weakness and poor health"],
+    answer: 0,
+    feedback: "Gallimard's insecurity drives him to prefer a comforting fantasy over obvious reality."
+  },
+  {
+    text: "How does Song Liling primarily manipulate Gallimard?",
+    tag: "M. Butterfly · Plot",
+    options: ["By stealing government secrets directly", "By performing the stereotypes Gallimard expects", "By offering him wealth and promotions", "Through physical threats and coercion"],
+    answer: 1,
+    feedback: "Song is strategic—performing the role of a submissive, devoted Asian woman that Gallimard's fantasy demands."
+  },
+  {
+    text: "What does the opera <em>Madame Butterfly</em> represent within the play?",
+    tag: "M. Butterfly · Symbols",
+    options: ["The historical conflict between East and West", "True love and self-sacrifice", "Western fantasies of submissive Asian women", "The beauty of traditional Chinese music"],
+    answer: 2,
+    feedback: "The opera embodies Orientalism—the harmful Western stereotype of Asian women as exotic and submissive."
+  },
+  {
+    text: "What is the ironic reality of the power dynamic between Song and Gallimard?",
+    tag: "M. Butterfly · Irony",
+    options: ["Helga is the one actually running the embassy", "Song is the one in control, despite Gallimard's belief in his own dominance", "They are both being manipulated by the government equally", "Gallimard has no real money or influence"],
+    answer: 1,
+    feedback: "The central irony: Gallimard believes he holds power over Song, but Song controls the entire relationship."
+  },
+  {
+    text: "Which character in <em>M. Butterfly</em> represents realism and stability?",
+    tag: "M. Butterfly · Characters",
+    options: ["Marc", "Helga", "Song Liling", "René Gallimard"],
+    answer: 1,
+    feedback: "Helga is grounded in reality and directly contrasts Gallimard's fantasy-driven thinking."
+  },
+  {
+    text: "How does <em>M. Butterfly</em> critique Orientalism?",
+    tag: "M. Butterfly · Themes",
+    options: ["It celebrates Eastern artistic traditions", "It argues Orientalism is purely a political movement", "It shows how harmful stereotypes distort relationships and power", "It defends Western interpretations of Asian culture"],
+    answer: 2,
+    feedback: "The play reveals how Gallimard's Orientalist assumptions make him blind to the truth, ultimately destroying him."
+  },
+  {
+    text: "What theme do both <em>The Outsiders</em> and <em>M. Butterfly</em> share?",
+    tag: "Both Texts · Themes",
+    options: ["The dangers of environmental collapse", "The tension between technology and humanity", "The damage caused by stereotypes and labels", "Religious intolerance across cultures"],
+    answer: 2,
+    feedback: "Both texts show how stereotypes—class-based in The Outsiders, racial and gendered in M. Butterfly—trap and destroy characters."
+  },
+  {
+    text: "In both texts, identity is best described as:",
+    tag: "Both Texts · Themes",
+    options: ["Fixed and determined by genetics", "Irrelevant to questions of power", "Socially constructed and performed", "Chosen freely without social influence"],
+    answer: 2,
+    feedback: "Greasers perform toughness to survive; Song performs submissiveness to manipulate. Both texts show identity as a performance shaped by social expectations."
+  }
+];
+
+let answered = new Array(questions.length).fill(false);
+let submitted = false;
+
+function buildQuiz() {
+  const container = document.getElementById('quiz');
+  container.innerHTML = '';
+  answered = new Array(questions.length).fill(false);
+  submitted = false;
+  document.getElementById('score-panel').style.display = 'none';
+  document.getElementById('submit-wrap').style.display = 'block';
+  document.getElementById('submit-btn').disabled = true;
+  updateProgress();
+
+  questions.forEach((q, qi) => {
+    const card = document.createElement('div');
+    card.className = 'q-card';
+    card.id = `q-${qi}`;
+
+    const letters = ['A', 'B', 'C', 'D'];
+    const optsHTML = q.options.map((opt, oi) => `
+      <button class="opt-btn" data-q="${qi}" data-o="${oi}" onclick="selectAnswer(${qi},${oi})">
+        <span class="opt-letter">${letters[oi]}.</span>
+        <span>${opt}</span>
+      </button>
+    `).join('');
+
+    card.innerHTML = `
+      <div class="q-meta">Q${qi + 1} · ${q.tag}</div>
+      <div class="q-text">${q.text}</div>
+      <div class="options" id="opts-${qi}">${optsHTML}</div>
+      <div class="feedback" id="fb-${qi}"></div>
+    `;
+    container.appendChild(card);
+  });
+}
+
+function selectAnswer(qi, oi) {
+  if (submitted) return;
+  const opts = document.querySelectorAll(`#opts-${qi} .opt-btn`);
+  opts.forEach(b => b.classList.remove('selected'));
+  opts[oi].classList.add('selected');
+
+  // store selection (use data attribute)
+  opts.forEach(b => b.dataset.selected = '0');
+  opts[oi].dataset.selected = '1';
+
+  answered[qi] = oi; // store chosen index
+  updateProgress();
+  checkSubmitReady();
+}
+
+function updateProgress() {
+  const count = answered.filter(v => v !== false).length;
+  const pct = Math.round((count / questions.length) * 100);
+  document.getElementById('prog-text').textContent = `${count} of ${questions.length} answered`;
+  document.getElementById('prog-pct').textContent = `${pct}%`;
+  document.getElementById('prog-bar').style.width = pct + '%';
+}
+
+function checkSubmitReady() {
+  const allDone = answered.every(v => v !== false);
+  document.getElementById('submit-btn').disabled = !allDone;
+}
+
+function submitQuiz() {
+  if (submitted) return;
+  submitted = true;
+  document.getElementById('submit-btn').disabled = true;
+
+  let score = 0;
+  questions.forEach((q, qi) => {
+    const chosen = answered[qi];
+    const opts = document.querySelectorAll(`#opts-${qi} .opt-btn`);
+    const fb = document.getElementById(`fb-${qi}`);
+
+    opts.forEach(b => {
+      b.disabled = true;
+      b.classList.remove('selected');
+    });
+
+    if (chosen === q.answer) {
+      score++;
+      opts[chosen].classList.add('correct');
+      fb.textContent = '✓ Correct. ' + q.feedback;
+      fb.className = 'feedback show correct-fb';
+    } else {
+      opts[chosen].classList.add('wrong');
+      opts[q.answer].classList.add('reveal');
+      fb.textContent = '✗ ' + q.feedback;
+      fb.className = 'feedback show wrong-fb';
+    }
+  });
+
+  showScore(score);
+}
+
+function showScore(score) {
+  document.getElementById('submit-wrap').style.display = 'none';
+  const panel = document.getElementById('score-panel');
+  panel.style.display = 'block';
+
+  document.getElementById('score-num').textContent = score;
+  document.getElementById('score-denom').textContent = `out of ${questions.length}`;
+
+  const pct = (score / questions.length) * 100;
+  let grade, msg;
+  if (pct >= 90) { grade = 'A'; msg = 'Excellent work — you have a strong command of both texts.'; }
+  else if (pct >= 80) { grade = 'B'; msg = 'Good job. Review the questions you missed before the exam.'; }
+  else if (pct >= 70) { grade = 'C'; msg = 'Passing, but revisit the themes and character analyses to sharpen your understanding.'; }
+  else if (pct >= 60) { grade = 'D'; msg = 'Keep studying — re-read the character and theme sections of the study guide.'; }
+  else { grade = 'F'; msg = 'More review needed. Work through the study guide carefully, especially the major themes and symbols.'; }
+
+  document.getElementById('score-grade').textContent = grade;
+  document.getElementById('score-msg').textContent = msg;
+  panel.scrollIntoView({ behavior: 'smooth', block: 'center' });
+}
+
+function resetQuiz() {
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+  setTimeout(buildQuiz, 300);
+}
+
+document.getElementById('submit-btn').addEventListener('click', submitQuiz);
+
+buildQuiz();
+</script>
+</body>
+</html>
