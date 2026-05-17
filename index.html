@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Study Quiz Hub</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0d1117;
+    --surface: #161b22;
+    --surface2: #1c2330;
+    --border: #30363d;
+    --text: #e6edf3;
+    --text-muted: #7d8590;
+    --text-dim: #484f58;
+    --radius: 12px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    padding-bottom: 60px;
+  }
+
+  /* ── HEADER ── */
+  .header {
+    padding: 52px 24px 40px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .header::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 60% 60% at 20% 50%, rgba(88,166,255,.07) 0%, transparent 70%),
+      radial-gradient(ellipse 60% 60% at 80% 50%, rgba(63,185,80,.07) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .header-eyebrow {
+    font-size: 11px;
+    letter-spacing: .18em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    margin-bottom: 14px;
+  }
+  .header h1 {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(32px, 6vw, 52px);
+    font-weight: 800;
+    line-height: 1.05;
+    color: var(--text);
+    margin-bottom: 12px;
+  }
+  .header-sub {
+    font-size: 15px;
+    color: var(--text-muted);
+    font-weight: 300;
+    max-width: 380px;
+    margin: 0 auto;
+    line-height: 1.55;
+  }
+
+  /* ── STATS ROW ── */
+  .stats-row {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 28px;
+    flex-wrap: wrap;
+  }
+  .stat-chip {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 5px 14px;
+    font-size: 12px;
+    color: var(--text-muted);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .stat-chip .dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--text-dim);
+  }
+
+  /* ── DIVIDER ── */
+  .divider {
+    max-width: 800px;
+    margin: 0 auto;
+    border: none;
+    border-top: 1px solid var(--border);
+  }
+
+  /* ── GRID ── */
+  .grid-wrap {
+    max-width: 800px;
+    margin: 36px auto 0;
+    padding: 0 20px;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 16px;
+  }
+
+  /* ── QUIZ CARD ── */
+  .quiz-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 24px;
+    text-decoration: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    transition: all .22s ease;
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+  }
+  .quiz-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: var(--card-accent, #58a6ff);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform .25s ease;
+  }
+  .quiz-card:hover {
+    border-color: var(--card-accent, #58a6ff);
+    transform: translateY(-3px);
+    box-shadow: 0 12px 32px rgba(0,0,0,.4);
+  }
+  .quiz-card:hover::before { transform: scaleX(1); }
+
+  .card-top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    margin-bottom: 14px;
+  }
+  .card-icon {
+    width: 40px; height: 40px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    background: var(--card-icon-bg, rgba(88,166,255,.12));
+    flex-shrink: 0;
+  }
+  .card-badge {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    padding: 3px 10px;
+    border-radius: 12px;
+    background: var(--card-badge-bg, rgba(88,166,255,.12));
+    color: var(--card-accent, #58a6ff);
+    border: 1px solid var(--card-badge-border, rgba(88,166,255,.2));
+  }
+
+  .card-subject {
+    font-size: 11px;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    margin-bottom: 6px;
+    font-weight: 500;
+  }
+  .card-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--text);
+    line-height: 1.25;
+    margin-bottom: 8px;
+  }
+  .card-desc {
+    font-size: 13px;
+    color: var(--text-muted);
+    line-height: 1.55;
+    font-weight: 300;
+    flex: 1;
+    margin-bottom: 18px;
+  }
+
+  .card-meta {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  .meta-tag {
+    font-size: 11px;
+    color: var(--text-dim);
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 3px 8px;
+  }
+
+  .card-footer {
+    margin-top: 18px;
+    padding-top: 16px;
+    border-top: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .card-cta {
+    font-family: 'Syne', sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: .05em;
+    color: var(--card-accent, #58a6ff);
+    text-transform: uppercase;
+  }
+  .card-arrow {
+    color: var(--card-accent, #58a6ff);
+    font-size: 18px;
+    transition: transform .2s;
+  }
+  .quiz-card:hover .card-arrow { transform: translateX(4px); }
+
+  /* ── COMING SOON CARD ── */
+  .quiz-card.coming-soon {
+    opacity: .45;
+    cursor: default;
+    pointer-events: none;
+  }
+  .quiz-card.coming-soon:hover { transform: none; box-shadow: none; }
+
+  /* ── SECTION LABEL ── */
+  .section-label {
+    max-width: 800px;
+    margin: 36px auto 0;
+    padding: 0 20px;
+    font-family: 'Syne', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .section-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  /* ── FOOTER ── */
+  .footer {
+    max-width: 800px;
+    margin: 48px auto 0;
+    padding: 0 20px;
+    text-align: center;
+    font-size: 12px;
+    color: var(--text-dim);
+    line-height: 1.7;
+  }
+  .footer a { color: var(--text-muted); text-decoration: none; }
+  .footer a:hover { color: var(--text); }
+
+  @media(max-width: 480px) {
+    .grid-wrap { grid-template-columns: 1fr; }
+    .header h1 { font-size: 28px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="header">
+  <div class="header-eyebrow">Study Tools</div>
+  <h1>Quiz Hub</h1>
+  <div class="header-sub">Pick a subject and start reviewing. Each quiz has instant feedback and explanations.</div>
+  <div class="stats-row" id="stats-row">
+    <!-- filled by JS -->
+  </div>
+</div>
+
+<hr class="divider">
+
+<!-- ═══════════════════════════════════════════════
+     QUIZ CARDS
+     
+     TO ADD A NEW QUIZ:
+     1. Copy one of the quiz card blocks below
+     2. Update: href, --card-accent color, emoji, subject, title, desc, tags
+     3. Remove the "coming-soon" class when the file is ready
+     
+     Color suggestions:
+       Biology green:   #3fb950
+       US History gold: #e3b341
+       Math blue:       #58a6ff
+       Chemistry teal:  #39d353
+       English purple:  #d2a8ff
+       Physics orange:  #f0883e
+══════════════════════════════════════════════════ -->
+
+<div class="section-label">Available Now</div>
+<div class="grid-wrap" id="quiz-grid">
+
+  <!-- ── BIOLOGY ── -->
+  <a class="quiz-card" href="biology-final-practice.html"
+     style="--card-accent:#3fb950; --card-icon-bg:rgba(63,185,80,.12); --card-badge-bg:rgba(63,185,80,.1); --card-badge-border:rgba(63,185,80,.25);">
+    <div class="card-top">
+      <div class="card-icon">🌿</div>
+      <span class="card-badge">Final Review</span>
+    </div>
+    <div class="card-subject">Biology</div>
+    <div class="card-title">Semester 2 Final</div>
+    <div class="card-desc">Ecology, evolution, and genetics — covering symbiosis, biomes, natural selection, genetic drift, Punnett squares, and more.</div>
+    <div class="card-meta">
+      <span class="meta-tag">45 Questions</span>
+      <span class="meta-tag">Ch. 2 · 10 · 15</span>
+      <span class="meta-tag">Multiple Choice</span>
+    </div>
+    <div class="card-footer">
+      <span class="card-cta">Start Quiz</span>
+      <span class="card-arrow">→</span>
+    </div>
+  </a>
+
+  <!-- ── US HISTORY ── -->
+  <!-- UPDATE href BELOW to match your actual US History filename -->
+  <a class="quiz-card" href="us-history-final-practice.html"
+     style="--card-accent:#e3b341; --card-icon-bg:rgba(227,179,65,.12); --card-badge-bg:rgba(227,179,65,.1); --card-badge-border:rgba(227,179,65,.25);">
+    <div class="card-top">
+      <div class="card-icon">🏛️</div>
+      <span class="card-badge">Final Review</span>
+    </div>
+    <div class="card-subject">U.S. History</div>
+    <div class="card-title">Semester Final</div>
+    <div class="card-desc">American history review — key events, figures, movements, and turning points covered in your semester material.</div>
+    <div class="card-meta">
+      <span class="meta-tag">Multiple Choice</span>
+      <span class="meta-tag">Instant Feedback</span>
+    </div>
+    <div class="card-footer">
+      <span class="card-cta">Start Quiz</span>
+      <span class="card-arrow">→</span>
+    </div>
+  </a>
+
+</div>
+
+<!-- COMING SOON SECTION — remove "coming-soon" class + update href when ready -->
+<div class="section-label" style="margin-top:28px">Coming Soon</div>
+<div class="grid-wrap">
+
+  <div class="quiz-card coming-soon"
+       style="--card-accent:#58a6ff; --card-icon-bg:rgba(88,166,255,.12); --card-badge-bg:rgba(88,166,255,.1); --card-badge-border:rgba(88,166,255,.25);">
+    <div class="card-top">
+      <div class="card-icon">➕</div>
+      <span class="card-badge">Coming Soon</span>
+    </div>
+    <div class="card-subject">Your Next Subject</div>
+    <div class="card-title">Add Your Next Quiz</div>
+    <div class="card-desc">Upload your study material and get a new quiz generated. Move it from Coming Soon to Available when ready.</div>
+    <div class="card-meta">
+      <span class="meta-tag">—</span>
+    </div>
+    <div class="card-footer">
+      <span class="card-cta">Not Yet Available</span>
+      <span class="card-arrow">→</span>
+    </div>
+  </div>
+
+</div>
+
+<!-- FOOTER -->
+<div class="footer">
+  Quiz Hub · All quizzes built from your study material<br>
+  <a href="https://glundahl.github.io/web-apps/">View on GitHub Pages</a>
+</div>
+
+<script>
+  // Auto-count available quizzes for the stats row
+  const cards = document.querySelectorAll('.quiz-card:not(.coming-soon)');
+  const statsRow = document.getElementById('stats-row');
+  statsRow.innerHTML = `
+    <div class="stat-chip"><span class="dot" style="background:#3fb950"></span>${cards.length} Quiz${cards.length!==1?'es':''} Available</div>
+    <div class="stat-chip"><span class="dot" style="background:#58a6ff"></span>Multiple Choice</div>
+    <div class="stat-chip"><span class="dot" style="background:#d2a8ff"></span>Instant Feedback</div>
+  `;
+</script>
+
+</body>
+</html>
