@@ -33,7 +33,6 @@
     padding: 0 0 60px;
   }
 
-  /* ── HEADER ── */
   header {
     background: var(--ink);
     color: var(--bg);
@@ -46,15 +45,11 @@
     content: '';
     position: absolute; inset: 0;
     background: repeating-linear-gradient(
-      -45deg,
-      transparent,
-      transparent 18px,
-      rgba(255,255,255,.03) 18px,
-      rgba(255,255,255,.03) 36px
+      -45deg, transparent, transparent 18px,
+      rgba(255,255,255,.03) 18px, rgba(255,255,255,.03) 36px
     );
   }
   .header-eyebrow {
-    font-family: 'Source Serif 4', serif;
     font-size: .7rem;
     letter-spacing: .18em;
     text-transform: uppercase;
@@ -76,7 +71,6 @@
     font-style: italic;
   }
 
-  /* ── PROGRESS ── */
   .progress-wrap {
     max-width: 720px;
     margin: 24px auto 0;
@@ -105,14 +99,37 @@
     transition: width .4s ease;
   }
 
-  /* ── QUESTIONS ── */
+  /* section dividers */
+  .section-divider {
+    max-width: 720px;
+    margin: 32px auto 0;
+    padding: 0 20px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .section-divider span {
+    font-family: 'Playfair Display', serif;
+    font-size: .75rem;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    color: var(--muted);
+    white-space: nowrap;
+  }
+  .section-divider::before, .section-divider::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
   .quiz-container {
     max-width: 720px;
-    margin: 28px auto 0;
+    margin: 20px auto 0;
     padding: 0 20px;
     display: flex;
     flex-direction: column;
-    gap: 24px;
+    gap: 20px;
   }
 
   .q-card {
@@ -137,6 +154,15 @@
     line-height: 1.6;
     font-weight: 400;
     margin-bottom: 18px;
+  }
+  .q-text .quote-block {
+    display: block;
+    margin: 10px 0 6px 16px;
+    padding-left: 14px;
+    border-left: 3px solid var(--border);
+    font-style: italic;
+    color: var(--muted);
+    font-size: .95rem;
   }
 
   .options { display: flex; flex-direction: column; gap: 9px; }
@@ -171,35 +197,19 @@
     transition: color .15s;
   }
 
-  /* answered states */
-  .opt-btn.correct {
-    background: var(--correct-bg);
-    border-color: var(--correct-border);
-    color: var(--correct-text);
-  }
+  .opt-btn.correct { background: var(--correct-bg); border-color: var(--correct-border); color: var(--correct-text); }
   .opt-btn.correct .opt-letter { color: var(--correct-border); }
-  .opt-btn.wrong {
-    background: var(--wrong-bg);
-    border-color: var(--wrong-border);
-    color: var(--wrong-text);
-  }
+  .opt-btn.wrong { background: var(--wrong-bg); border-color: var(--wrong-border); color: var(--wrong-text); }
   .opt-btn.wrong .opt-letter { color: var(--wrong-border); }
-  .opt-btn.reveal {
-    background: var(--correct-bg);
-    border-color: var(--correct-border);
-    color: var(--correct-text);
-    opacity: .75;
-  }
+  .opt-btn.reveal { background: var(--correct-bg); border-color: var(--correct-border); color: var(--correct-text); opacity: .75; }
   .opt-btn.reveal .opt-letter { color: var(--correct-border); }
   .opt-btn:disabled { cursor: default; }
 
-  /* feedback line */
   .feedback {
     margin-top: 12px;
     font-size: .82rem;
     font-style: italic;
     color: var(--muted);
-    min-height: 1.2em;
     line-height: 1.5;
     display: none;
   }
@@ -207,7 +217,6 @@
   .feedback.correct-fb { color: var(--correct-text); }
   .feedback.wrong-fb   { color: var(--wrong-text); }
 
-  /* ── SCORE PANEL ── */
   #score-panel {
     display: none;
     max-width: 720px;
@@ -221,53 +230,18 @@
     padding: 36px 32px;
     text-align: center;
   }
-  .score-eyebrow {
-    font-size: .7rem;
-    letter-spacing: .2em;
-    text-transform: uppercase;
-    color: var(--gold);
-    margin-bottom: 12px;
-  }
-  .score-big {
-    font-family: 'Playfair Display', serif;
-    font-size: clamp(3rem, 10vw, 5rem);
-    line-height: 1;
-    color: var(--bg);
-  }
-  .score-denom {
-    font-size: 1rem;
-    color: rgba(255,249,240,.5);
-    margin-bottom: 16px;
-  }
-  .score-grade {
-    font-family: 'Playfair Display', serif;
-    font-size: 1.5rem;
-    color: var(--gold);
-    margin-bottom: 10px;
-  }
-  .score-msg {
-    font-size: .9rem;
-    color: rgba(255,249,240,.7);
-    font-style: italic;
-    max-width: 380px;
-    margin: 0 auto 24px;
-    line-height: 1.6;
-  }
+  .score-eyebrow { font-size: .7rem; letter-spacing: .2em; text-transform: uppercase; color: var(--gold); margin-bottom: 12px; }
+  .score-big { font-family: 'Playfair Display', serif; font-size: clamp(3rem, 10vw, 5rem); line-height: 1; color: var(--bg); }
+  .score-denom { font-size: 1rem; color: rgba(255,249,240,.5); margin-bottom: 16px; }
+  .score-grade { font-family: 'Playfair Display', serif; font-size: 1.5rem; color: var(--gold); margin-bottom: 10px; }
+  .score-msg { font-size: .9rem; color: rgba(255,249,240,.7); font-style: italic; max-width: 380px; margin: 0 auto 24px; line-height: 1.6; }
   .retry-btn {
-    background: var(--gold);
-    color: var(--ink);
-    border: none;
-    border-radius: 3px;
-    padding: 12px 32px;
-    font-family: 'Playfair Display', serif;
-    font-size: 1rem;
-    cursor: pointer;
-    letter-spacing: .05em;
-    transition: opacity .2s;
+    background: var(--gold); color: var(--ink); border: none; border-radius: 3px;
+    padding: 12px 32px; font-family: 'Playfair Display', serif; font-size: 1rem;
+    cursor: pointer; letter-spacing: .05em; transition: opacity .2s;
   }
   .retry-btn:hover { opacity: .85; }
 
-  /* ── SUBMIT ── */
   #submit-wrap {
     max-width: 720px;
     margin: 8px auto 0;
@@ -275,16 +249,9 @@
     text-align: right;
   }
   #submit-btn {
-    background: var(--accent);
-    color: #fff;
-    border: none;
-    border-radius: 3px;
-    padding: 13px 36px;
-    font-family: 'Playfair Display', serif;
-    font-size: 1rem;
-    cursor: pointer;
-    letter-spacing: .05em;
-    transition: opacity .2s, transform .1s;
+    background: var(--accent); color: #fff; border: none; border-radius: 3px;
+    padding: 13px 36px; font-family: 'Playfair Display', serif; font-size: 1rem;
+    cursor: pointer; letter-spacing: .05em; transition: opacity .2s, transform .1s;
   }
   #submit-btn:hover:not(:disabled) { opacity: .88; transform: translateY(-1px); }
   #submit-btn:disabled { opacity: .45; cursor: default; }
@@ -295,18 +262,18 @@
 <header>
   <div class="header-eyebrow">English II · 2026 Exam Prep</div>
   <h1>The Outsiders &amp; M. Butterfly</h1>
-  <div class="header-sub">20 questions · Select the best answer for each</div>
+  <div class="header-sub" id="header-sub">Loading questions…</div>
 </header>
 
 <div class="progress-wrap">
   <div class="progress-label">
-    <span id="prog-text">0 of 20 answered</span>
+    <span id="prog-text">0 answered</span>
     <span id="prog-pct">0%</span>
   </div>
   <div class="progress-bar-bg"><div class="progress-bar-fill" id="prog-bar"></div></div>
 </div>
 
-<div class="quiz-container" id="quiz"></div>
+<div id="quiz-root"></div>
 
 <div id="submit-wrap">
   <button id="submit-btn" disabled>Submit Quiz</button>
@@ -316,7 +283,7 @@
   <div class="score-card">
     <div class="score-eyebrow">Your Result</div>
     <div class="score-big" id="score-num">0</div>
-    <div class="score-denom" id="score-denom">out of 20</div>
+    <div class="score-denom" id="score-denom">out of 38</div>
     <div class="score-grade" id="score-grade"></div>
     <div class="score-msg" id="score-msg"></div>
     <button class="retry-btn" onclick="resetQuiz()">Try Again</button>
@@ -324,182 +291,385 @@
 </div>
 
 <script>
-const questions = [
+// ─────────────────────────────────────────────
+// QUESTION BANK — grouped by section
+// answer: index into options[] (0-based)
+// ─────────────────────────────────────────────
+const sections = [
   {
-    text: "In what city and state is <em>The Outsiders</em> set?",
-    tag: "The Outsiders · Setting",
-    options: ["Chicago, Illinois", "Tulsa, Oklahoma", "Dallas, Texas", "Oklahoma City, Oklahoma"],
-    answer: 1,
-    feedback: "The novel is set in Tulsa, Oklahoma during the 1960s."
+    label: "The Outsiders — Setting & Background",
+    questions: [
+      {
+        text: "In what city and state is <em>The Outsiders</em> set?",
+        options: ["Chicago, Illinois", "Tulsa, Oklahoma", "Dallas, Texas", "Oklahoma City, Oklahoma"],
+        answer: 1,
+        feedback: "The novel is set in Tulsa, Oklahoma during the 1960s."
+      },
+      {
+        text: "What year was <em>The Outsiders</em> published?",
+        options: ["1967", "1970", "1964", "1965"],
+        answer: 0,
+        feedback: "S. E. Hinton published The Outsiders in 1967."
+      },
+      {
+        text: "Who narrates <em>The Outsiders</em>?",
+        options: ["Johnny Cade", "Dally Winston", "Sodapop Curtis", "Ponyboy Curtis"],
+        answer: 3,
+        feedback: "Ponyboy Curtis narrates the entire novel in first person."
+      },
+      {
+        text: "How does the city of Tulsa directly shape the conflict in <em>The Outsiders</em>?",
+        options: ["Its industrial economy creates job competition between gangs", "Its class divisions between the East and West sides produce tension between Greasers and Socs", "Its geography isolates the Greasers from any help", "Its population size makes anonymity impossible for both groups"],
+        answer: 1,
+        feedback: "Tulsa's geographic and economic class divide — East Side poor vs. West Side wealthy — is the structural source of conflict in the novel."
+      }
+    ]
   },
   {
-    text: "Who narrates <em>The Outsiders</em>?",
-    tag: "The Outsiders · Narrator",
-    options: ["Johnny Cade", "Dally Winston", "Ponyboy Curtis", "Sodapop Curtis"],
-    answer: 2,
-    feedback: "Ponyboy Curtis narrates the entire novel in first person."
+    label: "The Outsiders — Characters",
+    questions: [
+      {
+        text: "Which words best describe Ponyboy Curtis?",
+        options: ["Aggressive and street-smart", "Intellectual and emotionally sensitive", "Cynical and withdrawn", "Athletic and ambitious"],
+        answer: 1,
+        feedback: "Ponyboy is the most intellectual and emotionally sensitive member of the Greasers — he loves literature and sunsets, and feels like an outsider even within his own gang."
+      },
+      {
+        text: "What is Johnny Cade's home life like, and how does it shape him?",
+        options: ["He comes from a wealthy family but feels neglected", "He is emotionally fragile due to abuse at home, making him vulnerable but deeply loyal", "He is carefree because he has no family responsibilities", "He is raised by Dally and looks up to him as a father figure"],
+        answer: 1,
+        feedback: "Johnny's abusive home life leaves him emotionally fragile, but also deeply loyal to the Greasers, who are the only family he truly has."
+      },
+      {
+        text: "What heroic act does Johnny Cade perform before his death?",
+        options: ["He saves children from a burning church", "He turns himself in to protect Ponyboy from prosecution", "He challenges Bob Sheldon to a fair fight", "He brokers a peace agreement between the Greasers and Socs"],
+        answer: 0,
+        feedback: "Johnny heroically runs into the burning church to save children trapped inside, sustaining fatal injuries in the process."
+      },
+      {
+        text: "Dally Winston is described as a 'real hood.' What does his reaction to Johnny's death reveal about him?",
+        options: ["He becomes the new leader of the Greasers", "He turns himself in to the police to honor Johnny", "He is secretly happy because Johnny was holding him back", "Beneath his hardened exterior he is deeply vulnerable and loves Johnny"],
+        answer: 3,
+        feedback: "Dally's 'suicide by cop' after Johnny's death reveals that Johnny was the one person he truly cared about — his toughness was a performance masking grief."
+      },
+      {
+        text: "Which character serves as a bridge between the Socs and the Greasers?",
+        options: ["Randy Adderson", "Sodapop Curtis", "Cherry Valance", "Darry Curtis"],
+        answer: 2,
+        feedback: "Cherry Valance is a Soc who genuinely understands and empathizes with both groups."
+      },
+      {
+        text: "Why does Ponyboy feel like an outsider even within his own gang?",
+        options: ["He secretly wants to be a Soc", "He is more intellectual and emotional than the typical Greaser stereotype", "He refuses to participate in fights", "The other Greasers don't trust him"],
+        answer: 1,
+        feedback: "Ponyboy's love of books, movies, and sunsets sets him apart from the tougher Greaser image — he struggles against being reduced to a label."
+      }
+    ]
   },
   {
-    text: "What does the term 'Socs' refer to in <em>The Outsiders</em>?",
-    tag: "The Outsiders · Terms",
-    options: ["Poor East Side kids known for toughness", "A rival gang from a neighboring city", "Wealthy West Side kids representing privilege and status", "Teachers at the local high school"],
-    answer: 2,
-    feedback: "Socs (short for Socials) are the wealthy West Side kids who represent privilege and power."
+    label: "The Outsiders — Plot",
+    questions: [
+      {
+        text: "Why does Johnny kill Bob Sheldon?",
+        options: ["Bob had threatened Darry Curtis earlier that week", "Bob was attacking Ponyboy and trying to drown him", "Johnny wanted to prove his toughness to the gang", "Bob had been spreading rumors about the Greasers"],
+        answer: 1,
+        feedback: "Johnny killed Bob to defend Ponyboy, who was being attacked and drowned at the fountain."
+      },
+      {
+        text: "What do Ponyboy and Johnny do to disguise themselves while hiding at the church?",
+        options: ["They use fake names only", "They pretend to be farmhands", "They wear Soc clothing", "They cut and/or dye their hair"],
+        answer: 3,
+        feedback: "They cut and dye their hair to change their recognizable Greaser look."
+      },
+      {
+        text: "What is the significance of the first and last lines of <em>The Outsiders</em> being identical?",
+        options: ["They are quotes borrowed from Robert Frost", "They emphasize Ponyboy's ongoing hatred for the Socs", "They reveal the novel is Ponyboy's English essay", "They are warnings against joining gangs"],
+        answer: 2,
+        feedback: "The repeated lines reveal that the entire novel is the English assignment Ponyboy wrote about his experiences — the story is his way of processing grief."
+      },
+      {
+        text: "What events mark the climax of <em>The Outsiders</em>?",
+        options: ["The rumble between Greasers and Socs", "The church fire rescue", "The court hearing for Ponyboy", "The deaths of Johnny and Dally"],
+        answer: 3,
+        feedback: "The deaths of Johnny and Dally are the emotional climax that transforms Ponyboy and leads him to write his story."
+      },
+      {
+        text: "Why does Dally Winston commit 'suicide by cop'?",
+        options: ["He was tired of being a Greaser", "He wanted to become a martyr for the gang", "He was facing a life sentence in prison", "He was overwhelmed by the loss of Johnny"],
+        answer: 3,
+        feedback: "Johnny's death breaks Dally. Without Johnny, he has nothing left to live for and deliberately provokes the police."
+      }
+    ]
   },
   {
-    text: "Why does Johnny kill Bob Sheldon?",
-    tag: "The Outsiders · Plot",
-    options: ["Bob had threatened Darry Curtis", "Bob was trying to steal the Greasers' car", "Bob was attacking Ponyboy and trying to drown him", "Johnny wanted to prove his toughness to the gang"],
-    answer: 2,
-    feedback: "Johnny killed Bob to defend Ponyboy, who was being attacked and drowned at the fountain."
+    label: "The Outsiders — Themes & Symbols",
+    questions: [
+      {
+        text: "What does the Blue Mustang symbolize to the Greasers?",
+        options: ["A shared love of mechanics and cars", "Freedom and the open road", "Wealth and impending danger", "The possibility of crossing class lines"],
+        answer: 2,
+        feedback: "The Blue Mustang represents Soc wealth, status, and the ever-present threat of danger from the other side of town."
+      },
+      {
+        text: "What does Greaser hair symbolize in the novel?",
+        options: ["Rebellion against parents and school", "Identity, pride, and group belonging", "A desire to be different from everyone", "Loyalty to Dally Winston specifically"],
+        answer: 1,
+        feedback: "The Greasers' long, oiled hair is their most visible symbol of identity and group pride — which is why cutting it feels like such a sacrifice."
+      },
+      {
+        text: "What do sunsets symbolize in <em>The Outsiders</em>?",
+        options: ["The passage of time and inevitable loss", "Ponyboy's hope for a better future", "Shared humanity between Socs and Greasers", "The beauty of Oklahoma that both groups will miss"],
+        answer: 2,
+        feedback: "When Ponyboy and Cherry discover they both appreciate the same sunset, it symbolizes that Socs and Greasers share a common humanity beneath their social labels."
+      },
+      {
+        text: "What does Johnny's 'Stay gold' message mean?",
+        options: ["Stay loyal to the Greasers no matter what", "Maintain your innocence and idealism", "Never change your physical appearance", "Keep your money and possessions safe"],
+        answer: 1,
+        feedback: "'Stay gold' references Robert Frost's poem and urges Ponyboy to preserve his innocence and goodness despite the hardships ahead."
+      },
+      {
+        text: "Which Robert Frost poem does 'Stay gold' reference, and what is its central idea?",
+        options: ['"The Road Not Taken" — that choices define us', '"Stopping by Woods on a Snowy Evening" — the pull of darkness', '"Nothing Gold Can Stay" — that innocence and beauty are fleeting', '"Mending Wall" — that boundaries separate people'],
+        answer: 2,
+        feedback: "'Nothing Gold Can Stay' argues that all things pure and beautiful are temporary — Johnny uses it to urge Ponyboy to hold onto his goodness."
+      },
+      {
+        text: "What does the quote 'Things are rough all over' reveal about the novel's theme?",
+        options: ["That Greasers have it harder than Socs in every way", "That violence is unavoidable in Tulsa", "That empathy can bridge class divisions because everyone struggles", "That Cherry Valance is secretly sympathetic to the Greasers' cause"],
+        answer: 2,
+        feedback: "Cherry's statement to Ponyboy reveals that Socs also face personal struggles — it's a key moment of empathy that challenges class-based assumptions."
+      },
+      {
+        text: "In <em>The Outsiders</em>, the Greasers perform 'toughness' even when they don't feel it. What theme does this best illustrate?",
+        options: ["The importance of physical strength in survival", "Identity as a social performance shaped by expectations", "The corruption of youth by gang culture", "The impossibility of escaping one's social class"],
+        answer: 1,
+        feedback: "The Greasers adopt a tough identity as a survival strategy — illustrating that identity is performed for an audience, not simply lived from within."
+      }
+    ]
   },
   {
-    text: "What do Ponyboy and Johnny do to disguise themselves while hiding at the church?",
-    tag: "The Outsiders · Plot",
-    options: ["They use fake names only", "They cut and/or dye their hair", "They wear Soc clothing", "They pretend to be farmhands"],
-    answer: 1,
-    feedback: "They cut and dye their hair to change their recognizable Greaser look."
+    label: "M. Butterfly — Background & Structure",
+    questions: [
+      {
+        text: "Which literary work directly inspired <em>M. Butterfly</em>?",
+        options: ["A Chinese folk tale about forbidden love", "The opera <em>Madame Butterfly</em>", "A Cold War spy novel", "A Japanese haiku collection about identity"],
+        answer: 1,
+        feedback: "David Henry Hwang's play is directly inspired by Puccini's opera Madame Butterfly, which it subverts and critiques."
+      },
+      {
+        text: "Which literary devices does <em>M. Butterfly</em> use to tell its story? (Choose the most complete answer)",
+        options: ["Metaphor and foreshadowing only", "Irony, flashbacks, and theatrical performance", "Stream of consciousness and symbolism", "Allegory and epistolary structure"],
+        answer: 1,
+        feedback: "The play uses irony (Gallimard thinks he has power), flashbacks (Gallimard narrates from prison), and theatrical performance (Song performs identity on stage)."
+      }
+    ]
   },
   {
-    text: "What does the Blue Mustang symbolize to the Greasers?",
-    tag: "The Outsiders · Symbols",
-    options: ["Freedom and travel", "A shared love of mechanics", "Wealth and impending danger", "The beauty of the West Side"],
-    answer: 2,
-    feedback: "The Blue Mustang represents Soc wealth, status, and the ever-present threat of danger."
+    label: "M. Butterfly — Characters",
+    questions: [
+      {
+        text: "What is Gallimard's central tragic flaw?",
+        options: ["His inability to separate fantasy from reality", "His lack of political intelligence", "His hatred for China and Chinese culture", "His physical cowardice in dangerous situations"],
+        answer: 0,
+        feedback: "Gallimard's insecurity makes him cling to a fantasy that flatters him — he chooses not to see obvious truths because the illusion makes him feel powerful."
+      },
+      {
+        text: "How is Song Liling best described?",
+        options: ["Intelligent, strategic, and deliberately performing stereotypes", "Fragile, devoted, and helpless without Gallimard", "A victim of circumstance with no real agency", "Genuinely in love with Gallimard despite the manipulation"],
+        answer: 0,
+        feedback: "Song is calculating and in control throughout — performing the submissive Asian woman Gallimard expects in order to manipulate him."
+      },
+      {
+        text: "What role does Helga serve in <em>M. Butterfly</em>?",
+        options: ["She is a spy who reports on Gallimard", "She represents realism and stability, contrasting Gallimard's fantasy", "She encourages Gallimard's obsession with Song", "She is a symbol of failed Western diplomacy"],
+        answer: 1,
+        feedback: "Helga is grounded in reality and practical in her thinking — her presence highlights how far Gallimard has drifted into fantasy."
+      },
+      {
+        text: "Gallimard describes himself as insecure and wanting to feel powerful. How does Song exploit this?",
+        options: ["By flattering his diplomatic career publicly", "By performing the role of submissive devotion that feeds his need for dominance", "By threatening to expose him if he doesn't cooperate", "By convincing him that their relationship is a state secret"],
+        answer: 1,
+        feedback: "Song's performance of submissiveness gives Gallimard the feeling of power and dominance he craves — it is precisely his insecurity that makes him so easy to manipulate."
+      }
+    ]
   },
   {
-    text: "Which character serves as a bridge between the Socs and the Greasers?",
-    tag: "The Outsiders · Characters",
-    options: ["Cherry Valance", "Randy Adderson", "Sodapop Curtis", "Dally Winston"],
-    answer: 0,
-    feedback: "Cherry Valance is a Soc who genuinely understands and empathizes with both groups."
+    label: "M. Butterfly — Themes, Symbols & Irony",
+    questions: [
+      {
+        text: "How does Song Liling primarily manipulate Gallimard?",
+        options: ["Through physical threats and blackmail", "By offering him wealth and career advancement", "By stealing government secrets and framing him", "By performing the stereotypes Gallimard expects of an Asian woman"],
+        answer: 3,
+        feedback: "Song consciously performs the role of the devoted, submissive Asian woman — using Gallimard's own prejudices as the tool of manipulation."
+      },
+      {
+        text: "What does the opera <em>Madame Butterfly</em> represent within the play?",
+        options: ["The beauty and tragedy of true cross-cultural love", "The historical military conflict between East and West", "Western fantasies about submissive, devoted Asian women", "A celebration of traditional Japanese artistic forms"],
+        answer: 2,
+        feedback: "The opera is a symbol of Orientalism — the harmful Western fantasy that Asian women are naturally submissive, exotic, and devoted to Western men."
+      },
+      {
+        text: "What is the central irony of the power dynamic between Song and Gallimard?",
+        options: ["Gallimard has no real diplomatic power at all", "Helga is secretly controlling the entire relationship", "Both are being manipulated equally by the Chinese government", "Gallimard believes he dominates the relationship while Song is actually in control"],
+        answer: 3,
+        feedback: "The play's central irony: Gallimard casts himself as the powerful Western man and Song as the submissive woman, but Song has controlled every aspect of the relationship from the start."
+      },
+      {
+        text: "What does Gallimard's preference for fantasy over reality ultimately cause?",
+        options: ["He becomes a celebrated diplomat", "His cultural insensitivity leads to political reform", "His inability to see truth leads to his complete downfall", "He eventually reconciles with Helga and lives peacefully"],
+        answer: 2,
+        feedback: "Gallimard's refusal to question his fantasy — about Song, about power, about culture — is his tragic flaw that leads directly to his imprisonment and collapse."
+      },
+      {
+        text: "How does <em>M. Butterfly</em> critique Orientalism?",
+        options: ["It celebrates Eastern artistic traditions as superior to Western ones", "It argues Orientalism is a neutral academic discipline", "It defends Western interpretations of Asian culture as historically accurate", "It shows how harmful Western stereotypes about Asian people distort relationships and enable exploitation"],
+        answer: 3,
+        feedback: "The play exposes Orientalism as a dangerous fantasy — Gallimard's belief in Asian female submissiveness blinds him to reality and makes him an easy target."
+      },
+      {
+        text: "The play argues that identity is:",
+        options: ["Fixed and determined at birth", "Chosen entirely by the individual free of social pressure", "Irrelevant to questions of power and politics", "Socially constructed and performed for an audience"],
+        answer: 3,
+        feedback: "Song deliberately performs an identity to meet Gallimard's expectations — the play shows that identity is not fixed but enacted based on social context and audience."
+      }
+    ]
   },
   {
-    text: "What is the significance of the first and last lines of <em>The Outsiders</em> being identical?",
-    tag: "The Outsiders · Structure",
-    options: ["They are quotes borrowed from Robert Frost", "They emphasize Ponyboy's hatred for the Socs", "They are warnings against joining gangs", "They reveal the novel is Ponyboy's English essay"],
-    answer: 3,
-    feedback: "The repeated opening and closing lines show that the entire novel is the English assignment Ponyboy wrote about his experiences."
+    label: "Quotes",
+    questions: [
+      {
+        text: 'Who says "Stay gold, Ponyboy," and what are the circumstances?',
+        options: ["Johnny says it in a note left for Ponyboy before dying", "Dally says it after the rumble to celebrate their victory", "Darry says it when Ponyboy leaves for court", "Sodapop says it the morning after the church fire"],
+        answer: 0,
+        feedback: "Johnny leaves a note for Ponyboy to read after his death, urging him to keep his innocence and not let the world harden him."
+      },
+      {
+        text: 'What does the quote "Nothing gold can stay" mean in context?',
+        options: ["That money and possessions are always lost eventually", "That the Greasers will never escape poverty", "That innocence and beauty are fleeting and cannot last forever", "That gold symbolizes wealth the Socs will always keep"],
+        answer: 2,
+        feedback: "From Robert Frost's poem, the line means that pure, beautiful, innocent things are temporary — applied to Ponyboy's youth and goodness."
+      },
+      {
+        text: 'Cherry tells Ponyboy "Things are rough all over." What is the significance of this moment?',
+        options: ["She is warning him that the Socs plan a larger attack", "She is admitting that the Socs are morally worse than the Greasers", "She is asking Ponyboy to spy on Dally for her", "She reveals that wealth does not protect people from emotional pain, creating empathy across class lines"],
+        answer: 3,
+        feedback: "This is a pivotal empathy moment — Cherry acknowledges that Socs also struggle, humanizing both groups and challenging the assumption that class defines experience."
+      }
+    ]
   },
   {
-    text: "What does Johnny's message 'Stay gold' mean?",
-    tag: "The Outsiders · Themes",
-    options: ["Stay loyal to the Greasers no matter what", "Never change your physical appearance", "Keep your money safe", "Maintain your innocence and idealism"],
-    answer: 3,
-    feedback: "'Stay gold' is a reference to Robert Frost's poem and urges Ponyboy to preserve his innocence and goodness."
-  },
-  {
-    text: "Why does Dally Winston commit 'suicide by cop'?",
-    tag: "The Outsiders · Characters",
-    options: ["He was facing a life sentence in prison", "He was overwhelmed by the loss of Johnny", "He wanted to become a martyr for the gang", "He was tired of being a Greaser"],
-    answer: 1,
-    feedback: "Johnny's death breaks Dally; without Johnny, he has nothing left to live for."
-  },
-  {
-    text: "What events mark the climax of <em>The Outsiders</em>?",
-    tag: "The Outsiders · Plot",
-    options: ["The court hearing", "The deaths of Johnny and Dally", "The church fire rescue", "The rumble between Greasers and Socs"],
-    answer: 1,
-    feedback: "The deaths of Johnny and Dally are the emotional climax that transforms Ponyboy."
-  },
-  {
-    text: "Which literary work inspired <em>M. Butterfly</em>?",
-    tag: "M. Butterfly · Background",
-    options: ["A Chinese folk tale about identity", "The opera Madame Butterfly", "A secret military code from the Cold War", "A specific species of butterfly discovered in Asia"],
-    answer: 1,
-    feedback: "David Henry Hwang's play is directly inspired by the opera Madame Butterfly by Puccini."
-  },
-  {
-    text: "What is Gallimard's central tragic flaw in <em>M. Butterfly</em>?",
-    tag: "M. Butterfly · Characters",
-    options: ["His inability to separate fantasy from reality", "His lack of intelligence and political skill", "His hatred for his home country", "His physical weakness and poor health"],
-    answer: 0,
-    feedback: "Gallimard's insecurity drives him to prefer a comforting fantasy over obvious reality."
-  },
-  {
-    text: "How does Song Liling primarily manipulate Gallimard?",
-    tag: "M. Butterfly · Plot",
-    options: ["By stealing government secrets directly", "By performing the stereotypes Gallimard expects", "By offering him wealth and promotions", "Through physical threats and coercion"],
-    answer: 1,
-    feedback: "Song is strategic—performing the role of a submissive, devoted Asian woman that Gallimard's fantasy demands."
-  },
-  {
-    text: "What does the opera <em>Madame Butterfly</em> represent within the play?",
-    tag: "M. Butterfly · Symbols",
-    options: ["The historical conflict between East and West", "True love and self-sacrifice", "Western fantasies of submissive Asian women", "The beauty of traditional Chinese music"],
-    answer: 2,
-    feedback: "The opera embodies Orientalism—the harmful Western stereotype of Asian women as exotic and submissive."
-  },
-  {
-    text: "What is the ironic reality of the power dynamic between Song and Gallimard?",
-    tag: "M. Butterfly · Irony",
-    options: ["Helga is the one actually running the embassy", "Song is the one in control, despite Gallimard's belief in his own dominance", "They are both being manipulated by the government equally", "Gallimard has no real money or influence"],
-    answer: 1,
-    feedback: "The central irony: Gallimard believes he holds power over Song, but Song controls the entire relationship."
-  },
-  {
-    text: "Which character in <em>M. Butterfly</em> represents realism and stability?",
-    tag: "M. Butterfly · Characters",
-    options: ["Marc", "Helga", "Song Liling", "René Gallimard"],
-    answer: 1,
-    feedback: "Helga is grounded in reality and directly contrasts Gallimard's fantasy-driven thinking."
-  },
-  {
-    text: "How does <em>M. Butterfly</em> critique Orientalism?",
-    tag: "M. Butterfly · Themes",
-    options: ["It celebrates Eastern artistic traditions", "It argues Orientalism is purely a political movement", "It shows how harmful stereotypes distort relationships and power", "It defends Western interpretations of Asian culture"],
-    answer: 2,
-    feedback: "The play reveals how Gallimard's Orientalist assumptions make him blind to the truth, ultimately destroying him."
-  },
-  {
-    text: "What theme do both <em>The Outsiders</em> and <em>M. Butterfly</em> share?",
-    tag: "Both Texts · Themes",
-    options: ["The dangers of environmental collapse", "The tension between technology and humanity", "The damage caused by stereotypes and labels", "Religious intolerance across cultures"],
-    answer: 2,
-    feedback: "Both texts show how stereotypes—class-based in The Outsiders, racial and gendered in M. Butterfly—trap and destroy characters."
-  },
-  {
-    text: "In both texts, identity is best described as:",
-    tag: "Both Texts · Themes",
-    options: ["Fixed and determined by genetics", "Irrelevant to questions of power", "Socially constructed and performed", "Chosen freely without social influence"],
-    answer: 2,
-    feedback: "Greasers perform toughness to survive; Song performs submissiveness to manipulate. Both texts show identity as a performance shaped by social expectations."
+    label: "Both Texts — Comparative Themes",
+    questions: [
+      {
+        text: "What theme do both <em>The Outsiders</em> and <em>M. Butterfly</em> most directly share?",
+        options: ["The dangers of environmental and industrial collapse", "The tension between technology and traditional values", "The damage caused by stereotypes and labels", "Religious intolerance across different cultures"],
+        answer: 2,
+        feedback: "Both texts show how stereotypes trap characters: class labels in The Outsiders, racial and gender stereotypes in M. Butterfly."
+      },
+      {
+        text: "In both texts, identity is performed to meet social expectations. Which pair best illustrates this?",
+        options: ["Ponyboy acts tough; Gallimard acts submissive", "Dally acts vulnerable; Song acts dominant", "Greasers act tough to survive; Song acts submissive to manipulate", "Cherry acts poor; Helga acts powerful"],
+        answer: 2,
+        feedback: "Greasers perform toughness as a survival strategy; Song performs submissiveness as a manipulation strategy. Both show identity as a social performance."
+      },
+      {
+        text: "Both Gallimard and the Greasers are 'trapped' by their identities. What is the key difference in how this trap works?",
+        options: ["Gallimard chose his trap freely; the Greasers were forced into theirs by society", "The Greasers enjoy their identity; Gallimard resents his", "Gallimard's trap is legal; the Greasers' trap is social", "There is no meaningful difference — both are equally trapped by external forces"],
+        answer: 0,
+        feedback: "Gallimard actively chooses to believe his fantasy despite evidence to the contrary; the Greasers are assigned their identity by society and have little power to escape it."
+      },
+      {
+        text: "How does empathy function as a theme in <em>The Outsiders</em>?",
+        options: ["It is presented as naive and ultimately ineffective", "It only works between people of the same social class", "It is shown to break cycles of hatred when characters look past labels", "It leads directly to more violence and misunderstanding"],
+        answer: 2,
+        feedback: "Cherry and Ponyboy's connection over sunsets, and Cherry's 'Things are rough all over,' show that empathy — seeing past class labels — can bridge division."
+      },
+      {
+        text: "Which statement best describes the role of illusion vs. reality across both texts?",
+        options: ["Both texts show that illusions are harmless and help characters cope", "In The Outsiders, illusion is dangerous; in M. Butterfly, reality is dangerous", "Both texts show that clinging to illusions rather than accepting reality leads to tragedy", "Reality is always visible to characters in both texts — they simply choose to ignore it"],
+        answer: 2,
+        feedback: "Ponyboy must shed his illusions about Socs and Greasers; Gallimard's refusal to let go of his fantasy destroys him. Both texts treat unchallenged illusion as tragic."
+      },
+      {
+        text: "Both S. E. Hinton and David Henry Hwang critique society through their works. Which pairing best captures what each author is criticizing?",
+        options: ["Hinton critiques technology; Hwang critiques religion", "Hinton critiques class inequality and stereotypes; Hwang critiques racial and gender stereotypes", "Hinton critiques the justice system; Hwang critiques capitalism", "Hinton critiques education; Hwang critiques diplomacy"],
+        answer: 1,
+        feedback: "Hinton uses Greasers vs. Socs to critique class-based stereotypes; Hwang uses Gallimard's fantasy to critique Orientalism and gender assumptions."
+      }
+    ]
   }
 ];
 
-let answered = new Array(questions.length).fill(false);
+// ─────────────────────────────────────────────
+// Flatten for quiz logic
+// ─────────────────────────────────────────────
+const questions = [];
+const questionSection = []; // parallel array: which section label does each Q belong to?
+sections.forEach(sec => {
+  sec.questions.forEach(q => {
+    questions.push({ ...q, tag: sec.label });
+    questionSection.push(sec.label);
+  });
+});
+
+const TOTAL = questions.length;
+let answered = new Array(TOTAL).fill(false);
 let submitted = false;
 
+// ─────────────────────────────────────────────
+// Build DOM
+// ─────────────────────────────────────────────
 function buildQuiz() {
-  const container = document.getElementById('quiz');
-  container.innerHTML = '';
-  answered = new Array(questions.length).fill(false);
+  answered = new Array(TOTAL).fill(false);
   submitted = false;
+
+  document.getElementById('header-sub').textContent =
+    `${TOTAL} questions · Select the best answer for each`;
+  document.getElementById('score-denom').textContent = `out of ${TOTAL}`;
   document.getElementById('score-panel').style.display = 'none';
   document.getElementById('submit-wrap').style.display = 'block';
   document.getElementById('submit-btn').disabled = true;
   updateProgress();
 
+  const root = document.getElementById('quiz-root');
+  root.innerHTML = '';
+
+  let currentSection = null;
+  let containerEl = null;
+
   questions.forEach((q, qi) => {
-    const card = document.createElement('div');
-    card.className = 'q-card';
-    card.id = `q-${qi}`;
+    // Section divider
+    if (q.tag !== currentSection) {
+      currentSection = q.tag;
+      const div = document.createElement('div');
+      div.className = 'section-divider';
+      div.innerHTML = `<span>${currentSection}</span>`;
+      root.appendChild(div);
+
+      containerEl = document.createElement('div');
+      containerEl.className = 'quiz-container';
+      root.appendChild(containerEl);
+    }
 
     const letters = ['A', 'B', 'C', 'D'];
     const optsHTML = q.options.map((opt, oi) => `
-      <button class="opt-btn" data-q="${qi}" data-o="${oi}" onclick="selectAnswer(${qi},${oi})">
+      <button class="opt-btn" onclick="selectAnswer(${qi},${oi})">
         <span class="opt-letter">${letters[oi]}.</span>
         <span>${opt}</span>
       </button>
     `).join('');
 
+    const card = document.createElement('div');
+    card.className = 'q-card';
+    card.id = `q-${qi}`;
     card.innerHTML = `
-      <div class="q-meta">Q${qi + 1} · ${q.tag}</div>
+      <div class="q-meta">Q${qi + 1} of ${TOTAL}</div>
       <div class="q-text">${q.text}</div>
       <div class="options" id="opts-${qi}">${optsHTML}</div>
       <div class="feedback" id="fb-${qi}"></div>
     `;
-    container.appendChild(card);
+    containerEl.appendChild(card);
   });
 }
 
@@ -508,27 +678,21 @@ function selectAnswer(qi, oi) {
   const opts = document.querySelectorAll(`#opts-${qi} .opt-btn`);
   opts.forEach(b => b.classList.remove('selected'));
   opts[oi].classList.add('selected');
-
-  // store selection (use data attribute)
-  opts.forEach(b => b.dataset.selected = '0');
-  opts[oi].dataset.selected = '1';
-
-  answered[qi] = oi; // store chosen index
+  answered[qi] = oi;
   updateProgress();
   checkSubmitReady();
 }
 
 function updateProgress() {
   const count = answered.filter(v => v !== false).length;
-  const pct = Math.round((count / questions.length) * 100);
-  document.getElementById('prog-text').textContent = `${count} of ${questions.length} answered`;
+  const pct = Math.round((count / TOTAL) * 100);
+  document.getElementById('prog-text').textContent = `${count} of ${TOTAL} answered`;
   document.getElementById('prog-pct').textContent = `${pct}%`;
   document.getElementById('prog-bar').style.width = pct + '%';
 }
 
 function checkSubmitReady() {
-  const allDone = answered.every(v => v !== false);
-  document.getElementById('submit-btn').disabled = !allDone;
+  document.getElementById('submit-btn').disabled = !answered.every(v => v !== false);
 }
 
 function submitQuiz() {
@@ -541,11 +705,7 @@ function submitQuiz() {
     const chosen = answered[qi];
     const opts = document.querySelectorAll(`#opts-${qi} .opt-btn`);
     const fb = document.getElementById(`fb-${qi}`);
-
-    opts.forEach(b => {
-      b.disabled = true;
-      b.classList.remove('selected');
-    });
+    opts.forEach(b => { b.disabled = true; b.classList.remove('selected'); });
 
     if (chosen === q.answer) {
       score++;
@@ -567,17 +727,16 @@ function showScore(score) {
   document.getElementById('submit-wrap').style.display = 'none';
   const panel = document.getElementById('score-panel');
   panel.style.display = 'block';
-
   document.getElementById('score-num').textContent = score;
-  document.getElementById('score-denom').textContent = `out of ${questions.length}`;
+  document.getElementById('score-denom').textContent = `out of ${TOTAL}`;
 
-  const pct = (score / questions.length) * 100;
+  const pct = (score / TOTAL) * 100;
   let grade, msg;
-  if (pct >= 90) { grade = 'A'; msg = 'Excellent work — you have a strong command of both texts.'; }
-  else if (pct >= 80) { grade = 'B'; msg = 'Good job. Review the questions you missed before the exam.'; }
-  else if (pct >= 70) { grade = 'C'; msg = 'Passing, but revisit the themes and character analyses to sharpen your understanding.'; }
-  else if (pct >= 60) { grade = 'D'; msg = 'Keep studying — re-read the character and theme sections of the study guide.'; }
-  else { grade = 'F'; msg = 'More review needed. Work through the study guide carefully, especially the major themes and symbols.'; }
+  if      (pct >= 90) { grade = 'A'; msg = 'Excellent — you have a strong command of both texts going into the exam.'; }
+  else if (pct >= 80) { grade = 'B'; msg = 'Good work. Review the sections you missed, especially themes and irony.'; }
+  else if (pct >= 70) { grade = 'C'; msg = 'Passing, but revisit character analysis and the comparative themes section.'; }
+  else if (pct >= 60) { grade = 'D'; msg = 'Keep studying — re-read the symbols, themes, and quote sections of your study guide.'; }
+  else                { grade = 'F'; msg = 'More review needed. Go back through the full study guide, especially major themes, characters, and quotes.'; }
 
   document.getElementById('score-grade').textContent = grade;
   document.getElementById('score-msg').textContent = msg;
@@ -590,7 +749,6 @@ function resetQuiz() {
 }
 
 document.getElementById('submit-btn').addEventListener('click', submitQuiz);
-
 buildQuiz();
 </script>
 </body>
