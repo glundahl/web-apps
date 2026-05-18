@@ -1,242 +1,1293 @@
-
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>US History Semester Final Review</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
 <style>
-*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
-body,div,button,select{font-family:var(--font-sans)}
-.wrap{padding:1rem 0}
-.hdr{display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;gap:8px;flex-wrap:wrap}
-.stats{display:flex;gap:8px}
-.stat{background:var(--color-background-secondary);border-radius:8px;padding:6px 12px;font-size:14px;color:var(--color-text-secondary)}
-.stat span{font-weight:500;color:var(--color-text-primary)}
-.prog-bar{height:5px;background:var(--color-background-secondary);border-radius:3px;margin-bottom:1.25rem}
-.prog-fill{height:100%;background:#378ADD;border-radius:3px;transition:width .3s}
-.q-card{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:12px;padding:1.25rem;margin-bottom:1rem}
-.q-meta{font-size:13px;color:var(--color-text-tertiary);margin-bottom:8px;text-transform:uppercase;letter-spacing:.05em}
-.q-text{font-size:17px;color:var(--color-text-primary);line-height:1.6;margin-bottom:1.25rem;font-weight:500}
-.opts{display:flex;flex-direction:column;gap:10px}
-.opt{background:var(--color-background-secondary);border:0.5px solid var(--color-border-tertiary);border-radius:8px;padding:14px 16px;font-size:16px;color:var(--color-text-primary);cursor:pointer;display:flex;align-items:flex-start;gap:12px;line-height:1.5;text-align:left;width:100%;-webkit-appearance:none;appearance:none}
-.opt.correct{background:var(--color-background-success);border-color:var(--color-border-success);color:var(--color-text-success)}
-.opt.wrong{background:var(--color-background-danger);border-color:var(--color-border-danger);color:var(--color-text-danger)}
-.opt.disabled{cursor:default;pointer-events:none}
-.opt-letter{font-weight:500;min-width:22px;font-size:15px;opacity:.6;padding-top:1px;flex-shrink:0}
-.expl{margin-top:12px;padding:12px 14px;background:var(--color-background-secondary);border-top-right-radius:8px;border-bottom-right-radius:8px;font-size:15px;color:var(--color-text-secondary);line-height:1.6;border-left:3px solid #378ADD}
-.nav{display:flex;justify-content:space-between;align-items:center;margin-top:1rem;gap:10px}
-.btn{background:transparent;border:0.5px solid var(--color-border-secondary);border-radius:8px;padding:13px 20px;font-size:16px;color:var(--color-text-primary);cursor:pointer;min-height:50px;-webkit-appearance:none;appearance:none;display:block;text-align:center}
-.btn.primary{background:#378ADD;border-color:#378ADD;color:#fff}
-.btn:disabled{opacity:.35;pointer-events:none}
-.chips{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:1.25rem}
-.chip{padding:9px 14px;border-radius:20px;font-size:15px;border:0.5px solid var(--color-border-tertiary);background:var(--color-background-secondary);color:var(--color-text-secondary);cursor:pointer;min-height:40px;-webkit-appearance:none;appearance:none}
-.chip.active{background:#E6F1FB;border-color:#378ADD;color:#185FA5}
-.score-card{text-align:center;padding:2rem 1rem;background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:12px}
-.score-num{font-size:52px;font-weight:500;color:var(--color-text-primary)}
-.score-lbl{font-size:16px;color:var(--color-text-secondary);margin-top:4px}
-.breakdown{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:1.5rem 0}
-.bd-item{background:var(--color-background-secondary);border-radius:8px;padding:12px 8px;text-align:center}
-.bd-num{font-size:22px;font-weight:500;color:var(--color-text-primary)}
-.bd-lbl{font-size:13px;color:var(--color-text-secondary);margin-top:3px}
-select{font-size:16px;padding:12px 14px;border-radius:8px;border:0.5px solid var(--color-border-secondary);background:var(--color-background-secondary);color:var(--color-text-primary);min-height:50px;width:100%;-webkit-appearance:none;appearance:none;display:block}
+  :root {
+    --bg: #0d1117;
+    --surface: #161b22;
+    --surface2: #1c2330;
+    --border: #30363d;
+    --accent: #e3b341;
+    --accent2: #58a6ff;
+    --accent3: #f78166;
+    --accent4: #d2a8ff;
+    --text: #e6edf3;
+    --text-muted: #7d8590;
+    --text-dim: #484f58;
+    --correct: #2e2a14;
+    --correct-border: #e3b341;
+    --wrong: #4d1a1a;
+    --wrong-border: #f78166;
+    --radius: 10px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    padding: 0 0 60px;
+  }
+
+  /* ── HEADER ── */
+  .header {
+    background: linear-gradient(135deg, #0d1117 0%, #161b22 100%);
+    border-bottom: 1px solid var(--border);
+    padding: 40px 20px 30px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .header::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse 70% 80% at 50% -20%, rgba(227,179,65,.13) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .header-label {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: .18em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 10px;
+  }
+  .header h1 {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(26px, 5vw, 44px);
+    font-weight: 800;
+    line-height: 1.1;
+    color: var(--text);
+  }
+  .header h1 span { color: var(--accent); }
+  .header-sub {
+    margin-top: 10px;
+    font-size: 14px;
+    color: var(--text-muted);
+    font-weight: 300;
+  }
+  .pill-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    justify-content: center;
+    margin-top: 18px;
+  }
+  .pill {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 4px 12px;
+    font-size: 12px;
+    color: var(--text-muted);
+  }
+
+  /* ── PROGRESS BAR ── */
+  .progress-wrap {
+    max-width: 760px;
+    margin: 24px auto 0;
+    padding: 0 20px;
+  }
+  .progress-meta {
+    display: flex;
+    justify-content: space-between;
+    font-size: 12px;
+    color: var(--text-muted);
+    margin-bottom: 6px;
+  }
+  .progress-track {
+    height: 4px;
+    background: var(--border);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  .progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--accent), var(--accent2));
+    border-radius: 4px;
+    transition: width .4s ease;
+    width: 0%;
+  }
+
+  /* ── SCORE CARD ── */
+  .score-card {
+    max-width: 760px;
+    margin: 16px auto 0;
+    padding: 0 20px;
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+  .score-item {
+    flex: 1;
+    min-width: 100px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 12px 16px;
+    text-align: center;
+  }
+  .score-item .num {
+    font-family: 'Syne', sans-serif;
+    font-size: 24px;
+    font-weight: 700;
+  }
+  .score-item .lbl { font-size: 11px; color: var(--text-muted); margin-top: 2px; }
+  .score-item.correct .num { color: var(--accent); }
+  .score-item.wrong .num { color: var(--accent3); }
+  .score-item.pct .num { color: var(--accent2); }
+
+  /* ── SECTION TABS ── */
+  .tabs {
+    max-width: 760px;
+    margin: 24px auto 0;
+    padding: 0 20px;
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+  }
+  .tab-btn {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 6px 16px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    color: var(--text-muted);
+    cursor: pointer;
+    transition: all .2s;
+  }
+  .tab-btn:hover { border-color: var(--accent2); color: var(--text); }
+  .tab-btn.active {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: #0d1117;
+    font-weight: 600;
+  }
+
+  /* ── QUIZ AREA ── */
+  .quiz-area {
+    max-width: 760px;
+    margin: 20px auto 0;
+    padding: 0 20px;
+  }
+
+  /* ── QUESTION CARD ── */
+  .q-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 24px;
+    margin-bottom: 14px;
+    transition: border-color .3s;
+    animation: fadeSlide .35s ease both;
+  }
+  @keyframes fadeSlide {
+    from { opacity:0; transform: translateY(12px); }
+    to   { opacity:1; transform: translateY(0); }
+  }
+  .q-card.answered { border-color: var(--border); }
+
+  .q-header {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    margin-bottom: 16px;
+  }
+  .q-num {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 4px 8px;
+    font-family: 'Syne', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--text-muted);
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+  .q-text {
+    font-size: 15px;
+    font-weight: 500;
+    line-height: 1.5;
+    color: var(--text);
+  }
+  .q-chapter {
+    font-size: 10px;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    margin-bottom: 4px;
+  }
+
+  /* ── ANSWER OPTIONS ── */
+  .options { display: flex; flex-direction: column; gap: 8px; }
+
+  .opt {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 12px 14px;
+    cursor: pointer;
+    transition: all .18s;
+    font-size: 14px;
+    line-height: 1.45;
+    color: var(--text);
+    text-align: left;
+    width: 100%;
+    font-family: 'DM Sans', sans-serif;
+    -webkit-appearance: none;
+    appearance: none;
+    min-height: 48px;
+  }
+  .opt:hover:not(:disabled) {
+    border-color: var(--accent2);
+    background: #1c2d3f;
+    transform: translateX(2px);
+  }
+  .opt:disabled { cursor: default; transform: none; }
+
+  .opt-letter {
+    flex-shrink: 0;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Syne', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--text-muted);
+    transition: all .18s;
+    margin-top: 1px;
+  }
+  .opt:hover:not(:disabled) .opt-letter {
+    background: var(--accent2);
+    color: #fff;
+  }
+
+  /* Correct / Wrong states */
+  .opt.correct-pick {
+    background: var(--correct);
+    border-color: var(--correct-border);
+    color: #f5e4a0;
+  }
+  .opt.correct-pick .opt-letter { background: var(--accent); color: #0d1117; }
+
+  .opt.wrong-pick {
+    background: var(--wrong);
+    border-color: var(--wrong-border);
+    color: #ffa198;
+  }
+  .opt.wrong-pick .opt-letter { background: var(--accent3); color: #fff; }
+
+  .opt.reveal-correct {
+    background: rgba(227,179,65,.08);
+    border-color: rgba(227,179,65,.4);
+    color: #f5e4a0;
+  }
+  .opt.reveal-correct .opt-letter { background: rgba(227,179,65,.3); color: var(--accent); }
+
+  /* ── EXPLANATION ── */
+  .explanation {
+    display: none;
+    margin-top: 12px;
+    padding: 12px 14px;
+    background: rgba(88,166,255,.07);
+    border: 1px solid rgba(88,166,255,.2);
+    border-radius: var(--radius);
+    font-size: 13px;
+    color: #a5c8ff;
+    line-height: 1.55;
+  }
+  .explanation.show { display: block; }
+  .explanation strong { color: var(--accent2); }
+
+  /* ── SECTION HEADER ── */
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 28px 0 14px;
+    font-family: 'Syne', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: .1em;
+    color: var(--text-muted);
+  }
+  .section-header::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+  .section-dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  /* ── CONTROLS ── */
+  .controls {
+    max-width: 760px;
+    margin: 28px auto 0;
+    padding: 0 20px;
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+  .btn {
+    padding: 10px 22px;
+    border-radius: var(--radius);
+    border: none;
+    font-family: 'Syne', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: .04em;
+    cursor: pointer;
+    transition: all .2s;
+    min-height: 44px;
+  }
+  .btn-primary {
+    background: var(--accent);
+    color: #0d1117;
+  }
+  .btn-primary:hover { background: #f0c050; transform: translateY(-1px); }
+  .btn-secondary {
+    background: var(--surface2);
+    color: var(--text);
+    border: 1px solid var(--border);
+  }
+  .btn-secondary:hover { border-color: var(--accent2); transform: translateY(-1px); }
+
+  /* ── FINAL RESULTS ── */
+  #results-screen {
+    display: none;
+    max-width: 760px;
+    margin: 30px auto;
+    padding: 0 20px;
+    text-align: center;
+  }
+  .results-box {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 40px 30px;
+  }
+  .results-grade {
+    font-family: 'Syne', sans-serif;
+    font-size: 72px;
+    font-weight: 800;
+    line-height: 1;
+    margin-bottom: 8px;
+  }
+  .results-label {
+    font-size: 14px;
+    color: var(--text-muted);
+    margin-bottom: 28px;
+  }
+  .results-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    margin-bottom: 28px;
+  }
+  .results-stat {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 16px;
+  }
+  .results-stat .n {
+    font-family: 'Syne', sans-serif;
+    font-size: 28px;
+    font-weight: 700;
+  }
+  .results-stat .l { font-size: 11px; color: var(--text-muted); margin-top: 3px; }
+
+  .missed-list {
+    text-align: left;
+    margin-top: 20px;
+  }
+  .missed-list h3 {
+    font-family: 'Syne', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--accent3);
+    margin-bottom: 10px;
+    text-transform: uppercase;
+    letter-spacing: .08em;
+  }
+  .missed-item {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 10px 14px;
+    font-size: 13px;
+    color: var(--text-muted);
+    margin-bottom: 6px;
+    line-height: 1.4;
+  }
+  .missed-item span { color: var(--text); }
+
+  /* mobile tweaks */
+  @media(max-width:520px){
+    .score-item { min-width: 80px; padding: 10px; }
+    .score-item .num { font-size: 20px; }
+    .q-card { padding: 18px; }
+    .opt { font-size: 13px; padding: 10px 12px; }
+    .results-grade { font-size: 56px; }
+    .results-grid { grid-template-columns: repeat(3, 1fr); gap: 8px; }
+  }
 </style>
+</head>
+<body>
 
-<div class="wrap" id="root">
-<div id="filter-area">
-  <div style="font-size:17px;font-weight:500;color:var(--color-text-primary);margin-bottom:1rem">US History — Practice Quiz</div>
-  <div style="font-size:14px;color:var(--color-text-secondary);margin-bottom:10px">Filter by chapter:</div>
-  <div class="chips" id="chips"></div>
-  <select id="num-q">
-    <option value="10">10 questions</option>
-    <option value="20" selected>20 questions</option>
-    <option value="30">30 questions</option>
-    <option value="999">All questions</option>
-  </select>
-  <div style="margin-top:1rem">
-    <button class="btn primary" id="start-btn" style="width:100%">Start quiz</button>
+<!-- HEADER -->
+<div class="header">
+  <div class="header-label">Semester Final Review</div>
+  <h1>U.S. History <span>Quiz</span></h1>
+  <div class="header-sub">Chapters 14 · 16 · 17 · 18 · 19 · 20 — Imperialism through the Cold War</div>
+  <div class="pill-row">
+    <span class="pill">60 Questions</span>
+    <span class="pill">Multiple Choice</span>
+    <span class="pill">Instant Feedback</span>
   </div>
 </div>
 
-<div id="quiz-area" style="display:none">
-  <div class="hdr">
-    <div style="font-size:15px;color:var(--color-text-secondary)" id="q-counter"></div>
-    <div class="stats">
-      <div class="stat">Correct <span id="score-count">0</span></div>
-      <div class="stat">Wrong <span id="wrong-count">0</span></div>
+<!-- PROGRESS -->
+<div class="progress-wrap">
+  <div class="progress-meta">
+    <span id="prog-label">0 of 60 answered</span>
+    <span id="prog-pct">0%</span>
+  </div>
+  <div class="progress-track"><div class="progress-fill" id="prog-fill"></div></div>
+</div>
+
+<!-- SCORE CARD -->
+<div class="score-card">
+  <div class="score-item correct"><div class="num" id="sc-correct">0</div><div class="lbl">Correct</div></div>
+  <div class="score-item wrong"><div class="num" id="sc-wrong">0</div><div class="lbl">Incorrect</div></div>
+  <div class="score-item pct"><div class="num" id="sc-pct">—</div><div class="lbl">Score</div></div>
+</div>
+
+<!-- SECTION TABS -->
+<div class="tabs">
+  <button class="tab-btn active" onclick="filterSection('all',this)">All Questions</button>
+  <button class="tab-btn" onclick="filterSection('ch14',this)">Ch.14 Imperialism</button>
+  <button class="tab-btn" onclick="filterSection('ch16',this)">Ch.16 WWI</button>
+  <button class="tab-btn" onclick="filterSection('ch17',this)">Ch.17 1920s</button>
+  <button class="tab-btn" onclick="filterSection('ch18',this)">Ch.18 Depression</button>
+  <button class="tab-btn" onclick="filterSection('ch19',this)">Ch.19 WWII / Nazi</button>
+  <button class="tab-btn" onclick="filterSection('ch20',this)">Ch.20 Cold War</button>
+</div>
+
+<!-- QUIZ AREA -->
+<div class="quiz-area" id="quiz-area"></div>
+
+<!-- CONTROLS -->
+<div class="controls">
+  <button class="btn btn-primary" onclick="showResults()">See Final Score</button>
+  <button class="btn btn-secondary" onclick="resetQuiz()">Reset Quiz</button>
+</div>
+
+<!-- RESULTS SCREEN -->
+<div id="results-screen">
+  <div class="results-box">
+    <div class="results-grade" id="r-grade">—</div>
+    <div class="results-label" id="r-label">calculating…</div>
+    <div class="results-grid">
+      <div class="results-stat"><div class="n" id="r-correct" style="color:var(--accent)">0</div><div class="l">Correct</div></div>
+      <div class="results-stat"><div class="n" id="r-wrong" style="color:var(--accent3)">0</div><div class="l">Incorrect</div></div>
+      <div class="results-stat"><div class="n" id="r-skip" style="color:var(--text-muted)">0</div><div class="l">Skipped</div></div>
     </div>
+    <div class="missed-list" id="missed-list"></div>
+    <button class="btn btn-primary" style="margin-top:24px;width:100%" onclick="resetQuiz()">Retake Quiz</button>
   </div>
-  <div class="prog-bar"><div class="prog-fill" id="prog"></div></div>
-  <div id="q-area"></div>
-  <div class="nav">
-    <button class="btn" id="prev-btn">← Prev</button>
-    <button class="btn primary" id="next-btn">Next →</button>
-  </div>
-</div>
-
-<div id="result-area" style="display:none"></div>
 </div>
 
 <script>
-var ALL_Q=[
-{ch:"Ch 14",q:"What is imperialism?",opts:["A nation extending its power over weaker territories for economic or military gain","A nation building up its military forces to deter foreign attack","A policy of trading freely with all nations regardless of politics","A belief that democracy must spread to replace monarchies"],ans:0,exp:"Imperialism is extending a nation's political, military, or economic influence over weaker territories. The U.S. pursued it to gain markets, raw materials, and naval bases."},
-{ch:"Ch 14",q:"Anglo-Saxonism was used to justify U.S. expansion by claiming:",opts:["American goods were superior and should dominate world markets","English-speaking peoples had a duty to spread their civilization abroad","The U.S. navy needed bases on every ocean to stay safe","European powers were too weak to manage their own colonies"],ans:1,exp:"Anglo-Saxonism held that English-speaking peoples were superior and had a duty to spread Christianity and civilization — used directly to justify overseas expansion."},
-{ch:"Ch 14",q:"Alfred T. Mahan argued in 1890 that national greatness depended on:",opts:["Avoiding wars and building a large domestic economy instead","Controlling overseas colonies in Africa and South America","Strong naval power and command of global trade routes","Forming defensive alliances with Britain and France"],ans:2,exp:"Mahan's Sea Power Theory argued that naval strength and control of global trade routes were essential for national greatness, strongly shaping American foreign policy."},
-{ch:"Ch 14",q:"Why was Pearl Harbor central to the annexation of Hawaii in 1898?",opts:["It was the site of a major battle against Spanish forces","It was already the largest commercial port in the Pacific","It gave the U.S. a deep-water naval base in the Pacific","It contained the largest sugar plantations on the islands"],ans:2,exp:"Pearl Harbor provided the U.S. a strategically vital deep-water naval base in the middle of the Pacific Ocean, making Hawaii essential to American military strategy."},
-{ch:"Ch 14",q:"The explosion of the USS Maine in 1898 was significant mainly because:",opts:["It sank a Spanish warship and gave the U.S. a naval victory","Yellow journalism blamed Spain, turning public opinion toward war","Congress immediately declared war on Spain the next day","It proved Spain had secretly attacked American ships for years"],ans:1,exp:"The explosion killed 260+ Americans. Though the cause was never proven, sensationalist newspapers blamed Spain, whipping up public support for war."},
-{ch:"Ch 14",q:"Yellow journalism in the 1890s refers to:",opts:["Official government pamphlets used to recruit soldiers","Diplomatic cables sent between foreign governments","Sensationalized newspaper stories designed to provoke public outrage","Academic journals promoting Anglo-Saxonism and expansion"],ans:2,exp:"Yellow journalism used exaggerated and sensational stories to attract readers and inflame public opinion — a key driver of support for the Spanish-American War."},
-{ch:"Ch 14",q:"What territories did the U.S. gain from the Treaty of Paris on December 10, 1898?",opts:["Cuba, Hawaii, and the Virgin Islands","Canada, Guam, and the Philippines","Puerto Rico, Guam, and the Philippines","Mexico, Puerto Rico, and Cuba"],ans:2,exp:"The Treaty of Paris ended the Spanish-American War, giving the U.S. Puerto Rico, Guam, and the Philippines. Spain was paid $20 million for the Philippines."},
-{ch:"Ch 14",q:"The Roosevelt Corollary (1904) was an addition to which earlier policy?",opts:["The Open Door Policy","Manifest Destiny","The Fourteen Points","The Monroe Doctrine"],ans:3,exp:"Roosevelt expanded the Monroe Doctrine by asserting the U.S. right to intervene in Latin American nations to maintain order and prevent European meddling."},
-{ch:"Ch 14",q:"The Panama Canal, completed in 1914, was strategically important because:",opts:["It gave the U.S. a land border with South America","It allowed ships to avoid the long route around South America","It replaced the Suez Canal as the world's busiest waterway","It provided oil pipelines connecting the Gulf to the Pacific"],ans:1,exp:"The canal connected the Atlantic and Pacific Oceans, dramatically cutting travel time for both trade ships and naval vessels."},
-{ch:"Ch 14",q:"The Boxer Rebellion of 1900 was a conflict over:",opts:["Control of trade routes through the Indian Ocean","Cuban independence from Spanish colonial rule","Foreign influence and interference inside China","Land ownership disputes in the Philippines"],ans:2,exp:"Chinese nationalists (Boxers) rebelled against foreign influence in China. The U.S. joined other powers to suppress the rebellion in order to protect trade interests."},
-{ch:"Ch 16",q:"Who was Gavrilo Princip and why does he matter?",opts:["A German general who ordered the invasion of Belgium in 1914","An Austrian archduke whose death triggered a war","A Bosnian revolutionary who assassinated Franz Ferdinand, starting WWI","A British diplomat who negotiated the Triple Entente"],ans:2,exp:"Princip was a member of the Black Hand, a Serbian nationalist group. His assassination of Archduke Franz Ferdinand on June 28, 1914 set off the chain of events that became WWI."},
-{ch:"Ch 16",q:"The Triple Entente consisted of:",opts:["Germany, Austria-Hungary, and the Ottoman Empire","Britain, France, and Russia","The United States, Britain, and France","Italy, Russia, and Serbia"],ans:1,exp:"The Triple Entente (formed 1907) united Britain, France, and Russia. It became the core of the Allied Powers in WWI."},
-{ch:"Ch 16",q:"Which of the four MAIN causes describes the belief that military strength is the foundation of national security?",opts:["Nationalism","Imperialism","Alliances","Militarism"],ans:3,exp:"Militarism is the belief that a strong military is essential for national power. European nations had been in an arms race for decades before WWI began."},
-{ch:"Ch 16",q:"The Lusitania sinking in 1915 killed 128 Americans. What German policy sank it?",opts:["The Zimmermann Telegram","Dollar diplomacy","Unrestricted submarine warfare","The Schlieffen Plan"],ans:2,exp:"Germany's policy of unrestricted submarine warfare meant attacking all ships — including passenger liners — without warning. The U.S. didn't enter WWI until Germany resumed this policy two years later."},
-{ch:"Ch 16",q:"The Selective Service Act of 1917 required:",opts:["All citizens to buy war bonds to fund the military","Women to take factory jobs vacated by soldiers","Men aged 21-30 to register for the military draft","Immigrants to serve in the military before gaining citizenship"],ans:2,exp:"The Selective Service Act created a lottery-based draft system requiring men aged 21-30 to register for possible military service."},
-{ch:"Ch 16",q:"Which pair of laws most restricted free speech during WWI?",opts:["The Sherman Act and the Clayton Act","The Espionage Act (1917) and the Sedition Act (1918)","The Selective Service Act and the War Industries Act","The Fordney Act and the Volstead Act"],ans:1,exp:"The Espionage Act made it illegal to interfere with the war effort; the Sedition Act criminalized any public criticism of the government or military."},
-{ch:"Ch 16",q:"Trench warfare on the Western Front led primarily to:",opts:["Rapid German advances across France into Paris","A decisive Allied victory within the first year of fighting","Years of bloody stalemate with millions of casualties on both sides","Widespread use of naval blockades as the main strategy"],ans:2,exp:"Opposing armies dug hundreds of miles of trenches. Machine guns and artillery made advances nearly impossible, creating a horrific stalemate that lasted years."},
-{ch:"Ch 16",q:"The convoy system protected Allied shipping by:",opts:["Using submarines to escort oil tankers through the North Sea","Routing all ships through the Mediterranean instead of the Atlantic","Grouping merchant ships together with naval warship escorts","Disguising cargo ships as neutral vessels from Sweden"],ans:2,exp:"Merchant ships traveling in escorted convoys were far harder for German submarines to attack effectively, dramatically reducing Allied shipping losses."},
-{ch:"Ch 16",q:"President Wilson's Fourteen Points called for all of the following EXCEPT:",opts:["A League of Nations to prevent future wars","Self-determination for nations to choose their own governments","Requiring Germany to pay massive war reparations as punishment","Freedom of the seas and open international trade"],ans:2,exp:"Wilson's Fourteen Points proposed open diplomacy, self-determination, free trade, and a League of Nations. Harsh reparations were not part of his vision — that came from Britain and France at Versailles."},
-{ch:"Ch 16",q:"The Treaty of Versailles punished Germany by:",opts:["Forcing Germany to give all its colonies to the United States","Requiring Germany to accept war guilt and pay $33 billion in reparations","Splitting Germany into two separate occupied nations","Banning Germany from ever building a navy again"],ans:1,exp:"The treaty forced Germany to accept blame for the war and pay approximately $33 billion in reparations — creating deep resentment that later contributed to Hitler's rise."},
-{ch:"Ch 16",q:"How did the Russian Revolution of 1917 change WWI?",opts:["It brought millions of fresh Russian troops to the Western Front","Russia switched sides and joined the Central Powers","Russia withdrew from the war, freeing German forces to focus west","It caused the United States to immediately enter the conflict"],ans:2,exp:"The Revolution brought the Bolsheviks to power. Russia signed the Treaty of Brest-Litovsk with Germany and exited the war, shifting the military balance temporarily toward Germany."},
-{ch:"Ch 16",q:"The postwar Red Scare in America was primarily driven by fear of:",opts:["Germany rebuilding its military and starting another war","A communist revolution spreading from Russia to the United States","Unrestricted immigration flooding American cities with radicals","The revival of the Confederate movement in Southern states"],ans:1,exp:"The 1917 Russian Revolution alarmed many Americans. Labor strikes and radical political activity at home intensified fears that communism could take hold in the U.S."},
-{ch:"Ch 16",q:"Attorney General A. Mitchell Palmer is remembered for:",opts:["Drafting the Espionage Act that limited wartime speech","Ordering mass arrests of suspected communists and immigrants in 1920","Commanding American troops at the Battle of the Argonne Forest","Negotiating the Treaty of Versailles on behalf of the United States"],ans:1,exp:"The Palmer Raids (January 1920) targeted suspected radicals and immigrants during the Red Scare, resulting in thousands of arrests and hundreds of deportations."},
-{ch:"Ch 17",q:"Warren G. Harding's 'Return to Normalcy' promised voters:",opts:["Expanded government programs to rebuild cities after the war","New trade agreements to open up Asian markets for American goods","Stability and less government involvement after the upheaval of WWI","A crackdown on immigration and foreign radical movements"],ans:2,exp:"Harding promised a return to pre-war stability — lower taxes, reduced government intervention, and a focus on domestic prosperity rather than international affairs."},
-{ch:"Ch 17",q:"Supply-side economics, promoted by Treasury Secretary Andrew Mellon, argued that:",opts:["Raising taxes on the wealthy would fund infrastructure and create jobs","Government ownership of key industries would stabilize the economy","Cutting taxes on businesses and the wealthy would spur investment and growth","Protective tariffs on imports would keep American wages high"],ans:2,exp:"Supply-side economics holds that tax cuts for businesses and wealthy individuals free up capital for investment, eventually benefiting the broader economy."},
-{ch:"Ch 17",q:"The Fordney-McCumber Tariff Act of 1922 was intended to protect American industry. Its unintended consequence was:",opts:["Triggering a wave of immigration from Europe seeking cheaper goods","Causing foreign nations to retaliate with their own tariffs, reducing trade","Driving up wages so high that factories moved production overseas","Giving the government too much control over pricing of consumer goods"],ans:1,exp:"By raising tariffs sharply, the act invited foreign retaliation, shrinking international trade and ultimately hurting American farmers who depended on export markets."},
-{ch:"Ch 17",q:"'Buy now, pay later' consumer credit in the 1920s:",opts:["Was banned by Congress as dangerously speculative behavior","Helped consumers save money by locking in lower prices early","Fueled a consumption boom but also built up dangerous household debt","Was only available to wealthy Americans with bank accounts"],ans:2,exp:"Installment buying let Americans purchase cars, appliances, and furniture on credit, dramatically boosting consumer spending — but also leaving households overextended when the Depression hit."},
-{ch:"Ch 17",q:"The Scopes Trial of 1925 put on trial the question of whether:",opts:["Labor unions had the right to organize in Southern states","A Black man could receive a fair trial in a Southern courtroom","A teacher could legally teach evolution in a public school","Women could be licensed as attorneys in Tennessee"],ans:2,exp:"John Scopes was prosecuted for teaching evolution, violating Tennessee's Butler Act. The trial became a national symbol of the clash between scientific modernism and religious fundamentalism."},
-{ch:"Ch 17",q:"The Sacco and Vanzetti case became a symbol of:",opts:["The federal government cracking down on organized crime and bootleggers","Anti-immigrant prejudice distorting the American justice system","Southern states refusing to enforce Prohibition laws equally","The danger of labor unions becoming too politically powerful"],ans:1,exp:"Many believed Sacco and Vanzetti — Italian immigrant anarchists — were convicted of murder not because of solid evidence, but because of anti-immigrant and anti-radical prejudice."},
-{ch:"Ch 17",q:"The 18th Amendment established Prohibition in 1920. Its main unintended effect was:",opts:["A sharp rise in alcohol-related deaths from drinking unsafe spirits","The rise of organized crime and illegal speakeasies across the country","A dramatic drop in federal tax revenue that triggered the Depression","Mass migration of immigrants who brewed alcohol back to Europe"],ans:1,exp:"Rather than eliminating drinking, Prohibition handed the alcohol trade to organized crime (Al Capone and others), who ran thousands of illegal speakeasies and became enormously powerful."},
-{ch:"Ch 17",q:"The Great Migration during and after WWI refers to:",opts:["European immigrants flooding U.S. cities seeking wartime factory jobs","Mexican farm workers crossing the border to replace drafted soldiers","African Americans moving from the South to Northern cities for jobs and freedom","Dust Bowl farm families migrating west to California in the 1930s"],ans:2,exp:"Roughly 300,000-500,000 African Americans left the South for Northern industrial cities during WWI, seeking better wages, less segregation, and greater opportunity."},
-{ch:"Ch 17",q:"The Harlem Renaissance of the 1920s was primarily:",opts:["A political movement demanding immediate voting rights enforcement in the South","A religious revival that spread Black churches across Northern cities","A cultural explosion of African American literature, music, and art centered in New York","A series of urban race riots that reshaped Northern city politics"],ans:2,exp:"Centered in Harlem, NYC, the Renaissance produced landmark works in poetry, fiction, jazz, and visual art, strengthening Black cultural identity and laying the groundwork for the civil rights movement."},
-{ch:"Ch 17",q:"Langston Hughes was significant to the Harlem Renaissance because:",opts:["He founded the NAACP and led its anti-lynching campaigns","His jazz-influenced poetry gave powerful voice to the African American experience","He was the first Black player signed to a major league baseball team","He led Marcus Garvey's Back to Africa movement after Garvey's deportation"],ans:1,exp:"Hughes was the leading Harlem Renaissance poet, known for work that blended jazz rhythms with honest, unflinching portraits of Black life in America."},
-{ch:"Ch 17",q:"Charles Lindbergh became a national hero in May 1927 by:",opts:["Setting a new land speed record driving coast to coast in under three days","Winning four gold medals at the Paris Olympics as a sprint champion","Completing the first solo nonstop flight across the Atlantic Ocean","Becoming the youngest pilot to fly solo across the continental United States"],ans:2,exp:"Lindbergh flew the Spirit of St. Louis from New York to Paris — 33.5 hours alone — making him an instant international celebrity and symbol of American daring."},
-{ch:"Ch 18",q:"Black Tuesday, October 29, 1929, marked:",opts:["The day President Hoover signed the Hawley-Smoot Tariff into law","The worst single day of the stock market crash, when over 16 million shares were sold","The day the last major American bank suspended operations nationwide","The day the Dust Bowl storms first struck the Great Plains"],ans:1,exp:"On Black Tuesday, panic selling overwhelmed the market. Over 16 million shares changed hands, wiping out billions in wealth and shattering public confidence in the economy."},
-{ch:"Ch 18",q:"Margin buying contributed to the 1929 crash because:",opts:["It gave banks too much power to set stock prices artificially high","Investors borrowed money to buy stocks and couldn't repay when prices fell, forcing panic selling","It allowed foreign governments to buy controlling stakes in American companies","Corporations issued too many shares, diluting their value below real worth"],ans:1,exp:"When stock prices fell, margin buyers faced calls to repay their loans immediately. Unable to pay, they were forced to sell, which pushed prices lower still — a devastating spiral."},
-{ch:"Ch 18",q:"The Hawley-Smoot Tariff of 1930 deepened the Depression by:",opts:["Cutting government spending on public works at the worst possible time","Triggering foreign retaliation that collapsed international trade worldwide","Forcing American banks to hold reserves instead of lending to businesses","Raising income taxes on the middle class during a period of mass unemployment"],ans:1,exp:"The tariff raised U.S. duties to historic highs. Trading partners retaliated with their own tariffs, causing a collapse in global trade that spread the Depression worldwide."},
-{ch:"Ch 18",q:"Hoovervilles were:",opts:["Federal relief camps built by the Hoover administration to house veterans","Shantytowns of makeshift shelters built by homeless Americans who blamed Hoover","Small farming communities established under Hoover's rural recovery plan","Soup kitchen networks organized by private charities during the Depression"],ans:1,exp:"Unemployed, homeless Americans built shantytowns out of scrap materials and sarcastically named them Hoovervilles, blaming the president for their suffering."},
-{ch:"Ch 18",q:"Hoover's belief in 'rugged individualism' meant he thought the Depression should be solved by:",opts:["Massive federal spending on public works projects to put people back to work","Nationalizing the banks to stop the wave of failures across the country","Private charity and local government, not direct federal handouts to individuals","Raising taxes on the wealthy to fund emergency relief for the unemployed"],ans:2,exp:"Hoover believed self-reliance was a core American value and that direct federal relief would undermine it. Critics argued this left millions suffering while Hoover did too little, too late."},
-{ch:"Ch 18",q:"The Bonus Army of 1932 was a group of:",opts:["Factory workers who marched on Washington to demand union recognition","WWI veterans demanding early payment of bonuses Congress had promised them","Unemployed farmers who occupied federal land to protest foreclosures","Southern Democrats who protested FDR's New Deal as unconstitutional"],ans:1,exp:"Thousands of WWI veterans camped in Washington demanding early payment of service bonuses. Hoover ordered the Army to evict them by force — tanks and tear gas against veterans — devastating his public image."},
-{ch:"Ch 18",q:"FDR's New Deal rested on three goals often called the three R's. What were they?",opts:["Rebuild, Rearm, and Redistribute","Relief, Recovery, and Reform","Regulate, Restore, and Reinvest","Rights, Revenue, and Reconstruction"],ans:1,exp:"Relief meant immediate aid for suffering Americans; Recovery meant restarting the economy; Reform meant fixing the structural failures that caused the crash in the first place."},
-{ch:"Ch 18",q:"The Civilian Conservation Corps (CCC) was a New Deal program that:",opts:["Paid farmers to reduce crop production and stabilize food prices","Gave low-interest loans to small businesses to prevent more bank failures","Employed young men in conservation work like planting trees and building parks","Built large dams to provide electricity to poor rural communities in the South"],ans:2,exp:"The CCC put unemployed young men to work on environmental projects — planting 3 billion trees, building trails and parks — providing income and keeping them off the streets."},
-{ch:"Ch 18",q:"The Social Security Act of 1935 was historically significant because:",opts:["It was the first time the federal government had ever collected income taxes","It gave workers the legal right to form unions and bargain collectively","It established the principle that the federal government is responsible for citizens' basic welfare in old age and unemployment","It created a public health insurance program for all Americans over 65"],ans:2,exp:"Social Security created pensions for retirees and unemployment insurance, permanently establishing that the federal government has a safety-net responsibility toward its citizens."},
-{ch:"Ch 18",q:"Huey Long opposed FDR's New Deal mainly because:",opts:["He thought it gave too much power to labor unions at the expense of business","He believed it was unconstitutional for the federal government to run economic programs","He thought it did not go nearly far enough, and proposed capping personal wealth instead","He was a Republican who opposed any expansion of federal government programs"],ans:2,exp:"Long felt the New Deal was too timid. His 'Share Our Wealth' plan would have capped personal fortunes and guaranteed every family a minimum income — far more radical than anything FDR proposed."},
-{ch:"Ch 19",q:"The Weimar Republic failed in the late 1920s primarily because:",opts:["It was too militaristic and provoked neighboring nations into opposing it","It was a communist government that the German people ultimately rejected","It was a fragile democracy undermined by economic crisis, war debt, and political extremism","It was imposed by France and Britain and never had German public support"],ans:2,exp:"Germany's post-WWI democratic government was saddled with enormous war reparations, battered by hyperinflation, and attacked from both left and right. Hitler's rise filled the vacuum it left."},
-{ch:"Ch 19",q:"Blitzkrieg, used by Germany starting in 1939, refers to:",opts:["A propaganda strategy of flooding occupied countries with Nazi messaging","A naval blockade designed to starve Britain into surrender","A rapid combined-arms attack using tanks and aircraft to overwhelm defenses quickly","A diplomatic policy of making one territorial demand at a time to avoid triggering war"],ans:2,exp:"Blitzkrieg (lightning war) coordinated fast-moving tanks, motorized infantry, and close air support to shatter enemy defenses before they could organize a response."},
-{ch:"Ch 19",q:"Joseph Goebbels served Nazi Germany as:",opts:["Commander of the SS concentration camp system across occupied Europe","Hitler's chief military strategist on the Eastern Front against the Soviet Union","Minister of Propaganda, controlling all media to promote Nazi ideology and anti-Semitism","Foreign minister who negotiated the Munich Agreement with Britain and France"],ans:2,exp:"Goebbels controlled every form of German media — newspapers, radio, film, public rallies — to spread Nazi ideology, glorify Hitler, and manufacture consent for the regime's actions."},
-{ch:"Ch 19",q:"The Nuremberg Laws of 1935 targeted Jews by:",opts:["Requiring them to report to labor camps for compulsory work service","Confiscating Jewish-owned businesses and transferring them to German citizens","Stripping them of German citizenship and banning marriage between Jews and non-Jews","Forcing all Jewish families to relocate to designated neighborhoods called ghettos"],ans:2,exp:"The Nuremberg Laws gave legal form to racial persecution — Jews were no longer German citizens and were excluded from most public and professional life."},
-{ch:"Ch 19",q:"Kristallnacht on November 9-10, 1938 was significant because:",opts:["It was the night Germany formally declared war on Britain and France","It marked the first public, large-scale, state-sponsored violence against Jews in Germany","It was the night Hitler announced the Final Solution to senior Nazi officials","It was the night Germany and the Soviet Union secretly agreed to divide Poland"],ans:1,exp:"The Night of Broken Glass was a coordinated nationwide pogrom — 7,500+ Jewish businesses destroyed, 1,400 synagogues burned, 100 Jews killed, 30,000 arrested — showing that violent persecution was now official policy."},
-{ch:"Ch 19",q:"The Nazi 'Final Solution' was the plan to:",opts:["Defeat the Soviet Union and seize its oil fields and farmland for Germany","Force all European Jews to emigrate to Palestine or Madagascar","Systematically murder all Jews in Europe using extermination camps","Remove all political opponents from Germany and send them to labor camps"],ans:2,exp:"The Final Solution was the Nazi program for genocide — the deliberate, industrial-scale murder of Europe's entire Jewish population using gas chambers at extermination camps."},
-{ch:"Ch 19",q:"The Wannsee Conference of January 20, 1942 was a meeting where:",opts:["Nazi leaders decided whether to declare war on the United States","Senior Nazi officials coordinated the logistics for implementing the Final Solution across occupied Europe","Hitler announced his plan to invade the Soviet Union to his top generals","Germany and Japan signed a formal military alliance pledging mutual support"],ans:1,exp:"At a villa in Wannsee, Berlin, senior Nazi bureaucrats met to coordinate how the Final Solution would be systematically carried out in each occupied country."},
-{ch:"Ch 19",q:"Auschwitz was:",opts:["A German city heavily bombed by the Allies in retaliation for the London Blitz","A concentration camp in Germany where political prisoners were sent for forced labor","The largest Nazi extermination camp, where approximately 1.3 million people were murdered","The site of the last major German offensive on the Western Front in 1944"],ans:2,exp:"Auschwitz, in occupied Poland, was the largest and deadliest Nazi extermination camp. At peak operation it could murder 12,000 people per day using poison gas."},
-{ch:"Ch 19",q:"The Munich Agreement of September 1938 is remembered as a failed example of:",opts:["Collective security, where many nations united to stop Hitler together","Military deterrence, where a show of Allied force made Hitler back down","Appeasement, where Britain and France gave Hitler territory hoping he would stop expanding","Economic sanctions, where trade embargoes forced Germany to the negotiating table"],ans:2,exp:"Britain and France allowed Hitler to annex Czechoslovakia's Sudetenland in hopes of avoiding war. Hitler violated the agreement six months later by seizing the rest of Czechoslovakia."},
-{ch:"Ch 19",q:"The United States entered World War II directly because of:",opts:["Germany's invasion of France and the fall of Paris in June 1940","Japan's surprise attack on the U.S. naval base at Pearl Harbor on December 7, 1941","The Nazi invasion of Poland, which triggered America's war declaration","Germany's resumption of unrestricted submarine warfare against American ships"],ans:1,exp:"Japan's attack on Pearl Harbor killed 2,400 Americans and destroyed much of the Pacific Fleet. FDR called it 'a date which will live in infamy.' Congress declared war the next day."},
-{ch:"Ch 20",q:"The Cold War (roughly 1947-1991) was a conflict between the U.S. and USSR defined by:",opts:["Large-scale conventional warfare across Europe and Asia","Direct nuclear strikes exchanged during the Cuban Missile Crisis","Ideological rivalry, arms race, and proxy wars without direct combat between the superpowers","A series of trade wars and economic blockades that impoverished both nations"],ans:2,exp:"The Cold War was a sustained rivalry — military buildup, espionage, propaganda, proxy wars in Korea and Vietnam — but the two superpowers never fought each other directly."},
-{ch:"Ch 20",q:"Churchill's 1946 'Iron Curtain' speech warned that:",opts:["The Soviet Union had already developed an atomic bomb and was preparing to use it","Soviet-controlled Eastern Europe was being cut off from the democratic West","The United States needed to immediately withdraw its troops from Europe","Germany was secretly rebuilding its military in violation of the Versailles Treaty"],ans:1,exp:"Churchill described a division descending across Europe, with Soviet-dominated nations to the east sealed off from the free, democratic nations to the west."},
-{ch:"Ch 20",q:"The Marshall Plan (1948) aimed to stop the spread of communism by:",opts:["Stationing hundreds of thousands of American troops permanently in Western Europe","Providing massive U.S. economic aid to rebuild war-devastated Western European nations","Creating a military alliance among democratic nations to deter Soviet aggression","Funding anti-communist political parties in Eastern European elections"],ans:1,exp:"The Marshall Plan bet that stable, prosperous democracies would resist communism better than desperate, hungry ones. It gave billions in U.S. aid to rebuild Western Europe's economies."},
-{ch:"Ch 20",q:"The Berlin Airlift (1948-49) was the U.S. response to:",opts:["The Soviet Union's first successful test of an atomic bomb","East Germany closing its border and beginning construction of the Berlin Wall","The Soviet Union blockading all ground routes into West Berlin to force the Allies out","North Korea's invasion of South Korea, which threatened American bases in Japan"],ans:2,exp:"When the Soviets cut off road and rail access to West Berlin, the U.S. and Britain flew in all supplies — food, coal, medicine — for nearly a year until the Soviets gave up the blockade."},
-{ch:"Ch 20",q:"The American policy of containment, developed after WWII, meant:",opts:["Using military force to overthrow existing communist governments in Eastern Europe","Isolating the U.S. economy from trade with communist nations","Preventing communism from spreading to new countries without trying to roll it back where it existed","Containing Soviet nuclear weapons through international arms control treaties"],ans:2,exp:"Containment, proposed by diplomat George Kennan, accepted that communism already existed in some places but committed the U.S. to stopping it from spreading further."},
-{ch:"Ch 20",q:"McCarthyism damaged American civil liberties primarily by:",opts:["Using the military to raid homes of suspected communists without warrants","Passing laws that made membership in the Communist Party a capital crime","Creating a climate of fear where careers were destroyed based on unproven accusations of communist ties","Requiring all government employees to publicly swear loyalty to NATO and its allies"],ans:2,exp:"Senator McCarthy's tactics — guilt by accusation, no real evidence required — led to blacklists and ruined careers. The fear of being named suppressed free speech and dissent far beyond actual communist activity."},
-{ch:"Ch 20",q:"The GI Bill (1944) transformed postwar American society primarily by:",opts:["Integrating the U.S. military by banning racial discrimination in all branches","Creating the interstate highway system to connect major American cities","Giving veterans home loans, college tuition, and job training, building the suburban middle class","Establishing the draft system that would keep the U.S. military large during the Cold War"],ans:2,exp:"Millions of veterans used the GI Bill to attend college and buy homes in the new suburbs, fueling a dramatic expansion of the American middle class that defined the postwar era."},
-{ch:"Ch 20",q:"The Baby Boom after WWII refers to:",opts:["A rapid surge in European immigration as refugees fled war-torn countries","A sudden increase in U.S. birth rates from roughly 1946-1964 as veterans returned home","A government-funded program to encourage larger families to rebuild the workforce","The rapid growth of American cities as rural workers moved seeking factory jobs"],ans:1,exp:"Returning veterans married and started families in huge numbers, producing a generation of Baby Boomers who would reshape American culture, politics, and economics for decades."}
-];
+// ─────────────────────────────────────────────
+// QUESTION BANK
+// section keys map to chapter filter tabs
+// ─────────────────────────────────────────────
+const ALL_QUESTIONS = [
 
-var CHAPTERS=["Ch 14","Ch 16","Ch 17","Ch 18","Ch 19","Ch 20"];
-var active={"Ch 14":true,"Ch 16":true,"Ch 17":true,"Ch 18":true,"Ch 19":true,"Ch 20":true};
-var questions=[],current=0,answered=[],scores={right:0,wrong:0};
+/* ══ CH 14 — IMPERIALISM ══ */
+{section:'ch14', ch:'Chapter 14 — Imperialism', q:"What is imperialism?",
+ opts:[
+  {t:"A nation extending its power over weaker territories for economic or military gain", correct:true},
+  {t:"A nation building up its military forces to deter foreign attack", correct:false},
+  {t:"A policy of trading freely with all nations regardless of politics", correct:false},
+  {t:"A belief that democracy must spread to replace monarchies", correct:false}
+ ],
+ explain:"Imperialism is extending a nation's political, military, or economic influence over weaker territories. The U.S. pursued it to gain markets, raw materials, and naval bases."},
 
-function shuffle(a){for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=a[i];a[i]=a[j];a[j]=t;}return a;}
+{section:'ch14', ch:'Chapter 14 — Imperialism', q:"Anglo-Saxonism was used to justify U.S. expansion by claiming:",
+ opts:[
+  {t:"American goods were superior and should dominate world markets", correct:false},
+  {t:"English-speaking peoples had a duty to spread their civilization abroad", correct:true},
+  {t:"The U.S. navy needed bases on every ocean to stay safe", correct:false},
+  {t:"European powers were too weak to manage their own colonies", correct:false}
+ ],
+ explain:"Anglo-Saxonism held that English-speaking peoples were superior and had a duty to spread Christianity and civilization — used directly to justify overseas expansion."},
 
-function buildChips(){
-  var c=document.getElementById('chips');
-  CHAPTERS.forEach(function(ch){
-    var el=document.createElement('div');
-    el.className='chip active';el.textContent=ch;
-    function toggle(){
-      if(active[ch]){var n=0;for(var k in active){if(active[k])n++;}if(n>1){active[ch]=false;el.classList.remove('active');}}
-      else{active[ch]=true;el.classList.add('active');}
-    }
-    el.addEventListener('touchend',function(e){e.preventDefault();toggle();});
-    el.addEventListener('click',toggle);
-    c.appendChild(el);
+{section:'ch14', ch:'Chapter 14 — Imperialism', q:"Alfred T. Mahan argued in 1890 that national greatness depended on:",
+ opts:[
+  {t:"Avoiding wars and building a large domestic economy instead", correct:false},
+  {t:"Controlling overseas colonies in Africa and South America", correct:false},
+  {t:"Strong naval power and command of global trade routes", correct:true},
+  {t:"Forming defensive alliances with Britain and France", correct:false}
+ ],
+ explain:"Mahan's Sea Power Theory argued that naval strength and control of global trade routes were essential for national greatness, strongly shaping American foreign policy."},
+
+{section:'ch14', ch:'Chapter 14 — Imperialism', q:"Why was Pearl Harbor central to the annexation of Hawaii in 1898?",
+ opts:[
+  {t:"It was the site of a major battle against Spanish forces", correct:false},
+  {t:"It was already the largest commercial port in the Pacific", correct:false},
+  {t:"It gave the U.S. a deep-water naval base in the Pacific", correct:true},
+  {t:"It contained the largest sugar plantations on the islands", correct:false}
+ ],
+ explain:"Pearl Harbor provided the U.S. a strategically vital deep-water naval base in the middle of the Pacific Ocean, making Hawaii essential to American military strategy."},
+
+{section:'ch14', ch:'Chapter 14 — Imperialism', q:"The explosion of the USS Maine in 1898 was significant mainly because:",
+ opts:[
+  {t:"It sank a Spanish warship and gave the U.S. a naval victory", correct:false},
+  {t:"Yellow journalism blamed Spain, turning public opinion toward war", correct:true},
+  {t:"Congress immediately declared war on Spain the next day", correct:false},
+  {t:"It proved Spain had secretly attacked American ships for years", correct:false}
+ ],
+ explain:"The explosion killed 260+ Americans. Though the cause was never proven, sensationalist newspapers blamed Spain, whipping up public support for war."},
+
+{section:'ch14', ch:'Chapter 14 — Imperialism', q:"Yellow journalism in the 1890s refers to:",
+ opts:[
+  {t:"Official government pamphlets used to recruit soldiers", correct:false},
+  {t:"Diplomatic cables sent between foreign governments", correct:false},
+  {t:"Sensationalized newspaper stories designed to provoke public outrage", correct:true},
+  {t:"Academic journals promoting Anglo-Saxonism and expansion", correct:false}
+ ],
+ explain:"Yellow journalism used exaggerated and sensational stories to attract readers and inflame public opinion — a key driver of support for the Spanish-American War."},
+
+{section:'ch14', ch:'Chapter 14 — Imperialism', q:"What territories did the U.S. gain from the Treaty of Paris on December 10, 1898?",
+ opts:[
+  {t:"Cuba, Hawaii, and the Virgin Islands", correct:false},
+  {t:"Canada, Guam, and the Philippines", correct:false},
+  {t:"Puerto Rico, Guam, and the Philippines", correct:true},
+  {t:"Mexico, Puerto Rico, and Cuba", correct:false}
+ ],
+ explain:"The Treaty of Paris ended the Spanish-American War, giving the U.S. Puerto Rico, Guam, and the Philippines. Spain was paid $20 million for the Philippines."},
+
+{section:'ch14', ch:'Chapter 14 — Imperialism', q:"The Roosevelt Corollary (1904) was an addition to which earlier policy?",
+ opts:[
+  {t:"The Open Door Policy", correct:false},
+  {t:"Manifest Destiny", correct:false},
+  {t:"The Fourteen Points", correct:false},
+  {t:"The Monroe Doctrine", correct:true}
+ ],
+ explain:"Roosevelt expanded the Monroe Doctrine by asserting the U.S. right to intervene in Latin American nations to maintain order and prevent European meddling."},
+
+{section:'ch14', ch:'Chapter 14 — Imperialism', q:"The Panama Canal, completed in 1914, was strategically important because:",
+ opts:[
+  {t:"It gave the U.S. a land border with South America", correct:false},
+  {t:"It allowed ships to avoid the long route around South America", correct:true},
+  {t:"It replaced the Suez Canal as the world's busiest waterway", correct:false},
+  {t:"It provided oil pipelines connecting the Gulf to the Pacific", correct:false}
+ ],
+ explain:"The canal connected the Atlantic and Pacific Oceans, dramatically cutting travel time for both trade ships and naval vessels."},
+
+{section:'ch14', ch:'Chapter 14 — Imperialism', q:"The Boxer Rebellion of 1900 was a conflict over:",
+ opts:[
+  {t:"Control of trade routes through the Indian Ocean", correct:false},
+  {t:"Cuban independence from Spanish colonial rule", correct:false},
+  {t:"Foreign influence and interference inside China", correct:true},
+  {t:"Land ownership disputes in the Philippines", correct:false}
+ ],
+ explain:"Chinese nationalists (Boxers) rebelled against foreign influence in China. The U.S. joined other powers to suppress the rebellion in order to protect trade interests."},
+
+/* ══ CH 16 — WORLD WAR I ══ */
+{section:'ch16', ch:'Chapter 16 — World War I', q:"Who was Gavrilo Princip and why does he matter?",
+ opts:[
+  {t:"A German general who ordered the invasion of Belgium in 1914", correct:false},
+  {t:"An Austrian archduke whose death triggered a war", correct:false},
+  {t:"A Bosnian revolutionary who assassinated Franz Ferdinand, starting WWI", correct:true},
+  {t:"A British diplomat who negotiated the Triple Entente", correct:false}
+ ],
+ explain:"Princip was a member of the Black Hand, a Serbian nationalist group. His assassination of Archduke Franz Ferdinand on June 28, 1914 set off the chain of events that became WWI."},
+
+{section:'ch16', ch:'Chapter 16 — World War I', q:"The Triple Entente consisted of:",
+ opts:[
+  {t:"Germany, Austria-Hungary, and the Ottoman Empire", correct:false},
+  {t:"Britain, France, and Russia", correct:true},
+  {t:"The United States, Britain, and France", correct:false},
+  {t:"Italy, Russia, and Serbia", correct:false}
+ ],
+ explain:"The Triple Entente (formed 1907) united Britain, France, and Russia. It became the core of the Allied Powers in WWI."},
+
+{section:'ch16', ch:'Chapter 16 — World War I', q:"Which of the four MAIN causes describes the belief that military strength is the foundation of national security?",
+ opts:[
+  {t:"Nationalism", correct:false},
+  {t:"Imperialism", correct:false},
+  {t:"Alliances", correct:false},
+  {t:"Militarism", correct:true}
+ ],
+ explain:"Militarism is the belief that a strong military is essential for national power. European nations had been in an arms race for decades before WWI began."},
+
+{section:'ch16', ch:'Chapter 16 — World War I', q:"The Lusitania sinking in 1915 killed 128 Americans. What German policy sank it?",
+ opts:[
+  {t:"The Zimmermann Telegram", correct:false},
+  {t:"Dollar diplomacy", correct:false},
+  {t:"Unrestricted submarine warfare", correct:true},
+  {t:"The Schlieffen Plan", correct:false}
+ ],
+ explain:"Germany's policy of unrestricted submarine warfare meant attacking all ships — including passenger liners — without warning. The U.S. didn't enter WWI until Germany resumed this policy two years later."},
+
+{section:'ch16', ch:'Chapter 16 — World War I', q:"The Selective Service Act of 1917 required:",
+ opts:[
+  {t:"All citizens to buy war bonds to fund the military", correct:false},
+  {t:"Women to take factory jobs vacated by soldiers", correct:false},
+  {t:"Men aged 21–30 to register for the military draft", correct:true},
+  {t:"Immigrants to serve in the military before gaining citizenship", correct:false}
+ ],
+ explain:"The Selective Service Act created a lottery-based draft system requiring men aged 21–30 to register for possible military service."},
+
+{section:'ch16', ch:'Chapter 16 — World War I', q:"Which pair of laws most restricted free speech during WWI?",
+ opts:[
+  {t:"The Sherman Act and the Clayton Act", correct:false},
+  {t:"The Espionage Act (1917) and the Sedition Act (1918)", correct:true},
+  {t:"The Selective Service Act and the War Industries Act", correct:false},
+  {t:"The Fordney Act and the Volstead Act", correct:false}
+ ],
+ explain:"The Espionage Act made it illegal to interfere with the war effort; the Sedition Act criminalized any public criticism of the government or military."},
+
+{section:'ch16', ch:'Chapter 16 — World War I', q:"Trench warfare on the Western Front led primarily to:",
+ opts:[
+  {t:"Rapid German advances across France into Paris", correct:false},
+  {t:"A decisive Allied victory within the first year of fighting", correct:false},
+  {t:"Years of bloody stalemate with millions of casualties on both sides", correct:true},
+  {t:"Widespread use of naval blockades as the main strategy", correct:false}
+ ],
+ explain:"Opposing armies dug hundreds of miles of trenches. Machine guns and artillery made advances nearly impossible, creating a horrific stalemate that lasted years."},
+
+{section:'ch16', ch:'Chapter 16 — World War I', q:"The convoy system protected Allied shipping by:",
+ opts:[
+  {t:"Using submarines to escort oil tankers through the North Sea", correct:false},
+  {t:"Routing all ships through the Mediterranean instead of the Atlantic", correct:false},
+  {t:"Grouping merchant ships together with naval warship escorts", correct:true},
+  {t:"Disguising cargo ships as neutral vessels from Sweden", correct:false}
+ ],
+ explain:"Merchant ships traveling in escorted convoys were far harder for German submarines to attack effectively, dramatically reducing Allied shipping losses."},
+
+{section:'ch16', ch:'Chapter 16 — World War I', q:"President Wilson's Fourteen Points called for all of the following EXCEPT:",
+ opts:[
+  {t:"A League of Nations to prevent future wars", correct:false},
+  {t:"Self-determination for nations to choose their own governments", correct:false},
+  {t:"Requiring Germany to pay massive war reparations as punishment", correct:true},
+  {t:"Freedom of the seas and open international trade", correct:false}
+ ],
+ explain:"Wilson's Fourteen Points proposed open diplomacy, self-determination, free trade, and a League of Nations. Harsh reparations were not part of his vision — that came from Britain and France at Versailles."},
+
+{section:'ch16', ch:'Chapter 16 — World War I', q:"The Treaty of Versailles punished Germany by:",
+ opts:[
+  {t:"Forcing Germany to give all its colonies to the United States", correct:false},
+  {t:"Requiring Germany to accept war guilt and pay $33 billion in reparations", correct:true},
+  {t:"Splitting Germany into two separate occupied nations", correct:false},
+  {t:"Banning Germany from ever building a navy again", correct:false}
+ ],
+ explain:"The treaty forced Germany to accept blame for the war and pay approximately $33 billion in reparations — creating deep resentment that later contributed to Hitler's rise."},
+
+{section:'ch16', ch:'Chapter 16 — World War I', q:"How did the Russian Revolution of 1917 change WWI?",
+ opts:[
+  {t:"It brought millions of fresh Russian troops to the Western Front", correct:false},
+  {t:"Russia switched sides and joined the Central Powers", correct:false},
+  {t:"Russia withdrew from the war, freeing German forces to focus west", correct:true},
+  {t:"It caused the United States to immediately enter the conflict", correct:false}
+ ],
+ explain:"The Revolution brought the Bolsheviks to power. Russia signed the Treaty of Brest-Litovsk with Germany and exited the war, shifting the military balance temporarily toward Germany."},
+
+{section:'ch16', ch:'Chapter 16 — World War I', q:"The postwar Red Scare in America was primarily driven by fear of:",
+ opts:[
+  {t:"Germany rebuilding its military and starting another war", correct:false},
+  {t:"A communist revolution spreading from Russia to the United States", correct:true},
+  {t:"Unrestricted immigration flooding American cities with radicals", correct:false},
+  {t:"The revival of the Confederate movement in Southern states", correct:false}
+ ],
+ explain:"The 1917 Russian Revolution alarmed many Americans. Labor strikes and radical political activity at home intensified fears that communism could take hold in the U.S."},
+
+{section:'ch16', ch:'Chapter 16 — World War I', q:"Attorney General A. Mitchell Palmer is remembered for:",
+ opts:[
+  {t:"Drafting the Espionage Act that limited wartime speech", correct:false},
+  {t:"Ordering mass arrests of suspected communists and immigrants in 1920", correct:true},
+  {t:"Commanding American troops at the Battle of the Argonne Forest", correct:false},
+  {t:"Negotiating the Treaty of Versailles on behalf of the United States", correct:false}
+ ],
+ explain:"The Palmer Raids (January 1920) targeted suspected radicals and immigrants during the Red Scare, resulting in thousands of arrests and hundreds of deportations."},
+
+/* ══ CH 17 — THE 1920S ══ */
+{section:'ch17', ch:'Chapter 17 — The 1920s', q:"Warren G. Harding's 'Return to Normalcy' promised voters:",
+ opts:[
+  {t:"Expanded government programs to rebuild cities after the war", correct:false},
+  {t:"New trade agreements to open up Asian markets for American goods", correct:false},
+  {t:"Stability and less government involvement after the upheaval of WWI", correct:true},
+  {t:"A crackdown on immigration and foreign radical movements", correct:false}
+ ],
+ explain:"Harding promised a return to pre-war stability — lower taxes, reduced government intervention, and a focus on domestic prosperity rather than international affairs."},
+
+{section:'ch17', ch:'Chapter 17 — The 1920s', q:"Supply-side economics, promoted by Treasury Secretary Andrew Mellon, argued that:",
+ opts:[
+  {t:"Raising taxes on the wealthy would fund infrastructure and create jobs", correct:false},
+  {t:"Government ownership of key industries would stabilize the economy", correct:false},
+  {t:"Cutting taxes on businesses and the wealthy would spur investment and growth", correct:true},
+  {t:"Protective tariffs on imports would keep American wages high", correct:false}
+ ],
+ explain:"Supply-side economics holds that tax cuts for businesses and wealthy individuals free up capital for investment, eventually benefiting the broader economy."},
+
+{section:'ch17', ch:'Chapter 17 — The 1920s', q:"The Fordney-McCumber Tariff Act of 1922 was intended to protect American industry. Its unintended consequence was:",
+ opts:[
+  {t:"Triggering a wave of immigration from Europe seeking cheaper goods", correct:false},
+  {t:"Causing foreign nations to retaliate with their own tariffs, reducing trade", correct:true},
+  {t:"Driving up wages so high that factories moved production overseas", correct:false},
+  {t:"Giving the government too much control over pricing of consumer goods", correct:false}
+ ],
+ explain:"By raising tariffs sharply, the act invited foreign retaliation, shrinking international trade and ultimately hurting American farmers who depended on export markets."},
+
+{section:'ch17', ch:'Chapter 17 — The 1920s', q:"'Buy now, pay later' consumer credit in the 1920s:",
+ opts:[
+  {t:"Was banned by Congress as dangerously speculative behavior", correct:false},
+  {t:"Helped consumers save money by locking in lower prices early", correct:false},
+  {t:"Fueled a consumption boom but also built up dangerous household debt", correct:true},
+  {t:"Was only available to wealthy Americans with bank accounts", correct:false}
+ ],
+ explain:"Installment buying let Americans purchase cars, appliances, and furniture on credit, dramatically boosting consumer spending — but also leaving households overextended when the Depression hit."},
+
+{section:'ch17', ch:'Chapter 17 — The 1920s', q:"The Scopes Trial of 1925 put on trial the question of whether:",
+ opts:[
+  {t:"Labor unions had the right to organize in Southern states", correct:false},
+  {t:"A Black man could receive a fair trial in a Southern courtroom", correct:false},
+  {t:"A teacher could legally teach evolution in a public school", correct:true},
+  {t:"Women could be licensed as attorneys in Tennessee", correct:false}
+ ],
+ explain:"John Scopes was prosecuted for teaching evolution, violating Tennessee's Butler Act. The trial became a national symbol of the clash between scientific modernism and religious fundamentalism."},
+
+{section:'ch17', ch:'Chapter 17 — The 1920s', q:"The Sacco and Vanzetti case became a symbol of:",
+ opts:[
+  {t:"The federal government cracking down on organized crime and bootleggers", correct:false},
+  {t:"Anti-immigrant prejudice distorting the American justice system", correct:true},
+  {t:"Southern states refusing to enforce Prohibition laws equally", correct:false},
+  {t:"The danger of labor unions becoming too politically powerful", correct:false}
+ ],
+ explain:"Many believed Sacco and Vanzetti — Italian immigrant anarchists — were convicted of murder not because of solid evidence, but because of anti-immigrant and anti-radical prejudice."},
+
+{section:'ch17', ch:'Chapter 17 — The 1920s', q:"The 18th Amendment established Prohibition in 1920. Its main unintended effect was:",
+ opts:[
+  {t:"A sharp rise in alcohol-related deaths from drinking unsafe spirits", correct:false},
+  {t:"The rise of organized crime and illegal speakeasies across the country", correct:true},
+  {t:"A dramatic drop in federal tax revenue that triggered the Depression", correct:false},
+  {t:"Mass migration of immigrants who brewed alcohol back to Europe", correct:false}
+ ],
+ explain:"Rather than eliminating drinking, Prohibition handed the alcohol trade to organized crime (Al Capone and others), who ran thousands of illegal speakeasies and became enormously powerful."},
+
+{section:'ch17', ch:'Chapter 17 — The 1920s', q:"The Great Migration during and after WWI refers to:",
+ opts:[
+  {t:"European immigrants flooding U.S. cities seeking wartime factory jobs", correct:false},
+  {t:"Mexican farm workers crossing the border to replace drafted soldiers", correct:false},
+  {t:"African Americans moving from the South to Northern cities for jobs and freedom", correct:true},
+  {t:"Dust Bowl farm families migrating west to California in the 1930s", correct:false}
+ ],
+ explain:"Roughly 300,000–500,000 African Americans left the South for Northern industrial cities during WWI, seeking better wages, less segregation, and greater opportunity."},
+
+{section:'ch17', ch:'Chapter 17 — The 1920s', q:"The Harlem Renaissance of the 1920s was primarily:",
+ opts:[
+  {t:"A political movement demanding immediate voting rights enforcement in the South", correct:false},
+  {t:"A religious revival that spread Black churches across Northern cities", correct:false},
+  {t:"A cultural explosion of African American literature, music, and art centered in New York", correct:true},
+  {t:"A series of urban race riots that reshaped Northern city politics", correct:false}
+ ],
+ explain:"Centered in Harlem, NYC, the Renaissance produced landmark works in poetry, fiction, jazz, and visual art, strengthening Black cultural identity and laying the groundwork for the civil rights movement."},
+
+{section:'ch17', ch:'Chapter 17 — The 1920s', q:"Langston Hughes was significant to the Harlem Renaissance because:",
+ opts:[
+  {t:"He founded the NAACP and led its anti-lynching campaigns", correct:false},
+  {t:"His jazz-influenced poetry gave powerful voice to the African American experience", correct:true},
+  {t:"He was the first Black player signed to a major league baseball team", correct:false},
+  {t:"He led Marcus Garvey's Back to Africa movement after Garvey's deportation", correct:false}
+ ],
+ explain:"Hughes was the leading Harlem Renaissance poet, known for work that blended jazz rhythms with honest, unflinching portraits of Black life in America."},
+
+{section:'ch17', ch:'Chapter 17 — The 1920s', q:"Charles Lindbergh became a national hero in May 1927 by:",
+ opts:[
+  {t:"Setting a new land speed record driving coast to coast in under three days", correct:false},
+  {t:"Winning four gold medals at the Paris Olympics as a sprint champion", correct:false},
+  {t:"Completing the first solo nonstop flight across the Atlantic Ocean", correct:true},
+  {t:"Becoming the youngest pilot to fly solo across the continental United States", correct:false}
+ ],
+ explain:"Lindbergh flew the Spirit of St. Louis from New York to Paris — 33.5 hours alone — making him an instant international celebrity and symbol of American daring."},
+
+/* ══ CH 18 — GREAT DEPRESSION ══ */
+{section:'ch18', ch:'Chapter 18 — The Great Depression', q:"Black Tuesday, October 29, 1929, marked:",
+ opts:[
+  {t:"The day President Hoover signed the Hawley-Smoot Tariff into law", correct:false},
+  {t:"The worst single day of the stock market crash, when over 16 million shares were sold", correct:true},
+  {t:"The day the last major American bank suspended operations nationwide", correct:false},
+  {t:"The day the Dust Bowl storms first struck the Great Plains", correct:false}
+ ],
+ explain:"On Black Tuesday, panic selling overwhelmed the market. Over 16 million shares changed hands, wiping out billions in wealth and shattering public confidence in the economy."},
+
+{section:'ch18', ch:'Chapter 18 — The Great Depression', q:"Margin buying contributed to the 1929 crash because:",
+ opts:[
+  {t:"It gave banks too much power to set stock prices artificially high", correct:false},
+  {t:"Investors borrowed money to buy stocks and couldn't repay when prices fell, forcing panic selling", correct:true},
+  {t:"It allowed foreign governments to buy controlling stakes in American companies", correct:false},
+  {t:"Corporations issued too many shares, diluting their value below real worth", correct:false}
+ ],
+ explain:"When stock prices fell, margin buyers faced calls to repay their loans immediately. Unable to pay, they were forced to sell, which pushed prices lower still — a devastating spiral."},
+
+{section:'ch18', ch:'Chapter 18 — The Great Depression', q:"The Hawley-Smoot Tariff of 1930 deepened the Depression by:",
+ opts:[
+  {t:"Cutting government spending on public works at the worst possible time", correct:false},
+  {t:"Triggering foreign retaliation that collapsed international trade worldwide", correct:true},
+  {t:"Forcing American banks to hold reserves instead of lending to businesses", correct:false},
+  {t:"Raising income taxes on the middle class during a period of mass unemployment", correct:false}
+ ],
+ explain:"The tariff raised U.S. duties to historic highs. Trading partners retaliated with their own tariffs, causing a collapse in global trade that spread the Depression worldwide."},
+
+{section:'ch18', ch:'Chapter 18 — The Great Depression', q:"Hoovervilles were:",
+ opts:[
+  {t:"Federal relief camps built by the Hoover administration to house veterans", correct:false},
+  {t:"Shantytowns of makeshift shelters built by homeless Americans who blamed Hoover", correct:true},
+  {t:"Small farming communities established under Hoover's rural recovery plan", correct:false},
+  {t:"Soup kitchen networks organized by private charities during the Depression", correct:false}
+ ],
+ explain:"Unemployed, homeless Americans built shantytowns out of scrap materials and sarcastically named them Hoovervilles, blaming the president for their suffering."},
+
+{section:'ch18', ch:'Chapter 18 — The Great Depression', q:"Hoover's belief in 'rugged individualism' meant he thought the Depression should be solved by:",
+ opts:[
+  {t:"Massive federal spending on public works projects to put people back to work", correct:false},
+  {t:"Nationalizing the banks to stop the wave of failures across the country", correct:false},
+  {t:"Private charity and local government, not direct federal handouts to individuals", correct:true},
+  {t:"Raising taxes on the wealthy to fund emergency relief for the unemployed", correct:false}
+ ],
+ explain:"Hoover believed self-reliance was a core American value and that direct federal relief would undermine it. Critics argued this left millions suffering while Hoover did too little, too late."},
+
+{section:'ch18', ch:'Chapter 18 — The Great Depression', q:"The Bonus Army of 1932 was a group of:",
+ opts:[
+  {t:"Factory workers who marched on Washington to demand union recognition", correct:false},
+  {t:"WWI veterans demanding early payment of bonuses Congress had promised them", correct:true},
+  {t:"Unemployed farmers who occupied federal land to protest foreclosures", correct:false},
+  {t:"Southern Democrats who protested FDR's New Deal as unconstitutional", correct:false}
+ ],
+ explain:"Thousands of WWI veterans camped in Washington demanding early payment of service bonuses. Hoover ordered the Army to evict them by force — tanks and tear gas against veterans — devastating his public image."},
+
+{section:'ch18', ch:'Chapter 18 — The Great Depression', q:"FDR's New Deal rested on three goals often called the three R's. What were they?",
+ opts:[
+  {t:"Rebuild, Rearm, and Redistribute", correct:false},
+  {t:"Relief, Recovery, and Reform", correct:true},
+  {t:"Regulate, Restore, and Reinvest", correct:false},
+  {t:"Rights, Revenue, and Reconstruction", correct:false}
+ ],
+ explain:"Relief meant immediate aid for suffering Americans; Recovery meant restarting the economy; Reform meant fixing the structural failures that caused the crash in the first place."},
+
+{section:'ch18', ch:'Chapter 18 — The Great Depression', q:"The Civilian Conservation Corps (CCC) was a New Deal program that:",
+ opts:[
+  {t:"Paid farmers to reduce crop production and stabilize food prices", correct:false},
+  {t:"Gave low-interest loans to small businesses to prevent more bank failures", correct:false},
+  {t:"Employed young men in conservation work like planting trees and building parks", correct:true},
+  {t:"Built large dams to provide electricity to poor rural communities in the South", correct:false}
+ ],
+ explain:"The CCC put unemployed young men to work on environmental projects — planting 3 billion trees, building trails and parks — providing income and keeping them off the streets."},
+
+{section:'ch18', ch:'Chapter 18 — The Great Depression', q:"The Social Security Act of 1935 was historically significant because:",
+ opts:[
+  {t:"It was the first time the federal government had ever collected income taxes", correct:false},
+  {t:"It gave workers the legal right to form unions and bargain collectively", correct:false},
+  {t:"It established the principle that the federal government is responsible for citizens' basic welfare in old age and unemployment", correct:true},
+  {t:"It created a public health insurance program for all Americans over 65", correct:false}
+ ],
+ explain:"Social Security created pensions for retirees and unemployment insurance, permanently establishing that the federal government has a safety-net responsibility toward its citizens."},
+
+{section:'ch18', ch:'Chapter 18 — The Great Depression', q:"Huey Long opposed FDR's New Deal mainly because:",
+ opts:[
+  {t:"He thought it gave too much power to labor unions at the expense of business", correct:false},
+  {t:"He believed it was unconstitutional for the federal government to run economic programs", correct:false},
+  {t:"He thought it did not go nearly far enough, and proposed capping personal wealth instead", correct:true},
+  {t:"He was a Republican who opposed any expansion of federal government programs", correct:false}
+ ],
+ explain:"Long felt the New Deal was too timid. His 'Share Our Wealth' plan would have capped personal fortunes and guaranteed every family a minimum income — far more radical than anything FDR proposed."},
+
+/* ══ CH 19 — WWII & NAZI GERMANY ══ */
+{section:'ch19', ch:'Chapter 19 — WWII & Nazi Germany', q:"The Weimar Republic failed in the late 1920s primarily because:",
+ opts:[
+  {t:"It was too militaristic and provoked neighboring nations into opposing it", correct:false},
+  {t:"It was a communist government that the German people ultimately rejected", correct:false},
+  {t:"It was a fragile democracy undermined by economic crisis, war debt, and political extremism", correct:true},
+  {t:"It was imposed by France and Britain and never had German public support", correct:false}
+ ],
+ explain:"Germany's post-WWI democratic government was saddled with enormous war reparations, battered by hyperinflation, and attacked from both left and right. Hitler's rise filled the vacuum it left."},
+
+{section:'ch19', ch:'Chapter 19 — WWII & Nazi Germany', q:"Blitzkrieg, used by Germany starting in 1939, refers to:",
+ opts:[
+  {t:"A propaganda strategy of flooding occupied countries with Nazi messaging", correct:false},
+  {t:"A naval blockade designed to starve Britain into surrender", correct:false},
+  {t:"A rapid combined-arms attack using tanks and aircraft to overwhelm defenses quickly", correct:true},
+  {t:"A diplomatic policy of making one territorial demand at a time to avoid triggering war", correct:false}
+ ],
+ explain:"Blitzkrieg (lightning war) coordinated fast-moving tanks, motorized infantry, and close air support to shatter enemy defenses before they could organize a response."},
+
+{section:'ch19', ch:'Chapter 19 — WWII & Nazi Germany', q:"Joseph Goebbels served Nazi Germany as:",
+ opts:[
+  {t:"Commander of the SS concentration camp system across occupied Europe", correct:false},
+  {t:"Hitler's chief military strategist on the Eastern Front against the Soviet Union", correct:false},
+  {t:"Minister of Propaganda, controlling all media to promote Nazi ideology and anti-Semitism", correct:true},
+  {t:"Foreign minister who negotiated the Munich Agreement with Britain and France", correct:false}
+ ],
+ explain:"Goebbels controlled every form of German media — newspapers, radio, film, public rallies — to spread Nazi ideology, glorify Hitler, and manufacture consent for the regime's actions."},
+
+{section:'ch19', ch:'Chapter 19 — WWII & Nazi Germany', q:"The Nuremberg Laws of 1935 targeted Jews by:",
+ opts:[
+  {t:"Requiring them to report to labor camps for compulsory work service", correct:false},
+  {t:"Confiscating Jewish-owned businesses and transferring them to German citizens", correct:false},
+  {t:"Stripping them of German citizenship and banning marriage between Jews and non-Jews", correct:true},
+  {t:"Forcing all Jewish families to relocate to designated neighborhoods called ghettos", correct:false}
+ ],
+ explain:"The Nuremberg Laws gave legal form to racial persecution — Jews were no longer German citizens and were excluded from most public and professional life."},
+
+{section:'ch19', ch:'Chapter 19 — WWII & Nazi Germany', q:"Kristallnacht on November 9–10, 1938 was significant because:",
+ opts:[
+  {t:"It was the night Germany formally declared war on Britain and France", correct:false},
+  {t:"It marked the first public, large-scale, state-sponsored violence against Jews in Germany", correct:true},
+  {t:"It was the night Hitler announced the Final Solution to senior Nazi officials", correct:false},
+  {t:"It was the night Germany and the Soviet Union secretly agreed to divide Poland", correct:false}
+ ],
+ explain:"The Night of Broken Glass was a coordinated nationwide pogrom — 7,500+ Jewish businesses destroyed, 1,400 synagogues burned, 100 Jews killed, 30,000 arrested — showing that violent persecution was now official policy."},
+
+{section:'ch19', ch:'Chapter 19 — WWII & Nazi Germany', q:"The Nazi 'Final Solution' was the plan to:",
+ opts:[
+  {t:"Defeat the Soviet Union and seize its oil fields and farmland for Germany", correct:false},
+  {t:"Force all European Jews to emigrate to Palestine or Madagascar", correct:false},
+  {t:"Systematically murder all Jews in Europe using extermination camps", correct:true},
+  {t:"Remove all political opponents from Germany and send them to labor camps", correct:false}
+ ],
+ explain:"The Final Solution was the Nazi program for genocide — the deliberate, industrial-scale murder of Europe's entire Jewish population using gas chambers at extermination camps."},
+
+{section:'ch19', ch:'Chapter 19 — WWII & Nazi Germany', q:"The Wannsee Conference of January 20, 1942 was a meeting where:",
+ opts:[
+  {t:"Nazi leaders decided whether to declare war on the United States", correct:false},
+  {t:"Senior Nazi officials coordinated the logistics for implementing the Final Solution across occupied Europe", correct:true},
+  {t:"Hitler announced his plan to invade the Soviet Union to his top generals", correct:false},
+  {t:"Germany and Japan signed a formal military alliance pledging mutual support", correct:false}
+ ],
+ explain:"At a villa in Wannsee, Berlin, senior Nazi bureaucrats met to coordinate how the Final Solution would be systematically carried out in each occupied country."},
+
+{section:'ch19', ch:'Chapter 19 — WWII & Nazi Germany', q:"Auschwitz was:",
+ opts:[
+  {t:"A German city heavily bombed by the Allies in retaliation for the London Blitz", correct:false},
+  {t:"A concentration camp in Germany where political prisoners were sent for forced labor", correct:false},
+  {t:"The largest Nazi extermination camp, where approximately 1.3 million people were murdered", correct:true},
+  {t:"The site of the last major German offensive on the Western Front in 1944", correct:false}
+ ],
+ explain:"Auschwitz, in occupied Poland, was the largest and deadliest Nazi extermination camp. At peak operation it could murder 12,000 people per day using poison gas."},
+
+{section:'ch19', ch:'Chapter 19 — WWII & Nazi Germany', q:"The Munich Agreement of September 1938 is remembered as a failed example of:",
+ opts:[
+  {t:"Collective security, where many nations united to stop Hitler together", correct:false},
+  {t:"Military deterrence, where a show of Allied force made Hitler back down", correct:false},
+  {t:"Appeasement, where Britain and France gave Hitler territory hoping he would stop expanding", correct:true},
+  {t:"Economic sanctions, where trade embargoes forced Germany to the negotiating table", correct:false}
+ ],
+ explain:"Britain and France allowed Hitler to annex Czechoslovakia's Sudetenland in hopes of avoiding war. Hitler violated the agreement six months later by seizing the rest of Czechoslovakia."},
+
+{section:'ch19', ch:'Chapter 19 — WWII & Nazi Germany', q:"The United States entered World War II directly because of:",
+ opts:[
+  {t:"Germany's invasion of France and the fall of Paris in June 1940", correct:false},
+  {t:"Japan's surprise attack on the U.S. naval base at Pearl Harbor on December 7, 1941", correct:true},
+  {t:"The Nazi invasion of Poland, which triggered America's war declaration", correct:false},
+  {t:"Germany's resumption of unrestricted submarine warfare against American ships", correct:false}
+ ],
+ explain:"Japan's attack on Pearl Harbor killed 2,400 Americans and destroyed much of the Pacific Fleet. FDR called it 'a date which will live in infamy.' Congress declared war the next day."},
+
+/* ══ CH 20 — COLD WAR ══ */
+{section:'ch20', ch:'Chapter 20 — Postwar America & the Cold War', q:"The Cold War (roughly 1947–1991) was a conflict between the U.S. and USSR defined by:",
+ opts:[
+  {t:"Large-scale conventional warfare across Europe and Asia", correct:false},
+  {t:"Direct nuclear strikes exchanged during the Cuban Missile Crisis", correct:false},
+  {t:"Ideological rivalry, arms race, and proxy wars without direct combat between the superpowers", correct:true},
+  {t:"A series of trade wars and economic blockades that impoverished both nations", correct:false}
+ ],
+ explain:"The Cold War was a sustained rivalry — military buildup, espionage, propaganda, proxy wars in Korea and Vietnam — but the two superpowers never fought each other directly."},
+
+{section:'ch20', ch:'Chapter 20 — Postwar America & the Cold War', q:"Churchill's 1946 'Iron Curtain' speech warned that:",
+ opts:[
+  {t:"The Soviet Union had already developed an atomic bomb and was preparing to use it", correct:false},
+  {t:"Soviet-controlled Eastern Europe was being cut off from the democratic West", correct:true},
+  {t:"The United States needed to immediately withdraw its troops from Europe", correct:false},
+  {t:"Germany was secretly rebuilding its military in violation of the Versailles Treaty", correct:false}
+ ],
+ explain:"Churchill described a division descending across Europe, with Soviet-dominated nations to the east sealed off from the free, democratic nations to the west."},
+
+{section:'ch20', ch:'Chapter 20 — Postwar America & the Cold War', q:"The Marshall Plan (1948) aimed to stop the spread of communism by:",
+ opts:[
+  {t:"Stationing hundreds of thousands of American troops permanently in Western Europe", correct:false},
+  {t:"Providing massive U.S. economic aid to rebuild war-devastated Western European nations", correct:true},
+  {t:"Creating a military alliance among democratic nations to deter Soviet aggression", correct:false},
+  {t:"Funding anti-communist political parties in Eastern European elections", correct:false}
+ ],
+ explain:"The Marshall Plan bet that stable, prosperous democracies would resist communism better than desperate, hungry ones. It gave billions in U.S. aid to rebuild Western Europe's economies."},
+
+{section:'ch20', ch:'Chapter 20 — Postwar America & the Cold War', q:"The Berlin Airlift (1948–49) was the U.S. response to:",
+ opts:[
+  {t:"The Soviet Union's first successful test of an atomic bomb", correct:false},
+  {t:"East Germany closing its border and beginning construction of the Berlin Wall", correct:false},
+  {t:"The Soviet Union blockading all ground routes into West Berlin to force the Allies out", correct:true},
+  {t:"North Korea's invasion of South Korea, which threatened American bases in Japan", correct:false}
+ ],
+ explain:"When the Soviets cut off road and rail access to West Berlin, the U.S. and Britain flew in all supplies — food, coal, medicine — for nearly a year until the Soviets gave up the blockade."},
+
+{section:'ch20', ch:'Chapter 20 — Postwar America & the Cold War', q:"The American policy of containment, developed after WWII, meant:",
+ opts:[
+  {t:"Using military force to overthrow existing communist governments in Eastern Europe", correct:false},
+  {t:"Isolating the U.S. economy from trade with communist nations", correct:false},
+  {t:"Preventing communism from spreading to new countries without trying to roll it back where it existed", correct:true},
+  {t:"Containing Soviet nuclear weapons through international arms control treaties", correct:false}
+ ],
+ explain:"Containment, proposed by diplomat George Kennan, accepted that communism already existed in some places but committed the U.S. to stopping it from spreading further."},
+
+{section:'ch20', ch:'Chapter 20 — Postwar America & the Cold War', q:"McCarthyism damaged American civil liberties primarily by:",
+ opts:[
+  {t:"Using the military to raid homes of suspected communists without warrants", correct:false},
+  {t:"Passing laws that made membership in the Communist Party a capital crime", correct:false},
+  {t:"Creating a climate of fear where careers were destroyed based on unproven accusations of communist ties", correct:true},
+  {t:"Requiring all government employees to publicly swear loyalty to NATO and its allies", correct:false}
+ ],
+ explain:"Senator McCarthy's tactics — guilt by accusation, no real evidence required — led to blacklists and ruined careers. The fear of being named suppressed free speech and dissent far beyond actual communist activity."},
+
+{section:'ch20', ch:'Chapter 20 — Postwar America & the Cold War', q:"The GI Bill (1944) transformed postwar American society primarily by:",
+ opts:[
+  {t:"Integrating the U.S. military by banning racial discrimination in all branches", correct:false},
+  {t:"Creating the interstate highway system to connect major American cities", correct:false},
+  {t:"Giving veterans home loans, college tuition, and job training, building the suburban middle class", correct:true},
+  {t:"Establishing the draft system that would keep the U.S. military large during the Cold War", correct:false}
+ ],
+ explain:"Millions of veterans used the GI Bill to attend college and buy homes in the new suburbs, fueling a dramatic expansion of the American middle class that defined the postwar era."},
+
+{section:'ch20', ch:'Chapter 20 — Postwar America & the Cold War', q:"The Baby Boom after WWII refers to:",
+ opts:[
+  {t:"A rapid surge in European immigration as refugees fled war-torn countries", correct:false},
+  {t:"A sudden increase in U.S. birth rates from roughly 1946–1964 as veterans returned home", correct:true},
+  {t:"A government-funded program to encourage larger families to rebuild the workforce", correct:false},
+  {t:"The rapid growth of American cities as rural workers moved seeking factory jobs", correct:false}
+ ],
+ explain:"Returning veterans married and started families in huge numbers, producing a generation of Baby Boomers who would reshape American culture, politics, and economics for decades."},
+
+]; // end ALL_QUESTIONS
+
+// ─────────────────────────────────────────────
+// STATE
+// ─────────────────────────────────────────────
+let answers = {};
+let currentSection = 'all';
+
+// ─────────────────────────────────────────────
+// BUILD QUIZ
+// ─────────────────────────────────────────────
+function buildQuiz() {
+  const area = document.getElementById('quiz-area');
+  area.innerHTML = '';
+
+  const sections = [
+    {key:'ch14', label:'Chapter 14 — Imperialism',           color:'#e3b341'},
+    {key:'ch16', label:'Chapter 16 — World War I',           color:'#58a6ff'},
+    {key:'ch17', label:'Chapter 17 — The 1920s',             color:'#3fb950'},
+    {key:'ch18', label:'Chapter 18 — The Great Depression',  color:'#f78166'},
+    {key:'ch19', label:'Chapter 19 — WWII & Nazi Germany',   color:'#d2a8ff'},
+    {key:'ch20', label:'Chapter 20 — Postwar & Cold War',    color:'#79c0ff'},
+  ];
+
+  sections.forEach(sec => {
+    if (currentSection !== 'all' && currentSection !== sec.key) return;
+
+    const qs = ALL_QUESTIONS.map((q,i) => ({...q, idx:i})).filter(q => q.section === sec.key);
+
+    const sh = document.createElement('div');
+    sh.className = 'section-header';
+    sh.innerHTML = `<span class="section-dot" style="background:${sec.color}"></span>${sec.label}`;
+    area.appendChild(sh);
+
+    qs.forEach(q => {
+      const card = document.createElement('div');
+      card.className = 'q-card';
+      card.id = `card-${q.idx}`;
+      if (answers[q.idx]) card.classList.add('answered');
+
+      const shuffled = shuffleOpts(q.opts);
+
+      const optsHTML = shuffled.map((opt, i) => {
+        let cls = 'opt';
+        const st = answers[q.idx];
+        if (st) {
+          if (i === st.chosen && st.correct)  cls += ' correct-pick';
+          else if (i === st.chosen && !st.correct) cls += ' wrong-pick';
+          else if (opt.correct && !st.correct) cls += ' reveal-correct';
+        }
+        const letters = ['A','B','C','D'];
+        const dis = answers[q.idx] ? 'disabled' : '';
+        return `<button class="${cls}" onclick="pick(${q.idx},${i},this)" ${dis}>
+          <span class="opt-letter">${letters[i]}</span>${opt.t}
+        </button>`;
+      }).join('');
+
+      const expShow = answers[q.idx] ? 'show' : '';
+      card.innerHTML = `
+        <div class="q-header">
+          <span class="q-num">Q${q.idx+1}</span>
+          <div><div class="q-chapter">${sec.label}</div><div class="q-text">${q.q}</div></div>
+        </div>
+        <div class="options" id="opts-${q.idx}">${optsHTML}</div>
+        <div class="explanation ${expShow}" id="exp-${q.idx}"><strong>Explanation:</strong> ${q.explain}</div>
+      `;
+
+      card.dataset.shuffled = JSON.stringify(shuffled.map(o => o.correct));
+      area.appendChild(card);
+    });
   });
+
+  updateProgress();
 }
 
-function startQuiz(){
-  var pool=ALL_Q.filter(function(q){return active[q.ch];});
-  var val=document.getElementById('num-q').value;
-  var n=Math.min(parseInt(val),pool.length);
-  shuffle(pool);
-  questions=pool.slice(0,n).map(function(q){
-    var idxs=[];for(var i=0;i<q.opts.length;i++)idxs.push(i);shuffle(idxs);
-    return{ch:q.ch,q:q.q,opts:idxs.map(function(i){return q.opts[i];}),ans:idxs.indexOf(q.ans),exp:q.exp};
+function shuffleOpts(opts) {
+  const arr = [...opts];
+  for (let i = arr.length-1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i+1));
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+  }
+  return arr;
+}
+
+// ─────────────────────────────────────────────
+// PICK ANSWER
+// ─────────────────────────────────────────────
+function pick(qIdx, chosenIdx, btn) {
+  if (answers[qIdx]) return;
+
+  const card = document.getElementById(`card-${qIdx}`);
+  const shuffledCorrects = JSON.parse(card.dataset.shuffled);
+  const isCorrect = shuffledCorrects[chosenIdx];
+
+  answers[qIdx] = {chosen: chosenIdx, correct: isCorrect};
+
+  const optBtns = card.querySelectorAll('.opt');
+  optBtns.forEach((b, i) => {
+    b.disabled = true;
+    if (i === chosenIdx && isCorrect)          b.classList.add('correct-pick');
+    else if (i === chosenIdx && !isCorrect)    b.classList.add('wrong-pick');
+    else if (shuffledCorrects[i] && !isCorrect) b.classList.add('reveal-correct');
   });
-  answered=[];for(var i=0;i<questions.length;i++)answered.push(null);
-  scores={right:0,wrong:0};current=0;
-  document.getElementById('filter-area').style.display='none';
-  document.getElementById('quiz-area').style.display='block';
-  render();
+
+  document.getElementById(`exp-${qIdx}`).classList.add('show');
+  card.classList.add('answered');
+  updateProgress();
 }
 
-function render(){
-  var q=questions[current],tot=questions.length;
-  document.getElementById('q-counter').textContent='Question '+(current+1)+' of '+tot;
-  document.getElementById('score-count').textContent=scores.right;
-  document.getElementById('wrong-count').textContent=scores.wrong;
-  document.getElementById('prog').style.width=Math.round(current/tot*100)+'%';
-  var sel=answered[current],letters=['A','B','C','D'];
-  var html='<div class="q-card"><div class="q-meta">'+q.ch+'</div><div class="q-text">'+q.q+'</div><div class="opts">';
-  for(var i=0;i<q.opts.length;i++){
-    var cls='opt';
-    if(sel!==null){cls+=' disabled';if(i===q.ans)cls+=' correct';else if(i===sel&&sel!==q.ans)cls+=' wrong';}
-    html+='<button class="'+cls+'" data-idx="'+i+'"><span class="opt-letter">'+letters[i]+'</span><span>'+q.opts[i]+'</span></button>';
+// ─────────────────────────────────────────────
+// PROGRESS / SCORE
+// ─────────────────────────────────────────────
+function updateProgress() {
+  const total    = ALL_QUESTIONS.length;
+  const answered = Object.keys(answers).length;
+  const correct  = Object.values(answers).filter(a => a.correct).length;
+  const wrong    = answered - correct;
+
+  document.getElementById('prog-label').textContent = `${answered} of ${total} answered`;
+  const pct = Math.round((answered / total) * 100);
+  document.getElementById('prog-pct').textContent = pct + '%';
+  document.getElementById('prog-fill').style.width = pct + '%';
+
+  document.getElementById('sc-correct').textContent = correct;
+  document.getElementById('sc-wrong').textContent   = wrong;
+  if (answered > 0) {
+    document.getElementById('sc-pct').textContent = Math.round((correct / answered) * 100) + '%';
+  } else {
+    document.getElementById('sc-pct').textContent = '—';
   }
-  html+='</div>';
-  if(sel!==null)html+='<div class="expl">'+q.exp+'</div>';
-  html+='</div>';
-  document.getElementById('q-area').innerHTML=html;
-  var btns=document.querySelectorAll('.opt:not(.disabled)');
-  for(var j=0;j<btns.length;j++){
-    (function(b){
-      b.addEventListener('touchend',function(e){e.preventDefault();pick(parseInt(b.getAttribute('data-idx')));});
-      b.addEventListener('click',function(){pick(parseInt(b.getAttribute('data-idx')));});
-    })(btns[j]);
+}
+
+// ─────────────────────────────────────────────
+// SECTION FILTER
+// ─────────────────────────────────────────────
+function filterSection(sec, btn) {
+  currentSection = sec;
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  buildQuiz();
+}
+
+// ─────────────────────────────────────────────
+// SHOW RESULTS
+// ─────────────────────────────────────────────
+function showResults() {
+  const total    = ALL_QUESTIONS.length;
+  const answered = Object.keys(answers).length;
+  const correct  = Object.values(answers).filter(a =>  a.correct).length;
+  const wrong    = Object.values(answers).filter(a => !a.correct).length;
+  const skipped  = total - answered;
+  const pct      = Math.round((correct / total) * 100);
+
+  let grade, color;
+  if      (pct >= 90) { grade = 'A'; color = 'var(--accent)';  }
+  else if (pct >= 80) { grade = 'B'; color = 'var(--accent2)'; }
+  else if (pct >= 70) { grade = 'C'; color = '#e3b341';        }
+  else if (pct >= 60) { grade = 'D'; color = '#f78166';        }
+  else                { grade = 'F'; color = '#f78166';        }
+
+  document.getElementById('r-grade').textContent  = pct + '%';
+  document.getElementById('r-grade').style.color  = color;
+  document.getElementById('r-label').textContent  = `Grade: ${grade} · ${correct} correct out of ${total} questions`;
+  document.getElementById('r-correct').textContent = correct;
+  document.getElementById('r-wrong').textContent   = wrong;
+  document.getElementById('r-skip').textContent    = skipped;
+
+  const missedEl = document.getElementById('missed-list');
+  const missed   = ALL_QUESTIONS
+    .map((q, i) => ({...q, idx:i}))
+    .filter(q => answers[q.idx] && !answers[q.idx].correct);
+
+  if (missed.length) {
+    missedEl.innerHTML = `<h3>Review These (${missed.length})</h3>` +
+      missed.map(q => `<div class="missed-item">Q${q.idx+1}: <span>${q.q}</span></div>`).join('');
+  } else if (answered === total) {
+    missedEl.innerHTML = `<div style="color:var(--accent);font-size:15px;text-align:center;margin-top:8px">🎉 Perfect score! All questions answered correctly!</div>`;
+  } else {
+    missedEl.innerHTML = '';
   }
-  document.getElementById('prev-btn').disabled=current===0;
-  var nb=document.getElementById('next-btn');
-  nb.textContent=current===tot-1?'See results':'Next →';
-  nb.disabled=sel===null;
+
+  document.getElementById('results-screen').style.display = 'block';
+  document.getElementById('results-screen').scrollIntoView({behavior:'smooth'});
 }
 
-function pick(i){if(answered[current]!==null)return;answered[current]=i;if(i===questions[current].ans)scores.right++;else scores.wrong++;render();}
-function goNext(){if(current===questions.length-1){showResults();return;}current++;render();}
-function goPrev(){if(current>0){current--;render();}}
-
-function showResults(){
-  document.getElementById('quiz-area').style.display='none';
-  var tot=questions.length,pct=Math.round(scores.right/tot*100);
-  var grade=pct>=90?'Excellent work!':pct>=75?'Good job!':pct>=60?'Keep studying!':'More review needed';
-  var ra=document.getElementById('result-area');ra.style.display='block';
-  ra.innerHTML='<div class="score-card"><div class="score-num">'+pct+'%</div><div class="score-lbl">'+grade+'</div>'
-    +'<div class="breakdown">'
-    +'<div class="bd-item"><div class="bd-num" style="color:var(--color-text-success)">'+scores.right+'</div><div class="bd-lbl">Correct</div></div>'
-    +'<div class="bd-item"><div class="bd-num" style="color:var(--color-text-danger)">'+scores.wrong+'</div><div class="bd-lbl">Wrong</div></div>'
-    +'<div class="bd-item"><div class="bd-num">'+tot+'</div><div class="bd-lbl">Total</div></div>'
-    +'</div>'
-    +'<div style="display:flex;flex-direction:column;gap:10px">'
-    +'<button class="btn" id="review-btn" style="width:100%">Review wrong answers</button>'
-    +'<button class="btn primary" id="restart-btn" style="width:100%">Try again</button>'
-    +'</div></div>';
-  addEvt('review-btn',reviewWrong);addEvt('restart-btn',restart);
+// ─────────────────────────────────────────────
+// RESET
+// ─────────────────────────────────────────────
+function resetQuiz() {
+  answers = {};
+  document.getElementById('results-screen').style.display = 'none';
+  buildQuiz();
+  window.scrollTo({top:0, behavior:'smooth'});
 }
 
-function reviewWrong(){
-  var wrong=[];for(var i=0;i<questions.length;i++){if(answered[i]!==null&&answered[i]!==questions[i].ans)wrong.push(questions[i]);}
-  if(!wrong.length)return;
-  questions=wrong;answered=[];for(var i=0;i<questions.length;i++)answered.push(null);
-  scores={right:0,wrong:0};current=0;
-  document.getElementById('result-area').style.display='none';
-  document.getElementById('quiz-area').style.display='block';render();
-}
-function restart(){document.getElementById('result-area').style.display='none';document.getElementById('filter-area').style.display='block';}
-function addEvt(id,fn){var el=document.getElementById(id);if(!el)return;el.addEventListener('touchend',function(e){e.preventDefault();fn();});el.addEventListener('click',fn);}
-
-addEvt('start-btn',startQuiz);addEvt('prev-btn',goPrev);addEvt('next-btn',goNext);
-buildChips();
+// ── INIT ──
+buildQuiz();
 </script>
+</body>
+</html>
