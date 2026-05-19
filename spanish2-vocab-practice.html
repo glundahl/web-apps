@@ -1,0 +1,1095 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Spanish 2 — Vocabulary & Word Knowledge</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0d1117;
+    --surface: #161b22;
+    --surface2: #1c2330;
+    --border: #30363d;
+    --accent: #ff8c42;
+    --accent2: #58a6ff;
+    --accent3: #f78166;
+    --accent4: #d2a8ff;
+    --text: #e6edf3;
+    --text-muted: #7d8590;
+    --text-dim: #484f58;
+    --correct: #1a4d2e;
+    --correct-border: #3fb950;
+    --wrong: #4d1a1a;
+    --wrong-border: #f78166;
+    --radius: 10px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    padding: 0 0 60px;
+  }
+
+  /* ── HEADER ── */
+  .header {
+    background: linear-gradient(135deg, #0d1117 0%, #161b22 100%);
+    border-bottom: 1px solid var(--border);
+    padding: 40px 20px 30px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .header::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse 70% 80% at 50% -20%, rgba(255,140,66,.13) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .header-label {
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: .18em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 10px;
+  }
+  .header h1 {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(26px, 5vw, 44px);
+    font-weight: 800;
+    line-height: 1.1;
+    color: var(--text);
+  }
+  .header h1 span { color: var(--accent); }
+  .header-sub {
+    margin-top: 10px;
+    font-size: 14px;
+    color: var(--text-muted);
+    font-weight: 300;
+  }
+  .pill-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    justify-content: center;
+    margin-top: 18px;
+  }
+  .pill {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 4px 12px;
+    font-size: 12px;
+    color: var(--text-muted);
+  }
+
+  /* ── SUBSET SELECTOR ── */
+  .subset-wrap {
+    max-width: 760px;
+    margin: 24px auto 0;
+    padding: 0 20px;
+  }
+  .subset-box {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 20px 22px;
+  }
+  .subset-box h2 {
+    font-family: 'Syne', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: .1em;
+    color: var(--text-muted);
+    margin-bottom: 14px;
+  }
+  .subset-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    align-items: center;
+  }
+  .subset-btn {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 6px 16px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    color: var(--text-muted);
+    cursor: pointer;
+    transition: all .2s;
+  }
+  .subset-btn:hover { border-color: var(--accent); color: var(--text); }
+  .subset-btn.active {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: #0d1117;
+    font-weight: 600;
+  }
+  .subset-note {
+    margin-top: 10px;
+    font-size: 12px;
+    color: var(--text-dim);
+    font-style: italic;
+  }
+
+  /* ── PROGRESS BAR ── */
+  .progress-wrap {
+    max-width: 760px;
+    margin: 20px auto 0;
+    padding: 0 20px;
+  }
+  .progress-meta {
+    display: flex;
+    justify-content: space-between;
+    font-size: 12px;
+    color: var(--text-muted);
+    margin-bottom: 6px;
+  }
+  .progress-track {
+    height: 4px;
+    background: var(--border);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  .progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--accent), var(--accent2));
+    border-radius: 4px;
+    transition: width .4s ease;
+    width: 0%;
+  }
+
+  /* ── SCORE CARD ── */
+  .score-card {
+    max-width: 760px;
+    margin: 16px auto 0;
+    padding: 0 20px;
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+  .score-item {
+    flex: 1;
+    min-width: 100px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 12px 16px;
+    text-align: center;
+  }
+  .score-item .num {
+    font-family: 'Syne', sans-serif;
+    font-size: 24px;
+    font-weight: 700;
+  }
+  .score-item .lbl { font-size: 11px; color: var(--text-muted); margin-top: 2px; }
+  .score-item.correct .num { color: #3fb950; }
+  .score-item.wrong .num { color: var(--accent3); }
+  .score-item.pct .num { color: var(--accent2); }
+
+  /* ── SECTION TABS ── */
+  .tabs {
+    max-width: 760px;
+    margin: 24px auto 0;
+    padding: 0 20px;
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+  }
+  .tab-btn {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 6px 16px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    color: var(--text-muted);
+    cursor: pointer;
+    transition: all .2s;
+  }
+  .tab-btn:hover { border-color: var(--accent2); color: var(--text); }
+  .tab-btn.active {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: #0d1117;
+    font-weight: 600;
+  }
+
+  /* ── QUIZ AREA ── */
+  .quiz-area {
+    max-width: 760px;
+    margin: 20px auto 0;
+    padding: 0 20px;
+  }
+
+  /* ── QUESTION CARD ── */
+  .q-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 24px;
+    margin-bottom: 14px;
+    transition: border-color .3s;
+    animation: fadeSlide .35s ease both;
+  }
+  @keyframes fadeSlide {
+    from { opacity:0; transform: translateY(12px); }
+    to   { opacity:1; transform: translateY(0); }
+  }
+  .q-header {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    margin-bottom: 16px;
+  }
+  .q-num {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 4px 8px;
+    font-family: 'Syne', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--text-muted);
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+  .q-text {
+    font-size: 15px;
+    font-weight: 500;
+    line-height: 1.5;
+    color: var(--text);
+  }
+  .q-chapter {
+    font-size: 10px;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    margin-bottom: 4px;
+  }
+
+  .options { display: flex; flex-direction: column; gap: 8px; }
+  .opt {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 12px 14px;
+    cursor: pointer;
+    transition: all .18s;
+    font-size: 14px;
+    line-height: 1.45;
+    color: var(--text);
+    text-align: left;
+    width: 100%;
+    font-family: 'DM Sans', sans-serif;
+  }
+  .opt:hover:not(:disabled) {
+    border-color: var(--accent);
+    background: #201a12;
+    transform: translateX(2px);
+  }
+  .opt:disabled { cursor: default; transform: none; }
+  .opt-letter {
+    flex-shrink: 0;
+    width: 22px; height: 22px;
+    border-radius: 50%;
+    background: var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Syne', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--text-muted);
+    transition: all .18s;
+    margin-top: 1px;
+  }
+  .opt:hover:not(:disabled) .opt-letter { background: var(--accent); color: #fff; }
+
+  .opt.correct-pick { background: var(--correct); border-color: var(--correct-border); color: #aff5b4; }
+  .opt.correct-pick .opt-letter { background: #3fb950; color: #0d1117; }
+  .opt.wrong-pick { background: var(--wrong); border-color: var(--wrong-border); color: #ffa198; }
+  .opt.wrong-pick .opt-letter { background: var(--accent3); color: #fff; }
+  .opt.reveal-correct { background: rgba(63,185,80,.08); border-color: rgba(63,185,80,.4); color: #aff5b4; }
+  .opt.reveal-correct .opt-letter { background: rgba(63,185,80,.3); color: #3fb950; }
+
+  .explanation {
+    display: none;
+    margin-top: 12px;
+    padding: 12px 14px;
+    background: rgba(255,140,66,.07);
+    border: 1px solid rgba(255,140,66,.2);
+    border-radius: var(--radius);
+    font-size: 13px;
+    color: #ffd5b8;
+    line-height: 1.55;
+  }
+  .explanation.show { display: block; }
+  .explanation strong { color: var(--accent); }
+
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 28px 0 14px;
+    font-family: 'Syne', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: .1em;
+    color: var(--text-muted);
+  }
+  .section-header::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+  .section-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+
+  /* ── CONTROLS ── */
+  .controls {
+    max-width: 760px;
+    margin: 28px auto 0;
+    padding: 0 20px;
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+  .btn {
+    padding: 11px 22px;
+    border-radius: var(--radius);
+    font-family: 'Syne', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: .04em;
+    cursor: pointer;
+    border: none;
+    transition: all .2s;
+    text-transform: uppercase;
+  }
+  .btn-primary {
+    background: var(--accent);
+    color: #0d1117;
+  }
+  .btn-primary:hover { filter: brightness(1.1); transform: translateY(-1px); }
+  .btn-secondary {
+    background: var(--surface);
+    color: var(--text-muted);
+    border: 1px solid var(--border);
+  }
+  .btn-secondary:hover { border-color: var(--accent2); color: var(--text); }
+
+  /* ── RESULTS ── */
+  #results-screen { display: none; max-width: 760px; margin: 32px auto 0; padding: 0 20px; }
+  .results-box {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 32px;
+    text-align: center;
+  }
+  .results-grade {
+    font-family: 'Syne', sans-serif;
+    font-size: 72px;
+    font-weight: 800;
+    line-height: 1;
+    margin-bottom: 8px;
+  }
+  .results-label {
+    font-size: 14px;
+    color: var(--text-muted);
+    margin-bottom: 24px;
+  }
+  .results-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    margin-bottom: 28px;
+  }
+  .results-stat {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 16px;
+  }
+  .results-stat .n { font-family: 'Syne', sans-serif; font-size: 28px; font-weight: 700; }
+  .results-stat .l { font-size: 11px; color: var(--text-muted); margin-top: 3px; }
+  .missed-list { text-align: left; margin-top: 20px; }
+  .missed-list h3 {
+    font-family: 'Syne', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--accent3);
+    margin-bottom: 10px;
+    text-transform: uppercase;
+    letter-spacing: .08em;
+  }
+  .missed-item {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 10px 14px;
+    font-size: 13px;
+    color: var(--text-muted);
+    margin-bottom: 6px;
+    line-height: 1.4;
+  }
+  .missed-item span { color: var(--text); }
+
+  /* ── BACK LINK ── */
+  .back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 13px;
+    color: var(--text-muted);
+    text-decoration: none;
+    max-width: 760px;
+    margin: 20px auto 0;
+    padding: 0 20px;
+    display: flex;
+  }
+  .back-link:hover { color: var(--text); }
+
+  @media(max-width:520px){
+    .score-item { min-width: 80px; padding: 10px; }
+    .score-item .num { font-size: 20px; }
+    .q-card { padding: 18px; }
+    .opt { font-size: 13px; padding: 10px 12px; }
+    .results-grade { font-size: 56px; }
+    .results-grid { grid-template-columns: repeat(3, 1fr); gap: 8px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- BACK LINK -->
+<a class="back-link" href="index.html">← Back to Quiz Hub</a>
+
+<!-- HEADER -->
+<div class="header">
+  <div class="header-label">Vocabulary Practice</div>
+  <h1>Spanish 2 <span>Word Bank</span></h1>
+  <div class="header-sub">Meanings · Forms · Verb Conjugations · Vocabulary</div>
+  <div class="pill-row">
+    <span class="pill" id="q-count-pill">68 Questions</span>
+    <span class="pill">Multiple Choice</span>
+    <span class="pill">Instant Feedback</span>
+  </div>
+</div>
+
+<!-- SUBSET SELECTOR -->
+<div class="subset-wrap">
+  <div class="subset-box">
+    <h2>How many questions?</h2>
+    <div class="subset-row">
+      <button class="subset-btn active" onclick="setSubset('all',this)">All Questions</button>
+      <button class="subset-btn" onclick="setSubset(20,this)">Random 20</button>
+      <button class="subset-btn" onclick="setSubset(35,this)">Random 35</button>
+      <button class="subset-btn" onclick="setSubset(50,this)">Random 50</button>
+    </div>
+    <div class="subset-note" id="subset-note">Showing all 68 questions across every category.</div>
+  </div>
+</div>
+
+<!-- PROGRESS -->
+<div class="progress-wrap">
+  <div class="progress-meta">
+    <span id="prog-label">0 of 68 answered</span>
+    <span id="prog-pct">0%</span>
+  </div>
+  <div class="progress-track"><div class="progress-fill" id="prog-fill"></div></div>
+</div>
+
+<!-- SCORE CARD -->
+<div class="score-card">
+  <div class="score-item correct"><div class="num" id="sc-correct">0</div><div class="lbl">Correct</div></div>
+  <div class="score-item wrong"><div class="num" id="sc-wrong">0</div><div class="lbl">Incorrect</div></div>
+  <div class="score-item pct"><div class="num" id="sc-pct">—</div><div class="lbl">Score</div></div>
+</div>
+
+<!-- SECTION TABS -->
+<div class="tabs">
+  <button class="tab-btn active" onclick="filterSection('all',this)">All</button>
+  <button class="tab-btn" onclick="filterSection('meaning',this)">Word Meanings</button>
+  <button class="tab-btn" onclick="filterSection('forms',this)">Verb Forms</button>
+  <button class="tab-btn" onclick="filterSection('weather',this)">Weather & Nature</button>
+  <button class="tab-btn" onclick="filterSection('activities',this)">Activities</button>
+  <button class="tab-btn" onclick="filterSection('nouns',this)">Nouns & Objects</button>
+</div>
+
+<!-- QUIZ AREA -->
+<div class="quiz-area" id="quiz-area"></div>
+
+<!-- CONTROLS -->
+<div class="controls">
+  <button class="btn btn-primary" onclick="showResults()">See Final Score</button>
+  <button class="btn btn-secondary" onclick="resetQuiz()">Reset / Reshuffle</button>
+</div>
+
+<!-- RESULTS SCREEN -->
+<div id="results-screen">
+  <div class="results-box">
+    <div class="results-grade" id="r-grade">—</div>
+    <div class="results-label" id="r-label">calculating…</div>
+    <div class="results-grid">
+      <div class="results-stat"><div class="n" id="r-correct" style="color:#3fb950">0</div><div class="l">Correct</div></div>
+      <div class="results-stat"><div class="n" id="r-wrong" style="color:var(--accent3)">0</div><div class="l">Incorrect</div></div>
+      <div class="results-stat"><div class="n" id="r-skip" style="color:var(--text-muted)">0</div><div class="l">Skipped</div></div>
+    </div>
+    <div class="missed-list" id="missed-list"></div>
+    <button class="btn btn-primary" style="margin-top:24px;width:100%" onclick="resetQuiz()">Retake Quiz</button>
+  </div>
+</div>
+
+<script>
+// ──────────────────────────────────────────────
+// ALL QUESTIONS BANK
+// ──────────────────────────────────────────────
+const ALL_QUESTIONS_BANK = [
+
+  // ═══════════════════════════════
+  // WORD MEANINGS — Spanish → English
+  // ═══════════════════════════════
+  {section:'meaning', q:"What does <em>la nieve</em> mean?",
+   opts:[{t:"the pool",c:false},{t:"the snow",c:true},{t:"the mountain",c:false},{t:"the ski",c:false}],
+   explain:"<strong>La nieve</strong> = the snow. Example: Hay mucha nieve en la montaña."},
+
+  {section:'meaning', q:"What does <em>los guantes</em> mean?",
+   opts:[{t:"the sunglasses",c:false},{t:"the gloves",c:true},{t:"the boots",c:false},{t:"the hats",c:false}],
+   explain:"<strong>Los guantes</strong> = the gloves. Plural masculine → pronoun <em>los</em>."},
+
+  {section:'meaning', q:"What does <em>la montaña</em> mean?",
+   opts:[{t:"the beach",c:false},{t:"the valley",c:false},{t:"the mountain",c:true},{t:"the lake",c:false}],
+   explain:"<strong>La montaña</strong> = the mountain."},
+
+  {section:'meaning', q:"What does <em>la piscina</em> mean?",
+   opts:[{t:"the ocean",c:false},{t:"the lake",c:false},{t:"the pool",c:true},{t:"the river",c:false}],
+   explain:"<strong>La piscina</strong> = the (swimming) pool."},
+
+  {section:'meaning', q:"What does <em>los anteojos de sol</em> mean?",
+   opts:[{t:"the sunscreen",c:false},{t:"the hat",c:false},{t:"the sandals",c:false},{t:"the sunglasses",c:true}],
+   explain:"<strong>Los anteojos de sol</strong> = the sunglasses. Literally \"sun eyeglasses.\""},
+
+  {section:'meaning', q:"What does <em>la tabla hawaiana</em> mean?",
+   opts:[{t:"the surfboard",c:true},{t:"the skateboard",c:false},{t:"the boogie board",c:false},{t:"the paddle",c:false}],
+   explain:"<strong>La tabla hawaiana</strong> = the surfboard. Used in the phrase <em>hacer surfing</em>."},
+
+  {section:'meaning', q:"What does <em>el esquí acuático</em> mean?",
+   opts:[{t:"downhill skiing",c:false},{t:"ice skating",c:false},{t:"water skiing",c:true},{t:"cross-country skiing",c:false}],
+   explain:"<strong>El esquí acuático</strong> = water skiing. <em>Acuático</em> means aquatic/water."},
+
+  {section:'meaning', q:"What does <em>la boletería</em> mean?",
+   opts:[{t:"the cafeteria",c:false},{t:"the ticket booth",c:true},{t:"the library",c:false},{t:"the bookstore",c:false}],
+   explain:"<strong>La boletería</strong> = the ticket booth or ticket office."},
+
+  {section:'meaning', q:"What does <em>nublado</em> mean?",
+   opts:[{t:"sunny",c:false},{t:"windy",c:false},{t:"cloudy",c:true},{t:"rainy",c:false}],
+   explain:"<strong>Nublado</strong> = cloudy. It is an adjective describing weather."},
+
+  {section:'meaning', q:"What does <em>el esquiador</em> mean?",
+   opts:[{t:"the ski slope",c:false},{t:"the skier",c:true},{t:"the ski resort",c:false},{t:"the ski lift",c:false}],
+   explain:"<strong>El esquiador</strong> = the skier. The -dor suffix often indicates the person who does the action."},
+
+  {section:'meaning', q:"What does <em>hace sol</em> mean?",
+   opts:[{t:"it is cloudy",c:false},{t:"it is hot",c:false},{t:"it is sunny",c:true},{t:"it is cold",c:false}],
+   explain:"<strong>Hace sol</strong> = it is sunny. <em>Hacer</em> is used for many weather expressions."},
+
+  {section:'meaning', q:"What does <em>hace buen tiempo</em> mean?",
+   opts:[{t:"it is bad weather",c:false},{t:"the weather is good",c:true},{t:"it is cold weather",c:false},{t:"it is hot",c:false}],
+   explain:"<strong>Hace buen tiempo</strong> = the weather is nice / good. <em>Tiempo</em> means both weather and time."},
+
+  // ═══════════════════════════════
+  // WORD MEANINGS — English → Spanish
+  // ═══════════════════════════════
+  {section:'meaning', q:"How do you say <em>to sunbathe</em> in Spanish?",
+   opts:[{t:"nadar",c:false},{t:"tomar el sol",c:true},{t:"bailar",c:false},{t:"esquiar",c:false}],
+   explain:"<strong>Tomar el sol</strong> = to sunbathe. Literally \"to take the sun.\""},
+
+  {section:'meaning', q:"How do you say <em>to ski</em> in Spanish?",
+   opts:[{t:"surfear",c:false},{t:"nadar",c:false},{t:"esquiar",c:true},{t:"bailar",c:false}],
+   explain:"<strong>Esquiar</strong> = to ski. <em>El esquiador</em> is the skier."},
+
+  {section:'meaning', q:"How do you say <em>to go to the movies</em> in Spanish?",
+   opts:[{t:"ver una obra",c:false},{t:"ir al cine",c:true},{t:"leer una revista",c:false},{t:"escuchar música",c:false}],
+   explain:"<strong>Ir al cine</strong> = to go to the movies. <em>El cine</em> = the movie theater."},
+
+  {section:'meaning', q:"How do you say <em>to surf</em> in Spanish?",
+   opts:[{t:"esquiar",c:false},{t:"nadar",c:false},{t:"surfear / hacer surfing",c:true},{t:"tomar el sol",c:false}],
+   explain:"<strong>Surfear</strong> or <strong>hacer surfing</strong> are both used for to surf."},
+
+  {section:'meaning', q:"What does <em>cocinar</em> mean?",
+   opts:[{t:"to clean",c:false},{t:"to eat",c:false},{t:"to cook",c:true},{t:"to shop",c:false}],
+   explain:"<strong>Cocinar</strong> = to cook. Example: Carlos cocinó la cena."},
+
+  {section:'meaning', q:"What does <em>bailar</em> mean?",
+   opts:[{t:"to sing",c:false},{t:"to dance",c:true},{t:"to jump",c:false},{t:"to play",c:false}],
+   explain:"<strong>Bailar</strong> = to dance. Regular -AR verb in the preterite."},
+
+  {section:'meaning', q:"What does <em>asistir</em> mean?",
+   opts:[{t:"to assist/help",c:false},{t:"to attend",c:true},{t:"to sit",c:false},{t:"to listen",c:false}],
+   explain:"<strong>Asistir</strong> = to attend (an event). It is a false cognate — it does NOT mean to assist/help."},
+
+  {section:'meaning', q:"What does <em>compartir</em> mean?",
+   opts:[{t:"to compare",c:false},{t:"to leave",c:false},{t:"to share",c:true},{t:"to buy",c:false}],
+   explain:"<strong>Compartir</strong> = to share. Regular -IR verb."},
+
+  {section:'meaning', q:"What does <em>regresar</em> mean?",
+   opts:[{t:"to register",c:false},{t:"to return / go back",c:true},{t:"to regret",c:false},{t:"to rest",c:false}],
+   explain:"<strong>Regresar</strong> = to return/go back. Regular -AR preterite: regresé, regresaste, regresó…"},
+
+  {section:'meaning', q:"What does <em>bajar</em> mean?",
+   opts:[{t:"to go up",c:false},{t:"to swim",c:false},{t:"to dance",c:false},{t:"to go down / drop",c:true}],
+   explain:"<strong>Bajar</strong> = to go down or to drop (in price/level). Regular -AR verb."},
+
+  {section:'meaning', q:"What does <em>volver</em> mean?",
+   opts:[{t:"to leave",c:false},{t:"to return",c:true},{t:"to go out",c:false},{t:"to fly",c:false}],
+   explain:"<strong>Volver</strong> = to return. Its preterite is irregular: volví, volviste, volvió, volvimos, volvieron."},
+
+  {section:'meaning', q:"What does <em>salir</em> mean?",
+   opts:[{t:"to arrive",c:false},{t:"to stay",c:false},{t:"to leave / go out",c:true},{t:"to enter",c:false}],
+   explain:"<strong>Salir</strong> = to leave or go out. Preterite: salí, saliste, salió, salimos, salieron."},
+
+  // ═══════════════════════════════
+  // VERB FORMS — Preterite conjugations
+  // ═══════════════════════════════
+  {section:'forms', q:"What is the <em>yo</em> preterite form of <em>hablar</em>?",
+   opts:[{t:"hablí",c:false},{t:"hablé",c:true},{t:"hablaste",c:false},{t:"hablo",c:false}],
+   explain:"Regular -AR yo ending = <strong>é</strong> → hablé. Note the accent mark."},
+
+  {section:'forms', q:"What is the <em>tú</em> preterite form of <em>caminar</em>?",
+   opts:[{t:"caminé",c:false},{t:"caministe",c:false},{t:"caminaste",c:true},{t:"caminó",c:false}],
+   explain:"Regular -AR tú ending = <strong>aste</strong> → caminaste."},
+
+  {section:'forms', q:"What is the <em>él/ella</em> preterite form of <em>estudiar</em>?",
+   opts:[{t:"estudié",c:false},{t:"estudiaste",c:false},{t:"estudió",c:true},{t:"estudiaron",c:false}],
+   explain:"Regular -AR él/ella ending = <strong>ó</strong> → estudió (accent mark on the o)."},
+
+  {section:'forms', q:"What is the <em>nosotros</em> preterite form of <em>pasar</em>?",
+   opts:[{t:"pasé",c:false},{t:"pasamos",c:true},{t:"pasimos",c:false},{t:"pasaron",c:false}],
+   explain:"Regular -AR nosotros ending = <strong>amos</strong> → pasamos."},
+
+  {section:'forms', q:"What is the <em>ellos/ustedes</em> preterite form of <em>regresar</em>?",
+   opts:[{t:"regresé",c:false},{t:"regresieron",c:false},{t:"regresamos",c:false},{t:"regresaron",c:true}],
+   explain:"Regular -AR ellos/ustedes ending = <strong>aron</strong> → regresaron."},
+
+  {section:'forms', q:"What is the <em>yo</em> preterite form of <em>comer</em>?",
+   opts:[{t:"comé",c:false},{t:"comí",c:true},{t:"comiste",c:false},{t:"comió",c:false}],
+   explain:"Regular -ER yo ending = <strong>í</strong> → comí. -ER/-IR endings differ from -AR."},
+
+  {section:'forms', q:"What is the <em>tú</em> preterite form of <em>vivir</em>?",
+   opts:[{t:"vivaste",c:false},{t:"viví",c:false},{t:"viviste",c:true},{t:"vivió",c:false}],
+   explain:"Regular -IR tú ending = <strong>iste</strong> → viviste."},
+
+  {section:'forms', q:"What is the <em>él/ella</em> preterite form of <em>beber</em>?",
+   opts:[{t:"bebió",c:true},{t:"bebí",c:false},{t:"bebiste",c:false},{t:"bebieron",c:false}],
+   explain:"Regular -ER él/ella ending = <strong>ió</strong> → bebió."},
+
+  {section:'forms', q:"What is the <em>nosotros</em> preterite form of <em>asistir</em>?",
+   opts:[{t:"asistamos",c:false},{t:"asistieron",c:false},{t:"asistimos",c:true},{t:"asistí",c:false}],
+   explain:"Regular -IR nosotros ending = <strong>imos</strong> → asistimos."},
+
+  {section:'forms', q:"What is the <em>ellos/ustedes</em> preterite form of <em>compartir</em>?",
+   opts:[{t:"compartaron",c:false},{t:"compartimos",c:false},{t:"compartieron",c:true},{t:"compartí",c:false}],
+   explain:"Regular -IR ellos/ustedes ending = <strong>ieron</strong> → compartieron."},
+
+  // ── Key -AR vs -ER/-IR ending distinction ──
+  {section:'forms', q:"Which ending is correct for <em>yo</em> with a regular -AR preterite verb?",
+   opts:[{t:"í",c:false},{t:"amos",c:false},{t:"é",c:true},{t:"aron",c:false}],
+   explain:"Regular -AR yo preterite = <strong>é</strong>. Compare: -ER/-IR yo = <em>í</em>."},
+
+  {section:'forms', q:"Which ending is correct for <em>ellos</em> with a regular -ER verb in the preterite?",
+   opts:[{t:"aron",c:false},{t:"ieron",c:true},{t:"imos",c:false},{t:"ieron vs aron — both OK",c:false}],
+   explain:"Regular -ER/-IR ellos = <strong>ieron</strong>. Regular -AR ellos = <em>aron</em>. These two are often confused."},
+
+  {section:'forms', q:"Which word shows the correct <em>yo</em> preterite form?",
+   opts:[{t:"nadar → nadé",c:true},{t:"nadar → nadí",c:false},{t:"nadar → nadaste",c:false},{t:"nadar → nadaron",c:false}],
+   explain:"<em>Nadar</em> is a regular -AR verb. <strong>Yo nadé</strong> (accent on the é)."},
+
+  {section:'forms', q:"Which word shows the correct <em>tú</em> preterite form?",
+   opts:[{t:"tomar → tomaste",c:true},{t:"tomar → tomiste",c:false},{t:"tomar → tomé",c:false},{t:"tomar → tomó",c:false}],
+   explain:"Regular -AR tú = <strong>aste</strong> → tomaste."},
+
+  // ── Irregulars ──
+  {section:'forms', q:"What is the <em>yo</em> preterite form of <em>ir</em>?",
+   opts:[{t:"iba",c:false},{t:"fui",c:true},{t:"fue",c:false},{t:"voy",c:false}],
+   explain:"<strong>Ir</strong> and <em>ser</em> share the same preterite forms. Yo = <strong>fui</strong>."},
+
+  {section:'forms', q:"What is the <em>él/ella</em> preterite form of <em>ser</em>?",
+   opts:[{t:"fui",c:false},{t:"fue",c:true},{t:"fuiste",c:false},{t:"fueron",c:false}],
+   explain:"<em>Ser</em> and <em>ir</em> share identical preterite forms. Él/ella = <strong>fue</strong>."},
+
+  {section:'forms', q:"What is the <em>ellos/ustedes</em> preterite form of <em>ir/ser</em>?",
+   opts:[{t:"fuimos",c:false},{t:"fuiste",c:false},{t:"fueron",c:true},{t:"fui",c:false}],
+   explain:"<em>Ir/ser</em> ellos/ustedes preterite = <strong>fueron</strong>."},
+
+  {section:'forms', q:"What is the <em>yo</em> preterite form of <em>ver</em>?",
+   opts:[{t:"veo",c:false},{t:"viste",c:false},{t:"vi",c:true},{t:"vió",c:false}],
+   explain:"<strong>Ver</strong> is irregular in the preterite. Yo = <strong>vi</strong> (no accent mark)."},
+
+  {section:'forms', q:"What is the <em>él/ella</em> preterite form of <em>ver</em>?",
+   opts:[{t:"vi",c:false},{t:"vio",c:true},{t:"vió",c:false},{t:"vieron",c:false}],
+   explain:"<em>Ver</em> él/ella = <strong>vio</strong> (no accent mark, unlike regular -ER verbs like bebió)."},
+
+  {section:'forms', q:"What is the <em>ellos/ustedes</em> preterite form of <em>ver</em>?",
+   opts:[{t:"vieron",c:true},{t:"varon",c:false},{t:"vieron vs varon — both OK",c:false},{t:"vearon",c:false}],
+   explain:"<em>Ver</em> ellos = <strong>vieron</strong>."},
+
+  {section:'forms', q:"What is the <em>yo</em> preterite form of <em>dar</em>?",
+   opts:[{t:"daré",c:false},{t:"di",c:true},{t:"dí",c:false},{t:"dio",c:false}],
+   explain:"<strong>Dar</strong> is irregular: yo = <strong>di</strong> (no accent). Note: <em>di</em> looks like a -ER/-IR ending even though dar ends in -AR."},
+
+  {section:'forms', q:"What is the <em>él/ella</em> preterite form of <em>dar</em>?",
+   opts:[{t:"di",c:false},{t:"dió",c:false},{t:"dio",c:true},{t:"dieron",c:false}],
+   explain:"<em>Dar</em> él/ella = <strong>dio</strong> (no accent mark)."},
+
+  {section:'forms', q:"What is the <em>yo</em> preterite form of <em>salir</em>?",
+   opts:[{t:"salé",c:false},{t:"saliste",c:false},{t:"salí",c:true},{t:"salió",c:false}],
+   explain:"<strong>Salir</strong> is regular in the preterite despite being irregular in the present. Yo = <strong>salí</strong>."},
+
+  {section:'forms', q:"What is the <em>ellos/ustedes</em> preterite form of <em>salir</em>?",
+   opts:[{t:"salaron",c:false},{t:"salieron",c:true},{t:"salimos",c:false},{t:"saliste",c:false}],
+   explain:"<em>Salir</em> ellos = <strong>salieron</strong> (regular -IR ending)."},
+
+  {section:'forms', q:"What is the <em>yo</em> preterite form of <em>volver</em>?",
+   opts:[{t:"vuelvo",c:false},{t:"volvé",c:false},{t:"volví",c:true},{t:"volvió",c:false}],
+   explain:"<strong>Volver</strong> preterite is regular -ER: yo = <strong>volví</strong>."},
+
+  {section:'forms', q:"What is the <em>él/ella</em> preterite form of <em>volver</em>?",
+   opts:[{t:"volví",c:false},{t:"volviste",c:false},{t:"volvieron",c:false},{t:"volvió",c:true}],
+   explain:"<em>Volver</em> él/ella = <strong>volvió</strong> (regular -ER ending)."},
+
+  // ── Singular vs Plural identification ──
+  {section:'forms', q:"Which form is PLURAL?",
+   opts:[{t:"hablé",c:false},{t:"comió",c:false},{t:"viviste",c:false},{t:"regresaron",c:true}],
+   explain:"<strong>Regresaron</strong> uses the -aron ending = ellos/ustedes (plural). The others are all singular forms."},
+
+  {section:'forms', q:"Which form is SINGULAR?",
+   opts:[{t:"comieron",c:false},{t:"vivimos",c:false},{t:"caminaste",c:true},{t:"salieron",c:false}],
+   explain:"<strong>Caminaste</strong> = tú (singular). The others are nosotros (plural) or ellos (plural)."},
+
+  // ═══════════════════════════════
+  // WEATHER & NATURE
+  // ═══════════════════════════════
+  {section:'weather', q:"Which word means CLOUDY?",
+   opts:[{t:"soleado",c:false},{t:"lluvioso",c:false},{t:"nublado",c:true},{t:"ventoso",c:false}],
+   explain:"<strong>Nublado</strong> = cloudy. From <em>la nube</em> (cloud)."},
+
+  {section:'weather', q:"Which weather phrase uses <em>hacer</em>?",
+   opts:[{t:"Llueve mucho.",c:false},{t:"Está nublado.",c:false},{t:"Hace sol.",c:true},{t:"Hay nieve.",c:false}],
+   explain:"Weather expressions with <strong>hacer</strong>: hace sol, hace buen tiempo, hace frío, hace calor."},
+
+  {section:'weather', q:"What gender and number is <em>la nieve</em>?",
+   opts:[{t:"masculine singular",c:false},{t:"feminine singular",c:true},{t:"masculine plural",c:false},{t:"feminine plural",c:false}],
+   explain:"<strong>La nieve</strong> = feminine singular. Direct object pronoun replacement = <em>la</em>."},
+
+  {section:'weather', q:"What gender and number is <em>los guantes</em>?",
+   opts:[{t:"feminine singular",c:false},{t:"feminine plural",c:false},{t:"masculine singular",c:false},{t:"masculine plural",c:true}],
+   explain:"<strong>Los guantes</strong> = masculine plural. Direct object replacement = <em>los</em>."},
+
+  {section:'weather', q:"What gender and number is <em>la montaña</em>?",
+   opts:[{t:"masculine singular",c:false},{t:"feminine singular",c:true},{t:"masculine plural",c:false},{t:"feminine plural",c:false}],
+   explain:"<strong>La montaña</strong> = feminine singular → pronoun <em>la</em>."},
+
+  {section:'weather', q:"What gender and number is <em>los anteojos de sol</em>?",
+   opts:[{t:"feminine singular",c:false},{t:"feminine plural",c:false},{t:"masculine singular",c:false},{t:"masculine plural",c:true}],
+   explain:"<strong>Los anteojos de sol</strong> = masculine plural (anteojos ends in -os) → pronoun <em>los</em>."},
+
+  {section:'weather', q:"Which sentence correctly describes good weather?",
+   opts:[{t:"Hace mal tiempo.",c:false},{t:"Está nublado y llueve.",c:false},{t:"Hace buen tiempo.",c:true},{t:"Hace frío y nieva.",c:false}],
+   explain:"<strong>Hace buen tiempo</strong> = the weather is nice/good."},
+
+  // ═══════════════════════════════
+  // ACTIVITIES
+  // ═══════════════════════════════
+  {section:'activities', q:"Which activity means to swim?",
+   opts:[{t:"bailar",c:false},{t:"nadar",c:true},{t:"esquiar",c:false},{t:"cocinar",c:false}],
+   explain:"<strong>Nadar</strong> = to swim. Example: Yo nadé en la piscina."},
+
+  {section:'activities', q:"Which activity would you do at the beach on a sunny day?",
+   opts:[{t:"cocinar",c:false},{t:"asistir a clase",c:false},{t:"tomar el sol",c:true},{t:"compartir libros",c:false}],
+   explain:"<strong>Tomar el sol</strong> = to sunbathe — a perfect beach activity on a sunny day."},
+
+  {section:'activities', q:"What is the preterite <em>yo</em> form of <em>nadar</em>?",
+   opts:[{t:"nadí",c:false},{t:"nadé",c:true},{t:"nadaste",c:false},{t:"nadó",c:false}],
+   explain:"<em>Nadar</em> = regular -AR verb. Yo preterite = <strong>nadé</strong>."},
+
+  {section:'activities', q:"What is the preterite <em>yo</em> form of <em>jugar</em>?",
+   opts:[{t:"jugé",c:false},{t:"jugué",c:true},{t:"jugaste",c:false},{t:"jugó",c:false}],
+   explain:"<em>Jugar</em> = yo preterite = <strong>jugué</strong>. The g→gu spelling change keeps the hard g sound before é."},
+
+  {section:'activities', q:"Which sentence means <em>They went to the movies</em>?",
+   opts:[{t:"Ellos vieron una película en casa.",c:false},{t:"Ellos fueron al cine.",c:true},{t:"Ellos salieron a bailar.",c:false},{t:"Ellos comieron en el restaurante.",c:false}],
+   explain:"<strong>Fueron al cine</strong> = they went to the movies. <em>Fueron</em> = preterite of <em>ir</em>."},
+
+  {section:'activities', q:"Which sentence means <em>I cooked dinner</em>?",
+   opts:[{t:"Yo comí la cena.",c:false},{t:"Yo preparé la mesa.",c:false},{t:"Yo cociné la cena.",c:true},{t:"Yo serví la cena.",c:false}],
+   explain:"<strong>Cociné</strong> = I cooked (preterite of cocinar, regular -AR)."},
+
+  {section:'activities', q:"What does <em>Yo no salí anoche</em> mean?",
+   opts:[{t:"I went out last night.",c:false},{t:"I did not go out last night.",c:true},{t:"I left yesterday.",c:false},{t:"I returned last night.",c:false}],
+   explain:"<strong>No salí</strong> = I did not go out. <em>Anoche</em> = last night."},
+
+  // ═══════════════════════════════
+  // NOUNS & OBJECTS
+  // ═══════════════════════════════
+  {section:'nouns', q:"Which noun is MASCULINE SINGULAR?",
+   opts:[{t:"la música",c:false},{t:"los guantes",c:false},{t:"el helado",c:true},{t:"las fotos",c:false}],
+   explain:"<strong>El helado</strong> = masculine singular. Direct object pronoun = <em>lo</em>."},
+
+  {section:'nouns', q:"Which noun is FEMININE PLURAL?",
+   opts:[{t:"el museo",c:false},{t:"la ropa",c:false},{t:"los cuadernos",c:false},{t:"las revistas",c:true}],
+   explain:"<strong>Las revistas</strong> = feminine plural. Direct object pronoun = <em>las</em>."},
+
+  {section:'nouns', q:"What direct object pronoun replaces <em>el museo</em>?",
+   opts:[{t:"la",c:false},{t:"los",c:false},{t:"lo",c:true},{t:"las",c:false}],
+   explain:"<em>El museo</em> = masculine singular → pronoun <strong>lo</strong>."},
+
+  {section:'nouns', q:"What direct object pronoun replaces <em>la ropa</em>?",
+   opts:[{t:"lo",c:false},{t:"la",c:true},{t:"los",c:false},{t:"las",c:false}],
+   explain:"<em>La ropa</em> = feminine singular → pronoun <strong>la</strong>."},
+
+  {section:'nouns', q:"What direct object pronoun replaces <em>las revistas</em>?",
+   opts:[{t:"lo",c:false},{t:"la",c:false},{t:"los",c:false},{t:"las",c:true}],
+   explain:"<em>Las revistas</em> = feminine plural → pronoun <strong>las</strong>."},
+
+  {section:'nouns', q:"What direct object pronoun replaces <em>los cuadernos</em>?",
+   opts:[{t:"lo",c:false},{t:"la",c:false},{t:"los",c:true},{t:"las",c:false}],
+   explain:"<em>Los cuadernos</em> = masculine plural → pronoun <strong>los</strong>."},
+
+  {section:'nouns', q:"Which is the correct pronoun rewrite of <em>Quiero la toalla</em>?",
+   opts:[{t:"Lo quiero.",c:false},{t:"La quiero.",c:true},{t:"Las quiero.",c:false},{t:"Los quiero.",c:false}],
+   explain:"<em>La toalla</em> = feminine singular → <strong>La quiero.</strong> Pronoun goes before the conjugated verb."},
+
+  {section:'nouns', q:"Which is the correct pronoun rewrite of <em>Llevo los refrescos</em>?",
+   opts:[{t:"La llevo.",c:false},{t:"Lo llevo.",c:false},{t:"Las llevo.",c:false},{t:"Los llevo.",c:true}],
+   explain:"<em>Los refrescos</em> = masculine plural → <strong>Los llevo.</strong>"},
+
+];
+
+// ──────────────────────────────────────────────
+// STATE
+// ──────────────────────────────────────────────
+let answers = {};
+let currentSection = 'all';
+let subsetCount = 'all';
+let activeQuestions = [];
+
+const SECTIONS = [
+  {key:'meaning',  label:'Word Meanings',    color:'#ff8c42'},
+  {key:'forms',    label:'Verb Forms',       color:'#58a6ff'},
+  {key:'weather',  label:'Weather & Nature', color:'#3fb950'},
+  {key:'activities',label:'Activities',      color:'#d2a8ff'},
+  {key:'nouns',    label:'Nouns & Objects',  color:'#e3b341'},
+];
+
+function shuffleArr(arr) {
+  const a = [...arr];
+  for(let i=a.length-1;i>0;i--){
+    const j=Math.floor(Math.random()*(i+1));
+    [a[i],a[j]]=[a[j],a[i]];
+  }
+  return a;
+}
+
+function setSubset(n, btn) {
+  subsetCount = n;
+  document.querySelectorAll('.subset-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  const note = document.getElementById('subset-note');
+  if(n === 'all') {
+    note.textContent = `Showing all ${ALL_QUESTIONS_BANK.length} questions across every category.`;
+  } else {
+    note.textContent = `${n} questions randomly selected from the full bank. Reshuffle anytime to get a new mix.`;
+  }
+  resetQuiz();
+}
+
+function buildActiveQuestions() {
+  let pool = [...ALL_QUESTIONS_BANK];
+  if(subsetCount !== 'all') {
+    pool = shuffleArr(pool).slice(0, subsetCount);
+  }
+  activeQuestions = pool.map((q, i) => ({...q, idx: i}));
+  const total = activeQuestions.length;
+  document.getElementById('q-count-pill').textContent = `${total} Questions`;
+  document.getElementById('prog-label').textContent = `0 of ${total} answered`;
+}
+
+function buildQuiz() {
+  const area = document.getElementById('quiz-area');
+  area.innerHTML = '';
+
+  const visibleQuestions = currentSection === 'all'
+    ? activeQuestions
+    : activeQuestions.filter(q => q.section === currentSection);
+
+  // Group by section for headers
+  const grouped = {};
+  SECTIONS.forEach(s => { grouped[s.key] = []; });
+  visibleQuestions.forEach(q => {
+    if(grouped[q.section]) grouped[q.section].push(q);
+  });
+
+  SECTIONS.forEach(sec => {
+    const qs = grouped[sec.key];
+    if(!qs || qs.length === 0) return;
+
+    const sh = document.createElement('div');
+    sh.className = 'section-header';
+    sh.innerHTML = `<span class="section-dot" style="background:${sec.color}"></span>${sec.label}`;
+    area.appendChild(sh);
+
+    qs.forEach(q => {
+      const card = document.createElement('div');
+      card.className = 'q-card';
+      card.id = `card-${q.idx}`;
+      if(answers[q.idx]) card.classList.add('answered');
+
+      const shuffledOpts = shuffleArr(q.opts.map(o => ({t: o.t, correct: o.c})));
+      const letters = ['A','B','C','D'];
+
+      let optsHTML = shuffledOpts.map((opt, i) => {
+        let cls = 'opt';
+        const st = answers[q.idx];
+        if(st) {
+          if(i === st.chosen && st.correct) cls += ' correct-pick';
+          else if(i === st.chosen && !st.correct) cls += ' wrong-pick';
+          else if(opt.correct && !st.correct) cls += ' reveal-correct';
+        }
+        return `<button class="${cls}" onclick="pick(${q.idx},${i},this)" ${answers[q.idx]?'disabled':''}>
+          <span class="opt-letter">${letters[i]}</span>${opt.t}
+        </button>`;
+      }).join('');
+
+      const expShow = answers[q.idx] ? 'show' : '';
+      card.innerHTML = `
+        <div class="q-header">
+          <span class="q-num">Q${q.idx+1}</span>
+          <div><div class="q-chapter">${sec.label}</div><div class="q-text">${q.q}</div></div>
+        </div>
+        <div class="options" id="opts-${q.idx}">${optsHTML}</div>
+        <div class="explanation ${expShow}" id="exp-${q.idx}"><strong>Explanation:</strong> ${q.explain}</div>
+      `;
+      card.dataset.shuffled = JSON.stringify(shuffledOpts.map(o => o.correct));
+      area.appendChild(card);
+    });
+  });
+
+  updateProgress();
+}
+
+function pick(qIdx, chosenIdx, btn) {
+  if(answers[qIdx]) return;
+  const card = document.getElementById(`card-${qIdx}`);
+  const shuffledCorrects = JSON.parse(card.dataset.shuffled);
+  const isCorrect = shuffledCorrects[chosenIdx];
+
+  answers[qIdx] = {chosen: chosenIdx, correct: isCorrect};
+
+  card.querySelectorAll('.opt').forEach((b,i) => {
+    b.disabled = true;
+    if(i===chosenIdx && isCorrect) b.classList.add('correct-pick');
+    else if(i===chosenIdx && !isCorrect) b.classList.add('wrong-pick');
+    else if(shuffledCorrects[i] && !isCorrect) b.classList.add('reveal-correct');
+  });
+
+  document.getElementById(`exp-${qIdx}`).classList.add('show');
+  card.classList.add('answered');
+  updateProgress();
+}
+
+function updateProgress() {
+  const total = activeQuestions.filter(q =>
+    currentSection === 'all' || q.section === currentSection
+  ).length;
+  const visibleIdxs = (currentSection === 'all' ? activeQuestions : activeQuestions.filter(q => q.section === currentSection)).map(q => q.idx);
+  const answered = visibleIdxs.filter(i => answers[i]).length;
+  const correct = visibleIdxs.filter(i => answers[i] && answers[i].correct).length;
+  const wrong = answered - correct;
+
+  document.getElementById('prog-label').textContent = `${answered} of ${total} answered`;
+  const pct = total > 0 ? Math.round((answered/total)*100) : 0;
+  document.getElementById('prog-pct').textContent = pct+'%';
+  document.getElementById('prog-fill').style.width = pct+'%';
+  document.getElementById('sc-correct').textContent = correct;
+  document.getElementById('sc-wrong').textContent = wrong;
+  if(answered>0){
+    document.getElementById('sc-pct').textContent = Math.round((correct/answered)*100)+'%';
+  } else {
+    document.getElementById('sc-pct').textContent = '—';
+  }
+}
+
+function filterSection(sec, btn) {
+  currentSection = sec;
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  buildQuiz();
+}
+
+function showResults() {
+  const total = activeQuestions.length;
+  const answered = Object.keys(answers).length;
+  const correct = Object.values(answers).filter(a=>a.correct).length;
+  const wrong = Object.values(answers).filter(a=>!a.correct).length;
+  const skipped = total - answered;
+  const pct = Math.round((correct/total)*100);
+
+  let grade, color;
+  if(pct>=90){grade='A';color='#3fb950';}
+  else if(pct>=80){grade='B';color='#58a6ff';}
+  else if(pct>=70){grade='C';color='#e3b341';}
+  else if(pct>=60){grade='D';color='#f78166';}
+  else{grade='F';color='#f78166';}
+
+  document.getElementById('r-grade').textContent = pct+'%';
+  document.getElementById('r-grade').style.color = color;
+  document.getElementById('r-label').textContent = `Grade: ${grade} · ${correct} correct out of ${total} questions`;
+  document.getElementById('r-correct').textContent = correct;
+  document.getElementById('r-wrong').textContent = wrong;
+  document.getElementById('r-skip').textContent = skipped;
+
+  const missedEl = document.getElementById('missed-list');
+  const missed = activeQuestions.filter(q => answers[q.idx] && !answers[q.idx].correct);
+
+  if(missed.length){
+    missedEl.innerHTML = `<h3>Review These (${missed.length})</h3>` +
+      missed.map(q=>`<div class="missed-item">Q${q.idx+1}: <span>${q.q.replace(/<[^>]+>/g,'')}</span></div>`).join('');
+  } else if(answered===total){
+    missedEl.innerHTML = `<div style="color:#3fb950;font-size:15px;text-align:center;margin-top:8px">🎉 ¡Perfecto! All answers correct!</div>`;
+  } else {
+    missedEl.innerHTML = '';
+  }
+
+  document.getElementById('results-screen').style.display = 'block';
+  document.getElementById('results-screen').scrollIntoView({behavior:'smooth'});
+}
+
+function resetQuiz() {
+  answers = {};
+  document.getElementById('results-screen').style.display = 'none';
+  buildActiveQuestions();
+  buildQuiz();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+// ── INIT ──
+buildActiveQuestions();
+buildQuiz();
+</script>
+</body>
+</html>
