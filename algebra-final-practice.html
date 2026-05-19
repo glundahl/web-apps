@@ -1,0 +1,1506 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Algebra Final Review</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0d1117;
+    --surface: #161b22;
+    --surface2: #1c2330;
+    --border: #30363d;
+    --accent: #f7c948;
+    --accent2: #58a6ff;
+    --accent3: #f78166;
+    --accent4: #d2a8ff;
+    --text: #e6edf3;
+    --text-muted: #7d8590;
+    --text-dim: #484f58;
+    --correct: #2d2a10;
+    --correct-border: #f7c948;
+    --wrong: #4d1a1a;
+    --wrong-border: #f78166;
+    --radius: 10px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    padding: 0 0 60px;
+  }
+
+  /* ── HEADER ── */
+  .header {
+    background: linear-gradient(135deg, #0d1117 0%, #161b22 100%);
+    border-bottom: 1px solid var(--border);
+    padding: 40px 20px 30px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .header::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse 70% 80% at 50% -20%, rgba(247,201,72,.11) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .header-label {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: .18em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 10px;
+  }
+  .header h1 {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(26px, 5vw, 44px);
+    font-weight: 800;
+    line-height: 1.1;
+    color: var(--text);
+  }
+  .header h1 span { color: var(--accent); }
+  .header-sub {
+    margin-top: 10px;
+    font-size: 14px;
+    color: var(--text-muted);
+    font-weight: 300;
+  }
+  .pill-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    justify-content: center;
+    margin-top: 18px;
+  }
+  .pill {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 4px 12px;
+    font-size: 12px;
+    color: var(--text-muted);
+  }
+
+  /* ── PROGRESS BAR ── */
+  .progress-wrap {
+    max-width: 760px;
+    margin: 24px auto 0;
+    padding: 0 20px;
+  }
+  .progress-meta {
+    display: flex;
+    justify-content: space-between;
+    font-size: 12px;
+    color: var(--text-muted);
+    margin-bottom: 6px;
+  }
+  .progress-track {
+    height: 4px;
+    background: var(--border);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  .progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--accent), var(--accent2));
+    border-radius: 4px;
+    transition: width .4s ease;
+    width: 0%;
+  }
+
+  /* ── SCORE CARD ── */
+  .score-card {
+    max-width: 760px;
+    margin: 16px auto 0;
+    padding: 0 20px;
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+  .score-item {
+    flex: 1;
+    min-width: 100px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 12px 16px;
+    text-align: center;
+  }
+  .score-item .num {
+    font-family: 'Syne', sans-serif;
+    font-size: 24px;
+    font-weight: 700;
+  }
+  .score-item .lbl { font-size: 11px; color: var(--text-muted); margin-top: 2px; }
+  .score-item.correct .num { color: var(--accent); }
+  .score-item.wrong .num { color: var(--accent3); }
+  .score-item.pct .num { color: var(--accent2); }
+
+  /* ── SECTION TABS ── */
+  .tabs {
+    max-width: 760px;
+    margin: 24px auto 0;
+    padding: 0 20px;
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+  }
+  .tab-btn {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 6px 16px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    color: var(--text-muted);
+    cursor: pointer;
+    transition: all .2s;
+  }
+  .tab-btn:hover { border-color: var(--accent2); color: var(--text); }
+  .tab-btn.active {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: #0d1117;
+    font-weight: 600;
+  }
+
+  /* ── QUIZ AREA ── */
+  .quiz-area {
+    max-width: 760px;
+    margin: 20px auto 0;
+    padding: 0 20px;
+  }
+
+  /* ── QUESTION CARD ── */
+  .q-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 24px;
+    margin-bottom: 14px;
+    transition: border-color .3s;
+    animation: fadeSlide .35s ease both;
+  }
+  @keyframes fadeSlide {
+    from { opacity:0; transform: translateY(12px); }
+    to   { opacity:1; transform: translateY(0); }
+  }
+  .q-card.answered { border-color: var(--border); }
+
+  .q-header {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    margin-bottom: 16px;
+  }
+  .q-num {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 4px 8px;
+    font-family: 'Syne', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--text-muted);
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+  .q-text {
+    font-size: 15px;
+    font-weight: 500;
+    line-height: 1.5;
+    color: var(--text);
+  }
+  .q-chapter {
+    font-size: 10px;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    margin-bottom: 4px;
+  }
+
+  /* ── MATH DISPLAY ── */
+  .math-block {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 10px 14px;
+    margin: 10px 0 4px;
+    font-family: 'Courier New', monospace;
+    font-size: 15px;
+    color: var(--accent);
+    letter-spacing: .02em;
+    text-align: center;
+  }
+  .math-inline {
+    font-family: 'Courier New', monospace;
+    font-size: 14px;
+    color: var(--accent);
+    background: rgba(247,201,72,.08);
+    border-radius: 4px;
+    padding: 1px 5px;
+  }
+
+  /* ── GRAPH SVG ── */
+  .graph-wrap {
+    margin: 12px 0 8px;
+    display: flex;
+    justify-content: center;
+  }
+  .graph-wrap svg {
+    border-radius: 8px;
+    background: #111827;
+    border: 1px solid var(--border);
+  }
+
+  /* ── ANSWER OPTIONS ── */
+  .options { display: flex; flex-direction: column; gap: 8px; }
+
+  .opt {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 12px 14px;
+    cursor: pointer;
+    transition: all .18s;
+    font-size: 14px;
+    line-height: 1.45;
+    color: var(--text);
+    text-align: left;
+    width: 100%;
+    font-family: 'DM Sans', sans-serif;
+  }
+  .opt:hover:not(:disabled) {
+    border-color: var(--accent2);
+    background: #1c2d3f;
+    transform: translateX(2px);
+  }
+  .opt:disabled { cursor: default; transform: none; }
+
+  .opt-letter {
+    flex-shrink: 0;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Syne', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--text-muted);
+    transition: all .18s;
+    margin-top: 1px;
+  }
+  .opt:hover:not(:disabled) .opt-letter {
+    background: var(--accent2);
+    color: #fff;
+  }
+
+  .opt.correct-pick {
+    background: var(--correct);
+    border-color: var(--correct-border);
+    color: #fef3c7;
+  }
+  .opt.correct-pick .opt-letter { background: var(--accent); color: #0d1117; }
+
+  .opt.wrong-pick {
+    background: var(--wrong);
+    border-color: var(--wrong-border);
+    color: #ffa198;
+  }
+  .opt.wrong-pick .opt-letter { background: var(--accent3); color: #fff; }
+
+  .opt.reveal-correct {
+    background: rgba(247,201,72,.08);
+    border-color: rgba(247,201,72,.4);
+    color: #fef3c7;
+  }
+  .opt.reveal-correct .opt-letter { background: rgba(247,201,72,.3); color: var(--accent); }
+
+  /* math in answer options */
+  .opt .math-inline {
+    font-size: 13px;
+  }
+
+  /* ── EXPLANATION ── */
+  .explanation {
+    display: none;
+    margin-top: 12px;
+    padding: 12px 14px;
+    background: rgba(88,166,255,.07);
+    border: 1px solid rgba(88,166,255,.2);
+    border-radius: var(--radius);
+    font-size: 13px;
+    color: #a5c8ff;
+    line-height: 1.55;
+  }
+  .explanation.show { display: block; }
+  .explanation strong { color: var(--accent2); }
+  .explanation .math-inline { font-size: 12px; }
+
+  /* ── SECTION HEADER ── */
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 28px 0 14px;
+    font-family: 'Syne', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: .1em;
+    color: var(--text-muted);
+  }
+  .section-header::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+  .section-dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  /* ── CONTROLS ── */
+  .controls {
+    max-width: 760px;
+    margin: 28px auto 0;
+    padding: 0 20px;
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+  .btn {
+    padding: 10px 22px;
+    border-radius: var(--radius);
+    border: none;
+    font-family: 'Syne', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: .04em;
+    cursor: pointer;
+    transition: all .2s;
+  }
+  .btn-primary {
+    background: var(--accent);
+    color: #0d1117;
+  }
+  .btn-primary:hover { background: #fad156; transform: translateY(-1px); }
+  .btn-secondary {
+    background: var(--surface2);
+    color: var(--text);
+    border: 1px solid var(--border);
+  }
+  .btn-secondary:hover { border-color: var(--accent2); transform: translateY(-1px); }
+
+  /* ── FINAL RESULTS ── */
+  #results-screen {
+    display: none;
+    max-width: 760px;
+    margin: 30px auto;
+    padding: 0 20px;
+    text-align: center;
+  }
+  .results-box {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 40px 30px;
+  }
+  .results-grade {
+    font-family: 'Syne', sans-serif;
+    font-size: 72px;
+    font-weight: 800;
+    line-height: 1;
+    margin-bottom: 8px;
+  }
+  .results-label {
+    font-size: 14px;
+    color: var(--text-muted);
+    margin-bottom: 28px;
+  }
+  .results-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    margin-bottom: 28px;
+  }
+  .results-stat {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 16px;
+  }
+  .results-stat .n {
+    font-family: 'Syne', sans-serif;
+    font-size: 28px;
+    font-weight: 700;
+  }
+  .results-stat .l { font-size: 11px; color: var(--text-muted); margin-top: 3px; }
+
+  .missed-list { text-align: left; margin-top: 20px; }
+  .missed-list h3 {
+    font-family: 'Syne', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--accent3);
+    margin-bottom: 10px;
+    text-transform: uppercase;
+    letter-spacing: .08em;
+  }
+  .missed-item {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 10px 14px;
+    font-size: 13px;
+    color: var(--text-muted);
+    margin-bottom: 6px;
+    line-height: 1.4;
+  }
+  .missed-item span { color: var(--text); }
+
+  @media(max-width:520px){
+    .score-item { min-width: 80px; padding: 10px; }
+    .score-item .num { font-size: 20px; }
+    .q-card { padding: 18px; }
+    .opt { font-size: 13px; padding: 10px 12px; }
+    .results-grade { font-size: 56px; }
+    .results-grid { grid-template-columns: repeat(3, 1fr); gap: 8px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="header">
+  <div class="header-label">Final Review</div>
+  <h1>Algebra <span>Quiz</span></h1>
+  <div class="header-sub">Lines · Systems · Scatter Plots · Functions</div>
+  <div class="pill-row">
+    <span class="pill" id="q-count-pill">65 Questions</span>
+    <span class="pill">Multiple Choice</span>
+    <span class="pill">Instant Feedback</span>
+  </div>
+</div>
+
+<!-- PROGRESS -->
+<div class="progress-wrap">
+  <div class="progress-meta">
+    <span id="prog-label">0 of 65 answered</span>
+    <span id="prog-pct">0%</span>
+  </div>
+  <div class="progress-track"><div class="progress-fill" id="prog-fill"></div></div>
+</div>
+
+<!-- SCORE CARD -->
+<div class="score-card">
+  <div class="score-item correct"><div class="num" id="sc-correct">0</div><div class="lbl">Correct</div></div>
+  <div class="score-item wrong"><div class="num" id="sc-wrong">0</div><div class="lbl">Incorrect</div></div>
+  <div class="score-item pct"><div class="num" id="sc-pct">—</div><div class="lbl">Score</div></div>
+</div>
+
+<!-- SECTION TABS -->
+<div class="tabs">
+  <button class="tab-btn active" onclick="filterSection('all',this)">All Questions</button>
+  <button class="tab-btn" onclick="filterSection('lines',this)">Lines &amp; Slope</button>
+  <button class="tab-btn" onclick="filterSection('parallel',this)">Parallel &amp; Perp.</button>
+  <button class="tab-btn" onclick="filterSection('systems',this)">Systems</button>
+  <button class="tab-btn" onclick="filterSection('scatter',this)">Scatter &amp; Functions</button>
+</div>
+
+<!-- QUIZ AREA -->
+<div class="quiz-area" id="quiz-area"></div>
+
+<!-- CONTROLS -->
+<div class="controls">
+  <button class="btn btn-primary" onclick="showResults()">See Final Score</button>
+  <button class="btn btn-secondary" onclick="resetQuiz()">Reset Quiz</button>
+</div>
+
+<!-- RESULTS SCREEN -->
+<div id="results-screen">
+  <div class="results-box">
+    <div class="results-grade" id="r-grade">—</div>
+    <div class="results-label" id="r-label">calculating…</div>
+    <div class="results-grid">
+      <div class="results-stat"><div class="n" id="r-correct" style="color:var(--accent)">0</div><div class="l">Correct</div></div>
+      <div class="results-stat"><div class="n" id="r-wrong" style="color:var(--accent3)">0</div><div class="l">Incorrect</div></div>
+      <div class="results-stat"><div class="n" id="r-skip" style="color:var(--text-muted)">0</div><div class="l">Skipped</div></div>
+    </div>
+    <div class="missed-list" id="missed-list"></div>
+    <button class="btn btn-primary" style="margin-top:24px;width:100%" onclick="resetQuiz()">Retake Quiz</button>
+  </div>
+</div>
+
+<script>
+// ─────────────────────────────────────────────────────────
+// HELPER: tiny SVG coordinate grid for graph questions
+// ─────────────────────────────────────────────────────────
+function makeGrid(w, h, xMin, xMax, yMin, yMax) {
+  const px = (x) => ((x - xMin) / (xMax - xMin)) * w;
+  const py = (y) => h - ((y - yMin) / (yMax - yMin)) * h;
+  let s = '';
+
+  // grid lines
+  s += '<g stroke="#2a3040" stroke-width="1">';
+  for (let x = xMin; x <= xMax; x++) {
+    s += `<line x1="${px(x)}" y1="0" x2="${px(x)}" y2="${h}"/>`;
+  }
+  for (let y = yMin; y <= yMax; y++) {
+    s += `<line x1="0" y1="${py(y)}" x2="${w}" y2="${py(y)}"/>`;
+  }
+  s += '</g>';
+
+  // axes
+  s += `<line x1="${px(0)}" y1="0" x2="${px(0)}" y2="${h}" stroke="#4a5568" stroke-width="1.5"/>`;
+  s += `<line x1="0" y1="${py(0)}" x2="${w}" y2="${py(0)}" stroke="#4a5568" stroke-width="1.5"/>`;
+
+  // tick labels
+  s += '<g fill="#6b7280" font-size="8" font-family="monospace">';
+  for (let x = xMin; x <= xMax; x++) {
+    if (x !== 0) s += `<text x="${px(x)}" y="${py(0) + 10}" text-anchor="middle">${x}</text>`;
+  }
+  for (let y = yMin; y <= yMax; y++) {
+    if (y !== 0) s += `<text x="${px(0) - 8}" y="${py(y) + 3}" text-anchor="end">${y}</text>`;
+  }
+  s += '</g>';
+
+  return { svg: s, px, py };
+}
+
+function lineSegment(px, py, m, b, xMin, xMax, color = '#f7c948', width = 2) {
+  const x1 = xMin, y1 = m * xMin + b;
+  const x2 = xMax, y2 = m * xMax + b;
+  return `<line x1="${px(x1)}" y1="${py(y1)}" x2="${px(x2)}" y2="${py(y2)}" stroke="${color}" stroke-width="${width}" stroke-linecap="round"/>`;
+}
+
+function verticalLine(px, py, x, yMin, yMax, color = '#f7c948', width = 2) {
+  return `<line x1="${px(x)}" y1="${py(yMin + 0.1)}" x2="${px(x)}" y2="${py(yMax - 0.1)}" stroke="${color}" stroke-width="${width}" stroke-linecap="round"/>`;
+}
+
+function dot(px, py, x, y, color = '#f7c948', filled = true) {
+  return `<circle cx="${px(x)}" cy="${py(y)}" r="4" fill="${filled ? color : 'none'}" stroke="${color}" stroke-width="1.8"/>`;
+}
+
+function buildSVG(w, h, xMin, xMax, yMin, yMax, drawFn) {
+  const { svg, px, py } = makeGrid(w, h, xMin, xMax, yMin, yMax);
+  const inner = drawFn(px, py);
+  return `<svg width="${w}" height="${h}" viewBox="0 0 ${w} ${h}" xmlns="http://www.w3.org/2000/svg">${svg}${inner}</svg>`;
+}
+
+// ─────────────────────────────────────────────────────────
+// QUESTION BANK
+// ─────────────────────────────────────────────────────────
+const ALL_QUESTIONS = [
+
+/* ══════════════════════════════════════════════
+   SECTION: LINES & SLOPE
+══════════════════════════════════════════════ */
+
+{section:'lines', q:"What is the formula used to calculate slope from two points?",
+ opts:[
+  {t:"m = (y₂ − y₁) / (x₂ − x₁)", correct:true},
+  {t:"m = (x₂ − x₁) / (y₂ − y₁)", correct:false},
+  {t:"m = (y₂ + y₁) / (x₂ + x₁)", correct:false},
+  {t:"m = (y₁ − y₂) / (x₁ + x₂)", correct:false}
+ ],
+ explain:"<strong>Slope formula:</strong> m = (y₂ − y₁) / (x₂ − x₁). Rise over run — change in y divided by change in x."},
+
+{section:'lines', q:"Which equation represents slope-intercept form?",
+ opts:[
+  {t:"Ax + By = C", correct:false},
+  {t:"y − y₁ = m(x − x₁)", correct:false},
+  {t:"y = mx + b", correct:true},
+  {t:"y = b + xm", correct:false}
+ ],
+ explain:"<strong>Slope-intercept form</strong> is y = mx + b, where m is the slope and b is the y-intercept."},
+
+{section:'lines', q:"Which equation represents point-slope form?",
+ opts:[
+  {t:"y = mx + b", correct:false},
+  {t:"y − y₁ = m(x − x₁)", correct:true},
+  {t:"Ax + By = C", correct:false},
+  {t:"m = (y₂ − y₁)/(x₂ − x₁)", correct:false}
+ ],
+ explain:"<strong>Point-slope form</strong> is y − y₁ = m(x − x₁). You use it when you know a point on the line and the slope."},
+
+{section:'lines', q:"Which equation represents standard form for a linear equation?",
+ opts:[
+  {t:"y = mx + b", correct:false},
+  {t:"y − y₁ = m(x − x₁)", correct:false},
+  {t:"Ax + By = C", correct:true},
+  {t:"y/x = m + b", correct:false}
+ ],
+ explain:"<strong>Standard form</strong> is Ax + By = C, where A, B, and C are integers and A is typically positive."},
+
+{section:'lines', q:`What is the slope of the line <span class="math-inline">y = 3x − 7</span>?`,
+ opts:[
+  {t:"−7", correct:false},
+  {t:"3", correct:true},
+  {t:"7", correct:false},
+  {t:"−3", correct:false}
+ ],
+ explain:"In y = mx + b, m is the slope. Here m = <strong>3</strong> and the y-intercept is −7."},
+
+{section:'lines', q:`What is the y-intercept of the line <span class="math-inline">y = −4x + 9</span>?`,
+ opts:[
+  {t:"−4", correct:false},
+  {t:"4", correct:false},
+  {t:"9", correct:true},
+  {t:"−9", correct:false}
+ ],
+ explain:"In y = mx + b, b is the y-intercept. Here b = <strong>9</strong> and the slope is −4."},
+
+{section:'lines', q:`What is the slope of the line <span class="math-inline">y = (2/3)x − 5</span>?`,
+ opts:[
+  {t:"−5", correct:false},
+  {t:"3/2", correct:false},
+  {t:"2/3", correct:true},
+  {t:"−2/3", correct:false}
+ ],
+ explain:"The coefficient of x is the slope. m = <strong>2/3</strong>."},
+
+{section:'lines', q:`Identify the slope and y-intercept of <span class="math-inline">y = −(1/4)x + 10</span>.`,
+ opts:[
+  {t:"slope = 10, y-intercept = −1/4", correct:false},
+  {t:"slope = 1/4, y-intercept = 10", correct:false},
+  {t:"slope = −1/4, y-intercept = 10", correct:true},
+  {t:"slope = −1/4, y-intercept = −10", correct:false}
+ ],
+ explain:"m = −1/4 (the coefficient of x) and b = 10 (the constant term)."},
+
+{section:'lines', q:"A line passes through (0, 25) and (36, 385). What is the slope?",
+ opts:[
+  {t:"5", correct:false},
+  {t:"10", correct:true},
+  {t:"13", correct:false},
+  {t:"360", correct:false}
+ ],
+ explain:"m = (385 − 25)/(36 − 0) = 360/36 = <strong>10</strong>. This is Printer A's cost per page from the homework."},
+
+{section:'lines', q:"A line passes through (0, 10) and (31, 413). What is the slope?",
+ opts:[
+  {t:"10", correct:false},
+  {t:"11", correct:false},
+  {t:"13", correct:true},
+  {t:"403", correct:false}
+ ],
+ explain:"m = (413 − 10)/(31 − 0) = 403/31 = <strong>13</strong>. This is Printer B's cost per page."},
+
+{section:'lines', q:`The line through (3, −9) and (0, b) has slope −7. What is b?`,
+ opts:[
+  {t:"12", correct:true},
+  {t:"−12", correct:false},
+  {t:"9", correct:false},
+  {t:"−30", correct:false}
+ ],
+ explain:"Using slope: −7 = (−9 − b)/(3 − 0) → −21 = −9 − b → b = −9 + 21 = <strong>12</strong>."},
+
+{section:'lines', q:"Which of the following has an undefined slope?",
+ opts:[
+  {t:"y = 5", correct:false},
+  {t:"x = −3", correct:true},
+  {t:"y = −x", correct:false},
+  {t:"y = 0", correct:false}
+ ],
+ explain:"<strong>Vertical lines (x = constant)</strong> have undefined slope because you'd divide by zero (no horizontal change). Horizontal lines like y = 5 have slope 0."},
+
+{section:'lines', q:"Which of the following has a slope of zero?",
+ opts:[
+  {t:"x = 7", correct:false},
+  {t:"y = 3x", correct:false},
+  {t:"y = −9", correct:true},
+  {t:"x = −2", correct:false}
+ ],
+ explain:"<strong>Horizontal lines (y = constant)</strong> have slope = 0 because there is no vertical change as x increases."},
+
+{section:'lines', q:"What type of line is described by 'undefined slope'?",
+ opts:[
+  {t:"Horizontal", correct:false},
+  {t:"Diagonal with negative slope", correct:false},
+  {t:"Vertical", correct:true},
+  {t:"The x-axis", correct:false}
+ ],
+ explain:"Vertical lines have <strong>undefined slope</strong>. Horizontal lines have slope = 0. Remember: x = a number → vertical; y = a number → horizontal."},
+
+// Graph question 1: read slope from graph
+{section:'lines',
+ q:`The graph below shows a line. What is the slope? <div class="graph-wrap">${buildSVG(200,160,-5,5,-5,5,(px,py)=>lineSegment(px,py,2,1,-4,4,'#f7c948'))}</div>`,
+ opts:[
+  {t:"1/2", correct:false},
+  {t:"2", correct:true},
+  {t:"−2", correct:false},
+  {t:"1", correct:false}
+ ],
+ explain:"Pick two clear points on the line: (0, 1) and (2, 5). Rise = 4, run = 2, so slope = 4/2 = <strong>2</strong>."},
+
+// Graph question 2: identify y-intercept from graph
+{section:'lines',
+ q:`The graph below shows a line. What is the y-intercept? <div class="graph-wrap">${buildSVG(200,160,-5,5,-5,5,(px,py)=>lineSegment(px,py,-1,3,-4,4,'#58a6ff'))}</div>`,
+ opts:[
+  {t:"−1", correct:false},
+  {t:"3", correct:true},
+  {t:"1", correct:false},
+  {t:"−3", correct:false}
+ ],
+ explain:"The y-intercept is where the line crosses the y-axis (x = 0). The line crosses at y = <strong>3</strong>."},
+
+// Graph question 3: identify a point on the line
+{section:'lines',
+ q:`The graph shows the line <span class="math-inline">y = (1/2)x − 2</span>. Which point lies on this line? <div class="graph-wrap">${buildSVG(200,160,-5,5,-5,5,(px,py)=>lineSegment(px,py,0.5,-2,-4,5,'#f7c948')+dot(px,py,4,0,'#f78166'))}</div>`,
+ opts:[
+  {t:"(4, 0)", correct:true},
+  {t:"(0, 2)", correct:false},
+  {t:"(2, 0)", correct:false},
+  {t:"(4, 4)", correct:false}
+ ],
+ explain:"Plug in x = 4: y = (1/2)(4) − 2 = 2 − 2 = <strong>0</strong>. So (4, 0) is on the line."},
+
+{section:'lines', q:"After distributing and combining like terms in the substitution step (1/2)x + 3(2x + 8) = 50, which expression comes next?",
+ opts:[
+  {t:"(1/2)x + 6x + 24 = 50", correct:true},
+  {t:"(1/2)x + 6x − 24 = 50", correct:false},
+  {t:"(1/2)x + 6x + 8 = 50", correct:false},
+  {t:"6.5x + 24 = 100", correct:false}
+ ],
+ explain:"Distribute: 3 × 2x = 6x and 3 × 8 = 24. So the equation becomes <strong>(1/2)x + 6x + 24 = 50</strong>."},
+
+{section:'lines', q:"After combining (1/2)x + 6x + 24 = 50, what is the next step?",
+ opts:[
+  {t:"6x + 24 = 50", correct:false},
+  {t:"6.5x + 24 = 50", correct:true},
+  {t:"7x + 24 = 50", correct:false},
+  {t:"6.5x = 50", correct:false}
+ ],
+ explain:"(1/2)x + 6x = 0.5x + 6x = <strong>6.5x</strong>. So the equation becomes 6.5x + 24 = 50."},
+
+{section:'lines', q:"What is the slope of a line that is parallel to the x-axis?",
+ opts:[
+  {t:"Undefined", correct:false},
+  {t:"1", correct:false},
+  {t:"0", correct:true},
+  {t:"−1", correct:false}
+ ],
+ explain:"A line parallel to the x-axis is <strong>horizontal</strong>, and horizontal lines have slope = <strong>0</strong>."},
+
+{section:'lines', q:"What is the slope of a line that is parallel to the y-axis?",
+ opts:[
+  {t:"0", correct:false},
+  {t:"Undefined", correct:true},
+  {t:"1", correct:false},
+  {t:"−1", correct:false}
+ ],
+ explain:"A line parallel to the y-axis is <strong>vertical</strong>, and vertical lines have <strong>undefined</strong> slope."},
+
+/* ══════════════════════════════════════════════
+   SECTION: PARALLEL & PERPENDICULAR
+══════════════════════════════════════════════ */
+
+{section:'parallel', q:"Which statement about parallel lines is true?",
+ opts:[
+  {t:"Parallel lines have slopes that are negative reciprocals of each other", correct:false},
+  {t:"Parallel lines have the same slope", correct:true},
+  {t:"Parallel lines always intersect at one point", correct:false},
+  {t:"Parallel lines have slopes that multiply to −1", correct:false}
+ ],
+ explain:"<strong>Parallel lines</strong> have the <strong>same slope</strong> but different y-intercepts. They never intersect."},
+
+{section:'parallel', q:"Which statement about perpendicular lines is true?",
+ opts:[
+  {t:"Perpendicular lines have the same slope", correct:false},
+  {t:"Perpendicular lines have slopes that add to 0", correct:false},
+  {t:"Perpendicular lines have slopes whose product is −1 (negative reciprocals)", correct:true},
+  {t:"Perpendicular lines never intersect", correct:false}
+ ],
+ explain:"<strong>Perpendicular slopes</strong> are negative reciprocals: their product = −1. For example, slope 2 and slope −1/2."},
+
+{section:'parallel', q:"What is the slope of a line perpendicular to y = −(1/4)x + 10?",
+ opts:[
+  {t:"−1/4", correct:false},
+  {t:"1/4", correct:false},
+  {t:"4", correct:true},
+  {t:"−4", correct:false}
+ ],
+ explain:"Original slope = −1/4. Perpendicular slope = negative reciprocal = <strong>4</strong>. Check: (−1/4)(4) = −1. ✓"},
+
+{section:'parallel', q:"What is the slope of a line perpendicular to y = 8x + 13?",
+ opts:[
+  {t:"8", correct:false},
+  {t:"1/8", correct:false},
+  {t:"−8", correct:false},
+  {t:"−1/8", correct:true}
+ ],
+ explain:"Original slope = 8. Perpendicular slope = negative reciprocal = <strong>−1/8</strong>. Check: 8 × (−1/8) = −1. ✓"},
+
+{section:'parallel', q:"What is the slope of a line perpendicular to y = (2/5)x + 4?",
+ opts:[
+  {t:"2/5", correct:false},
+  {t:"5/2", correct:false},
+  {t:"−2/5", correct:false},
+  {t:"−5/2", correct:true}
+ ],
+ explain:"Original slope = 2/5. Perpendicular slope = <strong>−5/2</strong>. Check: (2/5)(−5/2) = −1. ✓"},
+
+{section:'parallel', q:"Write the equation of the line parallel to y = −6x + 10 and crossing the y-axis at −4.",
+ opts:[
+  {t:"y = 6x − 4", correct:false},
+  {t:"y = −6x − 4", correct:true},
+  {t:"y = −6x + 4", correct:false},
+  {t:"y = (1/6)x − 4", correct:false}
+ ],
+ explain:"Parallel lines have the <strong>same slope</strong>. Slope = −6, new y-intercept = −4. Equation: <strong>y = −6x − 4</strong>."},
+
+{section:'parallel', q:"Write the equation of the line parallel to y = (2/3)x − 7 and passing through (−3, 1).",
+ opts:[
+  {t:"y = (2/3)x − 9", correct:false},
+  {t:"y = (2/3)x + 3", correct:true},
+  {t:"y = (2/3)x − 3", correct:false},
+  {t:"y = −(3/2)x + 1", correct:false}
+ ],
+ explain:"Parallel slope = 2/3. Use y = mx + b: 1 = (2/3)(−3) + b → 1 = −2 + b → b = <strong>3</strong>. Equation: y = (2/3)x + 3."},
+
+{section:'parallel', q:"Write the equation of the line perpendicular to y = 8x + 13 with y-intercept (0, 10).",
+ opts:[
+  {t:"y = 8x + 10", correct:false},
+  {t:"y = −(1/8)x + 10", correct:true},
+  {t:"y = (1/8)x + 10", correct:false},
+  {t:"y = −8x + 10", correct:false}
+ ],
+ explain:"Perpendicular slope = −1/8. Y-intercept = 10. Equation: <strong>y = −(1/8)x + 10</strong>."},
+
+{section:'parallel', q:"Write the equation of the line perpendicular to y = (2/5)x + 4 through the point (4, −3).",
+ opts:[
+  {t:"y = −(5/2)x + 7", correct:true},
+  {t:"y = (5/2)x + 7", correct:false},
+  {t:"y = −(2/5)x − 3", correct:false},
+  {t:"y = −(5/2)x − 3", correct:false}
+ ],
+ explain:"Perpendicular slope = −5/2. Point-slope: y + 3 = −(5/2)(x − 4) → y = −(5/2)x + 10 − 3 = <strong>−(5/2)x + 7</strong>."},
+
+{section:'parallel', q:"Which two lines are perpendicular to each other?",
+ opts:[
+  {t:"y = 4 and y = −1", correct:false},
+  {t:"x = 2 and x = −5", correct:false},
+  {t:"y = 4 and x = −2", correct:true},
+  {t:"y = 3x + 1 and y = 3x − 4", correct:false}
+ ],
+ explain:"<strong>y = 4</strong> is horizontal (slope = 0) and <strong>x = −2</strong> is vertical (undefined slope). A horizontal and vertical line are always perpendicular to each other."},
+
+{section:'parallel', q:"Are the lines y = 4 and y = −1 parallel, perpendicular, or neither?",
+ opts:[
+  {t:"Perpendicular — one has slope 0 and one has undefined slope", correct:false},
+  {t:"Parallel — both are horizontal lines with slope 0", correct:true},
+  {t:"Neither — their slopes don't match", correct:false},
+  {t:"Perpendicular — they share the same y-value", correct:false}
+ ],
+ explain:"Both y = 4 and y = −1 are <strong>horizontal</strong> lines with slope = 0. Same slope = <strong>parallel</strong>. (They're parallel to each other and both parallel to the x-axis.)"},
+
+{section:'parallel', q:"Are the lines x = 3 and x = −7 parallel, perpendicular, or neither?",
+ opts:[
+  {t:"Perpendicular — they point in opposite directions", correct:false},
+  {t:"Neither — vertical lines have no slope to compare", correct:false},
+  {t:"Parallel — both are vertical lines", correct:true},
+  {t:"Perpendicular — one is positive and one is negative", correct:false}
+ ],
+ explain:"Both x = 3 and x = −7 are <strong>vertical</strong> lines with undefined slope. They are <strong>parallel</strong> to each other and both parallel to the y-axis."},
+
+{section:'parallel', q:"A line through (−6, 2) that is perpendicular to the x-axis — what is its equation?",
+ opts:[
+  {t:"y = 2", correct:false},
+  {t:"y = −6", correct:false},
+  {t:"x = −6", correct:true},
+  {t:"x = 2", correct:false}
+ ],
+ explain:"The x-axis is horizontal. A line <strong>perpendicular</strong> to a horizontal line is <strong>vertical</strong>. A vertical line through (−6, 2) is <strong>x = −6</strong>."},
+
+{section:'parallel', q:"A line through (−6, 2) that is perpendicular to the y-axis — what is its equation?",
+ opts:[
+  {t:"x = −6", correct:false},
+  {t:"y = −6", correct:false},
+  {t:"x = 2", correct:false},
+  {t:"y = 2", correct:true}
+ ],
+ explain:"The y-axis is vertical. A line <strong>perpendicular</strong> to a vertical line is <strong>horizontal</strong>. A horizontal line through (−6, 2) is <strong>y = 2</strong>."},
+
+{section:'parallel', q:"Which of the following lines are perpendicular to y = −(1/4)x + 10? (Select the correct description)",
+ opts:[
+  {t:"Any line with slope −4", correct:false},
+  {t:"Any line with slope 4", correct:true},
+  {t:"Any line with slope 1/4", correct:false},
+  {t:"Any line with slope −1/4", correct:false}
+ ],
+ explain:"The perpendicular slope to −1/4 is its negative reciprocal: <strong>4</strong>. So lines like y = 4x + 2 and y = 4x − 5 are perpendicular to the original."},
+
+// Graph perpendicular question
+{section:'parallel',
+ q:`The graph shows two lines. Which statement about them is true? <div class="graph-wrap">${buildSVG(200,160,-5,5,-5,5,(px,py)=>verticalLine(px,py,-2,-5,5,'#f7c948')+lineSegment(px,py,0,3,-5,5,'#58a6ff'))}</div>`,
+ opts:[
+  {t:"Both lines are parallel because they don't intersect in this view", correct:false},
+  {t:"The lines are perpendicular — one is horizontal and one is vertical", correct:true},
+  {t:"The lines are parallel — one has slope 0 and the other is undefined", correct:false},
+  {t:"Neither parallel nor perpendicular — their slopes differ", correct:false}
+ ],
+ explain:"The yellow line is <strong>vertical</strong> (x = −2, undefined slope). The blue line is <strong>horizontal</strong> (y = 3, slope = 0). A vertical and horizontal line are always <strong>perpendicular</strong>."},
+
+// Graph parallel question
+{section:'parallel',
+ q:`The graph shows two lines. What is their relationship? <div class="graph-wrap">${buildSVG(200,160,-5,5,-5,5,(px,py)=>lineSegment(px,py,2,1,-4,4,'#f7c948')+lineSegment(px,py,2,-2,-4,4,'#58a6ff'))}</div>`,
+ opts:[
+  {t:"Perpendicular — they cross at a right angle", correct:false},
+  {t:"Parallel — same slope, different y-intercepts", correct:true},
+  {t:"Neither — they have different slopes", correct:false},
+  {t:"The same line — both pass through the origin", correct:false}
+ ],
+ explain:"Both lines have slope = 2 (same steepness, same direction). Different y-intercepts (1 vs −2) means they're <strong>parallel</strong>."},
+
+{section:'parallel', q:"Sort: which of the following has ZERO slope?",
+ opts:[
+  {t:"x = 7", correct:false},
+  {t:"A vertical line", correct:false},
+  {t:"y = −9", correct:true},
+  {t:"Undefined slope", correct:false}
+ ],
+ explain:"<strong>y = −9</strong> is a horizontal line with <strong>slope = 0</strong>. x = 7 is vertical with undefined slope."},
+
+/* ══════════════════════════════════════════════
+   SECTION: SYSTEMS OF EQUATIONS
+══════════════════════════════════════════════ */
+
+{section:'systems', q:"When solving by substitution, what is the first step if you have the system: 7x + y = 12 and y = 4x − 21?",
+ opts:[
+  {t:"Add the two equations together", correct:false},
+  {t:"Substitute y = 4x − 21 into the first equation", correct:true},
+  {t:"Multiply the first equation by 4", correct:false},
+  {t:"Subtract the second equation from the first", correct:false}
+ ],
+ explain:"Since y is already isolated in the second equation, <strong>substitute y = 4x − 21 into 7x + y = 12</strong> to get 7x + (4x − 21) = 12."},
+
+{section:'systems', q:"After substituting y = 4x − 21 into 7x + y = 12, which expression comes next?",
+ opts:[
+  {t:"11x − 21 = 12", correct:true},
+  {t:"11x + 21 = 12", correct:false},
+  {t:"3x − 21 = 12", correct:false},
+  {t:"11x = 33 + 21", correct:false}
+ ],
+ explain:"7x + (4x − 21) = 7x + 4x − 21 = <strong>11x − 21 = 12</strong>."},
+
+{section:'systems', q:"Solving 11x − 21 = 12, what comes next?",
+ opts:[
+  {t:"11x = −9", correct:false},
+  {t:"11x = 33", correct:true},
+  {t:"x = 12/11", correct:false},
+  {t:"x = 21 − 12", correct:false}
+ ],
+ explain:"Add 21 to both sides: 11x = 12 + 21 = <strong>33</strong>, so x = 3."},
+
+{section:'systems', q:"You have the system: 4x − 2y = 18 and −3x + 2y = −11. What is the best strategy?",
+ opts:[
+  {t:"Substitution — solve for x in the first equation", correct:false},
+  {t:"Elimination — the y-coefficients are already opposites (−2 and +2)", correct:true},
+  {t:"Graphing — plot both lines and find the intersection", correct:false},
+  {t:"Multiply both equations by 3 first", correct:false}
+ ],
+ explain:"The y-coefficients are −2 and +2, which are <strong>already opposites</strong>. Adding the equations eliminates y immediately. This makes elimination the most efficient method."},
+
+{section:'systems', q:"After adding 4x − 2y = 18 and −3x + 2y = −11, what is the result?",
+ opts:[
+  {t:"x = 7", correct:true},
+  {t:"7x = 7", correct:false},
+  {t:"x = −7", correct:false},
+  {t:"x = 29", correct:false}
+ ],
+ explain:"(4x − 2y) + (−3x + 2y) = 18 + (−11) → x + 0 = 7 → <strong>x = 7</strong>. The y terms cancel."},
+
+{section:'systems', q:"What is the first step to solve the system: 4x + 6y = −14 and −x + 3y = −10 by elimination?",
+ opts:[
+  {t:"Divide the first equation by 2", correct:false},
+  {t:"Multiply the second equation by 4 to get matching x-coefficients", correct:true},
+  {t:"Add the two equations directly", correct:false},
+  {t:"Substitute x from the second equation into the first", correct:false}
+ ],
+ explain:"Multiply −x + 3y = −10 by 4 → −4x + 12y = −40. Now the x-coefficients (4 and −4) are opposites, so you can <strong>eliminate x</strong> by adding."},
+
+{section:'systems', q:"When you reach the step −18 = −4 while solving by substitution, what does this tell you?",
+ opts:[
+  {t:"x = −4", correct:false},
+  {t:"The system has infinitely many solutions", correct:false},
+  {t:"The system has no solution", correct:true},
+  {t:"You made an arithmetic error — go back and recheck", correct:false}
+ ],
+ explain:"A <strong>false statement</strong> like −18 = −4 means the two lines are parallel and never intersect. The system has <strong>no solution</strong>."},
+
+{section:'systems', q:"The system 8x − 2y = −10 and 4x − y = −5 results in 0 = 0 during elimination. What does this mean?",
+ opts:[
+  {t:"The system has no solution", correct:false},
+  {t:"You must use substitution instead", correct:false},
+  {t:"The two equations represent the same line — infinitely many solutions", correct:true},
+  {t:"x = 0 and y = 0", correct:false}
+ ],
+ explain:"The first equation is exactly 2 times the second. They're the same line. Any point on the line is a solution, so there are <strong>infinitely many solutions</strong>."},
+
+{section:'systems', q:"Solve by elimination: 3x + 3y = 21 and −3x + 2y = 19. What is y?",
+ opts:[
+  {t:"y = −8", correct:false},
+  {t:"y = 8", correct:true},
+  {t:"y = 4", correct:false},
+  {t:"y = 40", correct:false}
+ ],
+ explain:"Add the equations: (3x − 3x) + (3y + 2y) = 21 + 19 → 5y = 40 → <strong>y = 8</strong>."},
+
+{section:'systems', q:"After finding y = 8 in the system 3x + 3y = 21 and −3x + 2y = 19, substitute y = 8 into 3x + 3y = 21. What is the next step?",
+ opts:[
+  {t:"3x + 3 = 21", correct:false},
+  {t:"3x + 24 = 21", correct:true},
+  {t:"3x + 8 = 21", correct:false},
+  {t:"x + 24 = 7", correct:false}
+ ],
+ explain:"Substitute y = 8: 3x + 3(8) = 21 → <strong>3x + 24 = 21</strong> → 3x = −3 → x = −1. Solution: (−1, 8)."},
+
+{section:'systems', q:"A piggy bank holds $4.40 in quarters and dimes with 20 coins total. Which system correctly models this?",
+ opts:[
+  {t:"x + y = 4.40 and 0.10x + 0.25y = 20", correct:false},
+  {t:"x + y = 20 and 0.25x + 0.10y = 4.40", correct:false},
+  {t:"x + y = 20 and 0.10x + 0.25y = 4.40", correct:true},
+  {t:"10x + 25y = 4.40 and x + y = 20", correct:false}
+ ],
+ explain:"Let x = dimes, y = quarters. Coin count: x + y = 20. Money: 0.10x + 0.25y = 4.40. That matches choice C."},
+
+{section:'systems', q:"In the piggy bank problem, after substituting x = 20 − y into 0.10x + 0.25y = 4.40, which line comes next?",
+ opts:[
+  {t:"2.00 + 0.15y = 4.40", correct:true},
+  {t:"2.00 − 0.15y = 4.40", correct:false},
+  {t:"0.10 − 0.10y + 0.25y = 4.40", correct:false},
+  {t:"0.15y = 20", correct:false}
+ ],
+ explain:"0.10(20 − y) + 0.25y = 2.00 − 0.10y + 0.25y = <strong>2.00 + 0.15y</strong>. So 2.00 + 0.15y = 4.40."},
+
+{section:'systems', q:"At what number of pages do Printer A (y = 10x + 25) and Printer B (y = 13x + 10) charge the same amount?",
+ opts:[
+  {t:"x = 10", correct:false},
+  {t:"x = 3", correct:false},
+  {t:"x = 5", correct:true},
+  {t:"x = 15", correct:false}
+ ],
+ explain:"Set equal: 10x + 25 = 13x + 10 → 25 − 10 = 13x − 10x → 15 = 3x → <strong>x = 5</strong> pages, at a cost of $75."},
+
+{section:'systems', q:"Beetle Juice costs $2.50 and Potion Punch costs $3.00. Owen bought 5 drinks for $14.00. How many of each did he buy?",
+ opts:[
+  {t:"3 Beetle Juice and 2 Potion Punch", correct:false},
+  {t:"2 Beetle Juice and 3 Potion Punch", correct:true},
+  {t:"4 Beetle Juice and 1 Potion Punch", correct:false},
+  {t:"1 Beetle Juice and 4 Potion Punch", correct:false}
+ ],
+ explain:"System: j + p = 5 and 2.50j + 3p = 14. Solving gives j = 2, p = 3. Check: 2.50(2) + 3(3) = 5 + 9 = $14. ✓"},
+
+{section:'systems', q:"Elliot bought 3 trick cameras and 4 fake snakes for $40. Kaci bought 7 cameras and 8 snakes for $85. What is the price of one trick camera?",
+ opts:[
+  {t:"$4.00", correct:false},
+  {t:"$5.00", correct:true},
+  {t:"$6.25", correct:false},
+  {t:"$10.00", correct:false}
+ ],
+ explain:"Multiply Elliot's equation by 2: 6x + 8y = 80. Subtract from Kaci's: (7x + 8y) − (6x + 8y) = 85 − 80 → x = <strong>$5</strong>."},
+
+{section:'systems', q:"Gordon bought 5 false teeth and 10 spiders for $35. The false teeth cost $2 less than 4 times the price of a spider. After substituting x = 4y − 2 into 5x + 10y = 35 and distributing, which expression comes next?",
+ opts:[
+  {t:"20y − 10 + 10y = 35", correct:true},
+  {t:"20y + 10 + 10y = 35", correct:false},
+  {t:"20y − 2 + 10y = 35", correct:false},
+  {t:"5y − 10 + 10y = 35", correct:false}
+ ],
+ explain:"5(4y − 2) = 20y − 10. So the equation becomes <strong>20y − 10 + 10y = 35</strong> → 30y − 10 = 35 → y = $1.50."},
+
+{section:'systems', q:"Which system correctly models: 'A beginner class costs $6 more than half the advanced class. Last week 7 beginner and 11 advanced classes earned $390.'?",
+ opts:[
+  {t:"b = 2a + 6 and 7b + 11a = 390", correct:false},
+  {t:"b = (1/2)a + 6 and 7b + 11a = 390", correct:true},
+  {t:"b = (1/2)a − 6 and 11b + 7a = 390", correct:false},
+  {t:"a = (1/2)b + 6 and 7b + 11a = 390", correct:false}
+ ],
+ explain:"Beginner = half of advanced + 6 means <strong>b = (1/2)a + 6</strong>. Revenue: 7b + 11a = 390."},
+
+/* ══════════════════════════════════════════════
+   SECTION: SCATTER PLOTS, FUNCTIONS & DIRECT VARIATION
+══════════════════════════════════════════════ */
+
+{section:'scatter', q:"A scatter plot shows a strong positive correlation. Which correlation coefficient best fits?",
+ opts:[
+  {t:"r = 0.8", correct:false},
+  {t:"r = −0.85", correct:false},
+  {t:"r = 0.94", correct:true},
+  {t:"r = −0.1", correct:false}
+ ],
+ explain:"r = <strong>0.94</strong> is closest to 1, indicating a strong positive association. Positive means points trend upward; strength near 1 means tight clustering around the trend line."},
+
+{section:'scatter', q:"A scatter plot shows a strong NEGATIVE association. Which correlation coefficient is most appropriate?",
+ opts:[
+  {t:"r = 0.8", correct:false},
+  {t:"r = −0.1", correct:false},
+  {t:"r = −0.85", correct:true},
+  {t:"r = 0.25", correct:false}
+ ],
+ explain:"Strong negative association means r is close to −1. <strong>r = −0.85</strong> is strongly negative. r = −0.1 would be very weak."},
+
+{section:'scatter', q:"Which of the following statements about correlation coefficients is TRUE?",
+ opts:[
+  {t:"A higher r value means the trend line is steeper", correct:false},
+  {t:"A set with r = 0.9 must have more data points than one with r = 0.25", correct:false},
+  {t:"A set with r = 0.25 has points more spread around the trend line than one with r = 0.9", correct:true},
+  {t:"r = 0.9 means 90% of data is above the trend line", correct:false}
+ ],
+ explain:"r measures <strong>strength</strong> of linear association, not number of points or steepness. r = 0.25 means weaker (more spread), r = 0.9 means tighter clustering."},
+
+{section:'scatter', q:"The trend line for a little league scatter plot is y = 5x + 10, where x = years of experience and y = hits. How many hits would a player with 2 years of experience be expected to get?",
+ opts:[
+  {t:"10", correct:false},
+  {t:"15", correct:false},
+  {t:"20", correct:true},
+  {t:"25", correct:false}
+ ],
+ explain:"y = 5(2) + 10 = 10 + 10 = <strong>20 hits</strong>."},
+
+{section:'scatter', q:"Using the model y = 5x + 10, if a player got 50 hits, how many years of experience would you predict?",
+ opts:[
+  {t:"5 years", correct:false},
+  {t:"6 years", correct:false},
+  {t:"8 years", correct:true},
+  {t:"10 years", correct:false}
+ ],
+ explain:"50 = 5x + 10 → 40 = 5x → x = <strong>8 years</strong>."},
+
+{section:'scatter', q:"The scatter plot for hours streaming (x) vs. hours outside (y) has a trend line of approximately y = −0.88x + 7.84. A student streamed for 4 hours. How many hours outside would you predict?",
+ opts:[
+  {t:"About 3.5 hours", correct:false},
+  {t:"About 4.3 hours", correct:true},
+  {t:"About 5.0 hours", correct:false},
+  {t:"About 7.8 hours", correct:false}
+ ],
+ explain:"y = −0.88(4) + 7.84 = −3.52 + 7.84 = <strong>4.32 hours</strong> ≈ 4.3 hours."},
+
+{section:'scatter', q:"Using y = −0.88x + 7.84, a student spent 3 hours outside. How many streaming hours does the model predict?",
+ opts:[
+  {t:"About 3.4 hours", correct:false},
+  {t:"About 4.5 hours", correct:false},
+  {t:"About 5.5 hours", correct:true},
+  {t:"About 7.0 hours", correct:false}
+ ],
+ explain:"Set y = 3: 3 = −0.88x + 7.84 → −4.84 = −0.88x → x = 4.84/0.88 ≈ <strong>5.5 hours</strong>."},
+
+{section:'scatter', q:"Data shows that over 25 years, houses with landscaping increased while cable subscriptions decreased. Which BEST describes this?",
+ opts:[
+  {t:"Positive association; landscaping causes cable cancellations", correct:false},
+  {t:"Negative association; likely caused by changes in technology over time, not landscaping itself", correct:true},
+  {t:"No association; the two variables are unrelated", correct:false},
+  {t:"Negative association with clear causation between landscaping and cable", correct:false}
+ ],
+ explain:"As landscaping went up, cable went down — <strong>negative association</strong>. But landscaping does not cause cable cancellation; a third factor (time, streaming services) is the likely cause."},
+
+{section:'scatter', q:"The value of y varies directly with x. If x = 4, then y = 10. What is the constant of proportionality?",
+ opts:[
+  {t:"k = 4", correct:false},
+  {t:"k = 0.4", correct:false},
+  {t:"k = 2.5", correct:true},
+  {t:"k = 40", correct:false}
+ ],
+ explain:"Direct variation: y = kx → 10 = k(4) → k = 10/4 = <strong>2.5</strong>. Equation: y = 2.5x."},
+
+{section:'scatter', q:"Direct variation: y varies directly with x, and x = 25 when y = 20. Find y when x = 8.",
+ opts:[
+  {t:"y = 4", correct:false},
+  {t:"y = 5", correct:false},
+  {t:"y = 6.4", correct:true},
+  {t:"y = 10", correct:false}
+ ],
+ explain:"k = 20/25 = 0.8. Then y = 0.8(8) = <strong>6.4</strong>."},
+
+{section:'scatter', q:"An 80-foot rope costs $112 (direct variation). How much does a 120-foot rope cost?",
+ opts:[
+  {t:"$140", correct:false},
+  {t:"$168", correct:true},
+  {t:"$180", correct:false},
+  {t:"$192", correct:false}
+ ],
+ explain:"Cost per foot = 112/80 = $1.40. Then 120 × $1.40 = <strong>$168</strong>."},
+
+{section:'scatter', q:"The piecewise function is: f(x) = −(2/3)x + 2 when x ≤ 3, and f(x) = x − 3 when x > 3. What is f(9)?",
+ opts:[
+  {t:"f(9) = 0", correct:false},
+  {t:"f(9) = 6", correct:true},
+  {t:"f(9) = 4", correct:false},
+  {t:"f(9) = −4", correct:false}
+ ],
+ explain:"Since 9 > 3, use f(x) = x − 3. f(9) = 9 − 3 = <strong>6</strong>."},
+
+{section:'scatter', q:"The piecewise function is: f(x) = −(2/3)x + 2 when x ≤ 3, and f(x) = x − 3 when x > 3. What is f(0)?",
+ opts:[
+  {t:"f(0) = −3", correct:false},
+  {t:"f(0) = 0", correct:false},
+  {t:"f(0) = 2", correct:true},
+  {t:"f(0) = 1", correct:false}
+ ],
+ explain:"Since 0 ≤ 3, use f(x) = −(2/3)x + 2. f(0) = 0 + 2 = <strong>2</strong>."},
+
+{section:'scatter', q:"The step function g(x) = 8 when x < −6; g(x) = 5 when −6 ≤ x < 0; g(x) = 2 when x ≥ 0. What is g(−6)?",
+ opts:[
+  {t:"g(−6) = 8", correct:false},
+  {t:"g(−6) = 5", correct:true},
+  {t:"g(−6) = 2", correct:false},
+  {t:"g(−6) = −6", correct:false}
+ ],
+ explain:"x = −6 falls in the condition −6 ≤ x < 0, so use g(x) = 5. <strong>g(−6) = 5</strong>."},
+
+{section:'scatter', q:"The step function has an open dot at (−6, 8) and a closed dot at (−6, 5). What does this mean?",
+ opts:[
+  {t:"At x = −6, the function has two values simultaneously", correct:false},
+  {t:"At x = −6, the function value jumps from 8 to 5 — the point (−6, 8) is not included but (−6, 5) is", correct:true},
+  {t:"x = −6 is not in the domain of the function", correct:false},
+  {t:"The function is undefined between x = −6 and x = 5", correct:false}
+ ],
+ explain:"An <strong>open dot</strong> means the endpoint is excluded; a <strong>closed dot</strong> means it's included. At x = −6, the function value is 5 (not 8). The function jumps here, making it discontinuous."},
+
+{section:'scatter', q:"Which transformation of f(x) = x describes f(x − 7)?",
+ opts:[
+  {t:"Shift left 7 units", correct:false},
+  {t:"Shift right 7 units", correct:true},
+  {t:"Shift down 7 units", correct:false},
+  {t:"Vertical stretch by 7", correct:false}
+ ],
+ explain:"Replacing x with (x − 7) inside the function shifts the graph <strong>right 7 units</strong>. Subtracting inside → move right."},
+
+{section:'scatter', q:"Which transformation of f(x) = x describes f(x) − 7?",
+ opts:[
+  {t:"Shift right 7 units", correct:false},
+  {t:"Shift left 7 units", correct:false},
+  {t:"Shift down 7 units", correct:true},
+  {t:"Vertical stretch by factor of 7", correct:false}
+ ],
+ explain:"Subtracting outside the function shifts the graph <strong>down 7 units</strong>. The entire graph moves vertically."},
+
+{section:'scatter', q:"Clarissa graphs f(x) = x and g(x) = f(1.5x) = 1.5x. How do the slopes compare?",
+ opts:[
+  {t:"Same slope — g is just shifted right", correct:false},
+  {t:"g(x) is less steep", correct:false},
+  {t:"g(x) is steeper — its slope is 1.5 times f(x)'s slope", correct:true},
+  {t:"f(x) has slope 1.5 and g(x) has slope 1", correct:false}
+ ],
+ explain:"f(x) = x has slope 1. g(x) = 1.5x has slope 1.5. <strong>g(x) is steeper</strong>. Multiplying inside f by 1.5 increases the slope."},
+
+];
+
+// update pill count
+document.getElementById('q-count-pill').textContent = ALL_QUESTIONS.length + ' Questions';
+document.getElementById('prog-label').textContent = `0 of ${ALL_QUESTIONS.length} answered`;
+
+// ──────────────────────────────────────────────
+// STATE
+// ──────────────────────────────────────────────
+let answers = {};
+let currentSection = 'all';
+
+// ──────────────────────────────────────────────
+// BUILD QUIZ
+// ──────────────────────────────────────────────
+function buildQuiz() {
+  const area = document.getElementById('quiz-area');
+  area.innerHTML = '';
+
+  const sections = [
+    {key:'lines',    label:'Lines & Slope',              color:'#f7c948'},
+    {key:'parallel', label:'Parallel & Perpendicular',   color:'#58a6ff'},
+    {key:'systems',  label:'Systems of Equations',       color:'#3fb950'},
+    {key:'scatter',  label:'Scatter Plots, Functions & Variation', color:'#d2a8ff'},
+  ];
+
+  sections.forEach(sec => {
+    const qs = ALL_QUESTIONS.map((q,i)=>({...q,idx:i})).filter(q=>q.section===sec.key);
+    if(currentSection !== 'all' && currentSection !== sec.key) return;
+
+    const sh = document.createElement('div');
+    sh.className='section-header';
+    sh.innerHTML=`<span class="section-dot" style="background:${sec.color}"></span>${sec.label}`;
+    area.appendChild(sh);
+
+    qs.forEach(q => {
+      const card = document.createElement('div');
+      card.className = 'q-card';
+      card.id = `card-${q.idx}`;
+      if(answers[q.idx]) card.classList.add('answered');
+
+      const shuffled = shuffleOpts(q.opts);
+
+      let optsHTML = shuffled.map((opt, i) => {
+        let cls = 'opt';
+        const st = answers[q.idx];
+        if(st) {
+          if(i === st.chosen && st.correct) cls += ' correct-pick';
+          else if(i === st.chosen && !st.correct) cls += ' wrong-pick';
+          else if(opt.correct && !st.correct) cls += ' reveal-correct';
+        }
+        const letters = ['A','B','C','D'];
+        return `<button class="${cls}" onclick="pick(${q.idx},${i},this)" ${answers[q.idx]?'disabled':''}>
+          <span class="opt-letter">${letters[i]}</span>${opt.t}
+        </button>`;
+      }).join('');
+
+      const expShow = answers[q.idx] ? 'show' : '';
+      card.innerHTML = `
+        <div class="q-header">
+          <span class="q-num">Q${q.idx+1}</span>
+          <div><div class="q-chapter">${sec.label}</div><div class="q-text">${q.q}</div></div>
+        </div>
+        <div class="options" id="opts-${q.idx}">${optsHTML}</div>
+        <div class="explanation ${expShow}" id="exp-${q.idx}"><strong>Explanation:</strong> ${q.explain}</div>
+      `;
+
+      card.dataset.shuffled = JSON.stringify(shuffled.map(o=>o.correct));
+      area.appendChild(card);
+    });
+  });
+  updateProgress();
+}
+
+function shuffleOpts(opts) {
+  const arr = [...opts];
+  for(let i=arr.length-1;i>0;i--){
+    const j=Math.floor(Math.random()*(i+1));
+    [arr[i],arr[j]]=[arr[j],arr[i]];
+  }
+  return arr;
+}
+
+// ──────────────────────────────────────────────
+// PICK ANSWER
+// ──────────────────────────────────────────────
+function pick(qIdx, chosenIdx, btn) {
+  if(answers[qIdx]) return;
+
+  const card = document.getElementById(`card-${qIdx}`);
+  const shuffledCorrects = JSON.parse(card.dataset.shuffled);
+  const isCorrect = shuffledCorrects[chosenIdx];
+
+  answers[qIdx] = {chosen: chosenIdx, correct: isCorrect};
+
+  const optBtns = card.querySelectorAll('.opt');
+  optBtns.forEach((b,i)=>{
+    b.disabled = true;
+    if(i===chosenIdx && isCorrect) b.classList.add('correct-pick');
+    else if(i===chosenIdx && !isCorrect) b.classList.add('wrong-pick');
+    else if(shuffledCorrects[i] && !isCorrect) b.classList.add('reveal-correct');
+  });
+
+  document.getElementById(`exp-${qIdx}`).classList.add('show');
+  card.classList.add('answered');
+  updateProgress();
+}
+
+// ──────────────────────────────────────────────
+// PROGRESS / SCORE
+// ──────────────────────────────────────────────
+function updateProgress() {
+  const total = ALL_QUESTIONS.length;
+  const answered = Object.keys(answers).length;
+  const correct = Object.values(answers).filter(a=>a.correct).length;
+  const wrong = answered - correct;
+
+  document.getElementById('prog-label').textContent = `${answered} of ${total} answered`;
+  const pct = Math.round((answered/total)*100);
+  document.getElementById('prog-pct').textContent = pct+'%';
+  document.getElementById('prog-fill').style.width = pct+'%';
+
+  document.getElementById('sc-correct').textContent = correct;
+  document.getElementById('sc-wrong').textContent = wrong;
+  if(answered>0){
+    const score = Math.round((correct/answered)*100);
+    document.getElementById('sc-pct').textContent = score+'%';
+  } else {
+    document.getElementById('sc-pct').textContent = '—';
+  }
+}
+
+// ──────────────────────────────────────────────
+// SECTION FILTER
+// ──────────────────────────────────────────────
+function filterSection(sec, btn) {
+  currentSection = sec;
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  buildQuiz();
+}
+
+// ──────────────────────────────────────────────
+// SHOW RESULTS
+// ──────────────────────────────────────────────
+function showResults() {
+  const total = ALL_QUESTIONS.length;
+  const answered = Object.keys(answers).length;
+  const correct = Object.values(answers).filter(a=>a.correct).length;
+  const wrong = Object.values(answers).filter(a=>!a.correct).length;
+  const skipped = total - answered;
+  const pct = Math.round((correct/total)*100);
+
+  let grade, color;
+  if(pct>=90){grade='A';color='var(--accent)';}
+  else if(pct>=80){grade='B';color='var(--accent2)';}
+  else if(pct>=70){grade='C';color='#e3b341';}
+  else if(pct>=60){grade='D';color='#f78166';}
+  else{grade='F';color='#f78166';}
+
+  document.getElementById('r-grade').textContent = pct+'%';
+  document.getElementById('r-grade').style.color = color;
+  document.getElementById('r-label').textContent = `Grade: ${grade} · ${correct} correct out of ${total} questions`;
+  document.getElementById('r-correct').textContent = correct;
+  document.getElementById('r-wrong').textContent = wrong;
+  document.getElementById('r-skip').textContent = skipped;
+
+  const missedEl = document.getElementById('missed-list');
+  const missed = ALL_QUESTIONS.map((q,i)=>({...q,idx:i}))
+    .filter(q=>answers[q.idx] && !answers[q.idx].correct);
+
+  if(missed.length){
+    missedEl.innerHTML = `<h3>Review These (${missed.length})</h3>` +
+      missed.map(q=>{
+        const plainQ = q.q.replace(/<[^>]*>/g,' ').replace(/\s+/g,' ').trim().substring(0,80);
+        return `<div class="missed-item">Q${q.idx+1}: <span>${plainQ}…</span></div>`;
+      }).join('');
+  } else if(answered===total){
+    missedEl.innerHTML = `<div style="color:var(--accent);font-size:15px;text-align:center;margin-top:8px">🎉 Perfect score! Every question correct!</div>`;
+  } else {
+    missedEl.innerHTML = '';
+  }
+
+  document.getElementById('results-screen').style.display = 'block';
+  document.getElementById('results-screen').scrollIntoView({behavior:'smooth'});
+}
+
+// ──────────────────────────────────────────────
+// RESET
+// ──────────────────────────────────────────────
+function resetQuiz() {
+  answers = {};
+  document.getElementById('results-screen').style.display = 'none';
+  buildQuiz();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+// ── INIT ──
+buildQuiz();
+</script>
+</body>
+</html>
